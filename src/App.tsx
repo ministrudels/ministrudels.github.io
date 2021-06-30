@@ -1,26 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
 
-function App() {
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Home from './components/Home';
+import Sandbox from './components/Sandbox';
+
+const sections = [
+  { title: 'Home', url: '/home' },
+  { title: 'Sandbox', url: '/sandbox' }
+];
+
+export default function App() {
+
+  console.log("This is the process.env", process.env.PUBLIC_URL)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <CssBaseline />
+      <Container maxWidth="md">
+        <Header sections={sections} />
+        <main>
+          <Router basename={process.env.PUBLIC_URL}>
+            <Switch>
+              <Route path='/home' component={Home} />
+              <Route path='/sandbox' component={Sandbox} />
+               <Route path='/' component={Home} />
+            </Switch>
+          </Router>
+        </main>
+      </Container>
+      <Footer />
+    </>
   );
 }
-
-export default App;
