@@ -7,7 +7,6 @@ import {
 } from "@material-ui/core";
 
 export default function ExampleContainer({ children, tags }) {
-    console.log(tags)
     return (
         <Card variant="outlined">
             <CardContent>

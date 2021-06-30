@@ -13,6 +13,13 @@ export default function Mylearningspace(props) {
       <Grid item>
         <Ball />
       </Grid>
+
+      {/* Other ideas
+      Moving chart according to time series - tags - d3, d3.transition
+      Traffic patterns in London - tags - geospatial, tags - d3, d3.transition, observable
+      HTML5 canvas and d3 - tags - canvas, d3
+      Websocket app
+       */}
     </Grid>
   );
 }
