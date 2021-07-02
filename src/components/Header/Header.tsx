@@ -1,6 +1,9 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { Toolbar } from "@material-ui/core";
-import Link from "@material-ui/core/Link";
+import { Toolbar, Link, Button, ButtonGroup } from "@material-ui/core";
+
+import GitHubIcon from '@material-ui/icons/GitHub';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -11,6 +14,10 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     flexShrink: 0,
   },
+  rightToolbar: {
+    margin: "auto",
+    marginRight: 12
+  }
 }));
 
 type SectionArray = Array<{ title: string; url: string }>;
@@ -35,6 +42,12 @@ export default function Header(props: { sections: SectionArray }) {
             {section.title}
           </Link>
         ))}
+        <section className={classes.rightToolbar}>
+          <ButtonGroup variant="text" size="small" aria-label="small outlined button group">
+            <Button href="https://github.com/ministrudels"><GitHubIcon /></Button>
+            <Button href="https://www.linkedin.com/in/huan-min-gan-b9801210a/"><LinkedInIcon /></Button>
+          </ButtonGroup>
+        </section>
       </Toolbar>
     </>
   );
