@@ -9,7 +9,6 @@ const margin = 10
 const height = 200
 const width = 200
 
-// If I change my component based off state, then it can do transitions and shit
 export default function Ball() {
     const [x, setx] = useState(0)
     const [y, sety] = useState(0)
