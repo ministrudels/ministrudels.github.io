@@ -6,7 +6,7 @@ import {
 } from "@material-ui/core";
 import { ReactNode } from "react";
 
-interface Props {
+type Props  = {
     children: ReactNode;
     tags: Array<string>;
 }
@@ -19,7 +19,7 @@ export default function ExampleContainer(props:Props){
                 {children}
             </CardContent>
             <CardActions>
-                {tags.map(x => <Chip label={x} />)}
+                {tags.map(x => <Chip key={x} label={x} />)}
             </CardActions>
         </Card>
     )

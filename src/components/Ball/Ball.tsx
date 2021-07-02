@@ -7,49 +7,49 @@ import * as d3 from 'd3'
 
 const margin = 10
 const height = 200
-const width = 200 
+const width = 200
 
 // If I change my component based off state, then it can do transitions and shit
 export default function Ball() {
     const [x, setx] = useState(0)
     const [y, sety] = useState(0)
-    const [shuffleXInterval, setShuffleXInterval] = useState(null)
-    const [shuffleYInterval, setShuffleYInterval] = useState(null)
+    const [shuffleXInterval, setShuffleXInterval] = useState<null | number>(null)
+    const [shuffleYInterval, setShuffleYInterval] = useState<null | number>(null)
     const svgRefElement = useRef(null);
 
-    // const handleXChange = (e: React.MouseEvent , newValue: number) => {
-    //     if (shuffleXInterval) {
-    //         clearInterval(shuffleXInterval)
-    //         setShuffleXInterval(null)
-    //     }
-    //     setx(newValue)
-    // }
+    const handleXChange = (e: React.ChangeEvent<{}>, value: number | number[]) => {
+        if (shuffleXInterval) {
+            clearInterval(shuffleXInterval)
+            setShuffleXInterval(null)
+        }
+        setx(value as number)
+    }
 
-    // const handleYChange = (e: React.MouseEvent , newValue: number) => {
-    //     if (shuffleYInterval) {
-    //         clearInterval(shuffleYInterval)
-    //         setShuffleXInterval(null)
-    //     }
-    //     sety(newValue)
-    // }
-    
-    // const handleShuffleClickX = (e: React.MouseEvent , newValue: number) => {
-    //     if (shuffleXInterval) {
-    //         clearInterval(shuffleXInterval)
-    //         setShuffleXInterval(null)
-    //     } else {
-    //         setShuffleXInterval(setInterval(() => setx(Math.random() * (width - 2 * margin + 1)), 2000))
-    //     }
-    // }
+    const handleYChange = (e: React.ChangeEvent<{}>, value: number | number[]) => {
+        if (shuffleYInterval) {
+            clearInterval(shuffleYInterval)
+            setShuffleXInterval(null)
+        }
+        sety(value as number)
+    }
 
-    // const handleShuffleClickY = (e: React.MouseEvent , newValue: number) => {
-    //     if (shuffleYInterval) {
-    //         clearInterval(shuffleYInterval)
-    //         setShuffleYInterval(null)
-    //     } else {
-    //         setShuffleYInterval(setInterval(() => sety(Math.random() * (height - 2 * margin + 1)), 2000))
-    //     }
-    // }
+    const handleShuffleClickX: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+        if (shuffleXInterval) {
+            clearInterval(shuffleXInterval)
+            setShuffleXInterval(null)
+        } else {
+            setShuffleXInterval(window.setInterval(() => setx(Math.random() * (width - 2 * margin + 1)), 2000))
+        }
+    }
+
+    const handleShuffleClickY: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+        if (shuffleYInterval) {
+            clearInterval(shuffleYInterval)
+            setShuffleYInterval(null)
+        } else {
+            setShuffleYInterval(window.setInterval(() => sety(Math.random() * (height - 2 * margin + 1)), 2000))
+        }
+    }
 
     const moveCircle = () => {
         d3.select(svgRefElement.current)
@@ -74,7 +74,7 @@ export default function Ball() {
 
     return (
         <ExampleContainer tags={['d3', 'd3-transition', 'setInterval']}>
-            {/* <Grid container spacing={2} alignItems="center">
+            <Grid container spacing={2} alignItems="center">
                 <Grid item>
                     <Typography variant='body1'>
                         X Pos
@@ -139,11 +139,8 @@ export default function Ball() {
                     width='100%'
                     height='100%'
                     ref={svgRefElement}
-                    style={{
-
-                    }}
                 />
-            </div> */}
+            </div>
         </ExampleContainer>
     )
 }

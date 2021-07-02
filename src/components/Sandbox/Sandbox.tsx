@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
-// import Ball from '../Ball';
+import Ball from '../Ball';
 
 export default function Sandbox() {
 
@@ -12,7 +12,7 @@ export default function Sandbox() {
         </Typography>
       </Grid>
       <Grid item>
-        {/* <Ball /> */}
+        <Ball />
       </Grid>
 
       {/* Other ideas
