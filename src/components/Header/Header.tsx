@@ -3,7 +3,7 @@ import { Toolbar, Link, Button, ButtonGroup } from "@material-ui/core";
 
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
-
+import ObservableIcon from '../../assets/observablehq-logo.svg';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -25,6 +25,7 @@ type SectionArray = Array<{ title: string; url: string }>;
 export default function Header(props: { sections: SectionArray }) {
   const classes = useStyles();
   const { sections } = props;
+
   return (
     <>
       <Toolbar disableGutters variant="dense" className={classes.toolbar}>
@@ -44,6 +45,7 @@ export default function Header(props: { sections: SectionArray }) {
         ))}
         <section className={classes.rightToolbar}>
           <ButtonGroup variant="text" size="small" aria-label="small outlined button group">
+            <Button href="https://observablehq.com/@minimumness"><img src={ObservableIcon} alt=""/></Button>
             <Button href="https://github.com/ministrudels"><GitHubIcon /></Button>
             <Button href="https://www.linkedin.com/in/huan-min-gan-b9801210a/"><LinkedInIcon /></Button>
           </ButtonGroup>
