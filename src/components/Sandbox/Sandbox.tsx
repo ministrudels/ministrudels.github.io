@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import Ball from '../Ball';
-
+import MalaysiasCovidVaccination from '../MalaysiasCovidVaccination'
 export default function Sandbox() {
 
   return (
@@ -13,6 +13,9 @@ export default function Sandbox() {
       </Grid>
       <Grid item>
         <Ball />
+      </Grid>
+      <Grid item>
+        <MalaysiasCovidVaccination />
       </Grid>
 
       {/* Other ideas
