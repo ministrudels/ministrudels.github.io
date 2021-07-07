@@ -47,7 +47,7 @@ export default function Header(props: { sections: SectionArray }) {
           <ButtonGroup variant="text" size="small" aria-label="small outlined button group">
             <Button href="https://observablehq.com/@minimumness"><img src={ObservableIcon} alt=""/></Button>
             <Button href="https://github.com/ministrudels"><GitHubIcon /></Button>
-            <Button href="https://www.linkedin.com/in/huan-min-gan-b9801210a/"><LinkedInIcon /></Button>
+            <Button href="https://www.linkedin.com/in/huanmingan/"><LinkedInIcon /></Button>
           </ButtonGroup>
         </section>
       </Toolbar>

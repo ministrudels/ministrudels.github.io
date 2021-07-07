@@ -9,7 +9,7 @@ import Studio from './components/Studio';
 
 const sections = [
   { title: 'Home', url: '/home' },
-  { title: 'Sandbox', url: '/sandbox' }
+  { title: 'Studio', url: '/studio' }
 ];
 
 export default function App() {
