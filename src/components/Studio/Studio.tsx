@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import Ball from '../Ball';
 import MalaysiasCovidVaccination from '../MalaysiasCovidVaccination'
-export default function Sandbox() {
+export default function Studio() {
 
   return (
     <Grid container spacing={4} direction='column'>

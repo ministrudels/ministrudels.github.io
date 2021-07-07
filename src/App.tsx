@@ -5,7 +5,7 @@ import Container from '@material-ui/core/Container';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './components/Home';
-import Sandbox from './components/Sandbox';
+import Studio from './components/Studio';
 
 const sections = [
   { title: 'Home', url: '/home' },
@@ -23,7 +23,7 @@ export default function App() {
           <Router basename={process.env.PUBLIC_URL}>
             <Switch>
               <Route path='/home' component={Home} />
-              <Route path='/sandbox' component={Sandbox} />
+              <Route path='/Studio' component={Studio} />
                <Route path='/' component={Home} />
             </Switch>
           </Router>
