@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
-import Ball from '../Ball';
+import SliderAndBall from '../SliderAndBall';
 import MalaysiasCovidVaccination from '../MalaysiasCovidVaccination'
 
 export default function Studio() {
@@ -19,7 +19,7 @@ export default function Studio() {
       </Grid>
       
       <Grid item>
-        <Ball />
+        <SliderAndBall />
       </Grid>
     
     </Grid>

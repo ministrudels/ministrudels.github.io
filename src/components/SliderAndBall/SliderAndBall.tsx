@@ -72,7 +72,7 @@ export default function Ball() {
     useEffect(moveCircle, [x, y])
 
     return (
-        <ExampleContainer tags={['d3', 'd3-transition', 'setInterval']}>
+        <ExampleContainer title='Slider and Ball' date={new Date('6 28 2021')} tags={['d3', 'd3-transition', 'setInterval']}>
             <Grid container spacing={2} alignItems="center">
                 <Grid item>
                     <Typography variant='body1'>
