@@ -5,23 +5,24 @@ import { Input, TextField, Typography } from "@material-ui/core";
 
 const margin = 10;
 const height = 200;
-const width = 500;
+const width = 1000;
 const customBaseId = "customElement";
 const layout = {
-  cellSpacing: 2,
-  cellSize: 3,
+  cellSpacing: 1,
+  cellSize: 4,
 };
 
 export default function D3andCanvasl() {
-  const [number, setNumber] = useState(50);
+  const [number, setNumber] = useState(5);
   const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
 
   const redrawCanvas = () => {
     console.log("redrawing...");
     const data = d3.range(number);
     const colourScale = d3.scaleSequential(d3.interpolateSpectral).domain(data);
+    
     // First we bind the new data to our custom DOM element
-    d3.select(`#${customBaseId}`)
+    d3.select(`custom`)
       .selectAll(".rect")
       .data(data, (d) => `${d}`)
       .join((enter) =>
@@ -43,37 +44,38 @@ export default function D3andCanvasl() {
       );
 
     const context = canvasRef.current?.getContext("2d")!;
-    context.fillRect(0, 0, 50, 50)
     // Select the canvas's context
     // const t = d3.timer(function (elapsed) {
     //   const context = canvasRef.current?.getContext("2d")!;
     //   context.clearRect(0, 0, width, height);
-    //   const elements = d3.selectAll("customElement.rect");
-    //   elements.each(function (d, i) {
-    //     // This is each individual element in the loop.
-    //     let node = d3.select(this);
-    //     context.fillStyle = node.attr("fillStyle");
-    //     context.fillRect(
-    //       +node.attr("x"),
-    //       +node.attr("y"),
-    //       +node.attr("width"),
-    //       +node.attr("height")
-    //     );
-    //   });
+      const elements = d3.selectAll("custom.rect");
+      console.log(elements)
+
+      elements.each(function (d, i) {
+        // This is each individual element in the loop.
+        let node = d3.select(this);
+        context.fillStyle = node.attr("fillStyle");
+        context.fillRect(
+          +node.attr("x"),
+          +node.attr("y"),
+          +node.attr("width"),
+          +node.attr("height")
+        );
+      });
     //   if (elapsed > 1000) t.stop();
     // }); // Timer running the draw function repeatedly for 300 ms.
   };
 
   const initialiseCustom = () => {
-    document.createElement("custom").setAttribute("id", customBaseId);
+    d3.select('#canvasContainer').append("custom")
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNumber(+e.target.value);
   };
 
-  useEffect(redrawCanvas, [number]);
   useEffect(initialiseCustom, []);
+  useEffect(redrawCanvas, [number]);
 
   return (
     <ExampleContainer
