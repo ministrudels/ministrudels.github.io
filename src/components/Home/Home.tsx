@@ -22,6 +22,7 @@ export default function Home() {
         <Typography align="justify" variant='subtitle2'>
           Some cool things I've done!
         </Typography>
+        
         <Typography variant='body1'>
           <ul>
             <li>
