@@ -1,5 +1,6 @@
 import React from 'react';
-import { Typography, Grid, Divider} from '@material-ui/core';
+import { Typography, Grid, Divider } from '@material-ui/core';
+import Studio from '../Studio';
 
 export default function Home() {
   return (
@@ -8,6 +9,10 @@ export default function Home() {
 
       </Grid>
       <Grid item>
+        <Typography align="justify" variant='h6'>
+          About me
+        </Typography>
+        <Divider />
         <Typography align="justify" variant='body1'>
           Hi, my name is Huan Min and I'm a software engineer based in London with an interest in data visualisation, data engineering and infrastructure technology.
           I graduated from Imperial College London with a Distinction in MSc Computing Science in 2019, and from University College London with a 1st class honours in MEng Mechanical Engineering in 2018.
@@ -18,11 +23,8 @@ export default function Home() {
         <Typography align="justify" variant='h6'>
           Other Projects
         </Typography>
-        <Divider/>
-        <Typography align="justify" variant='subtitle2'>
-          Some cool things I've done!
-        </Typography>
-        
+        <Divider />
+
         <Typography variant='body1'>
           <ul>
             <li>
@@ -38,6 +40,13 @@ export default function Home() {
           </ul>
         </Typography>
 
+      </Grid>
+      <Grid item>
+        <Typography align="justify" variant='h6'>
+          Studio
+        </Typography>
+        <Divider />
+        <Studio />
       </Grid>
     </Grid>
   );

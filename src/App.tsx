@@ -9,7 +9,7 @@ import Studio from './components/Studio';
 
 const sections = [
   { title: 'Home', url: '/home' },
-  { title: 'Studio', url: '/studio' }
+  // { title: 'Studio', url: '/studio' }
 ];
 
 export default function App() {
@@ -23,7 +23,7 @@ export default function App() {
           <Router basename={process.env.PUBLIC_URL}>
             <Switch>
               <Route path='/home' component={Home} />
-              <Route path='/Studio' component={Studio} />
+              {/* <Route path='/Studio' component={Studio} /> */}
                <Route path='/' component={Home} />
             </Switch>
           </Router>
