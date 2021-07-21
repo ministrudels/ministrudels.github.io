@@ -3,13 +3,15 @@ import ExampleContainer from "../ExampleContainer";
 import * as d3 from "d3";
 import { Divider, Input, InputBase, Slider, TextField, Typography } from "@material-ui/core";
 
-const height = 400;
-const width = 600;
+const MAX_CELLS = 15000
+
+const width = Math.min(Math.max(window.innerWidth - 400, 400), 600);
 const layout = {
   cellSpacing: 1,
   cellSize: 3,
 };
 const cellsPerRow = width / (layout.cellSize + layout.cellSpacing)
+const height = MAX_CELLS / cellsPerRow * (layout.cellSize + layout.cellSpacing)
 
 export default function D3andCanvasl() {
   const [number, setNumber] = useState(12000);
@@ -43,6 +45,8 @@ export default function D3andCanvasl() {
 
     const context = canvasRef.current?.getContext("2d")!;
     const elements = d3.selectAll("custom.rect");
+    context.canvas.width = Math.min(600, window.innerWidth - 400)
+    context.canvas.height = MAX_CELLS / cellsPerRow * (layout.cellSize + layout.cellSpacing)
     context.clearRect(0, 0, width, height)
     elements.each(function (d, i) {
       // This is each individual element in the loop.
@@ -59,6 +63,8 @@ export default function D3andCanvasl() {
 
   const initialiseCustom = () => {
     d3.select('#canvasContainer').append("custom")
+    window.addEventListener("resize", redrawCanvas)
+    return () => window.removeEventListener("resize", redrawCanvas);
   };
 
   const handleChange = (e: React.ChangeEvent<{}>, value: number | number[]) => {
@@ -67,11 +73,10 @@ export default function D3andCanvasl() {
 
   useEffect(initialiseCustom, []);
   useEffect(redrawCanvas, [number]);
-
   return (
     <ExampleContainer
       title="D3 and Canvas"
-      date={new Date()}
+      date={new Date('7 21 2021')}
       tags={["d3", "canvas"]}
     >
       <Typography variant="body1" align="justify">
@@ -95,18 +100,6 @@ export default function D3andCanvasl() {
         This studio example is uses D3's data bind model to drive visualisations
         onto HTML5's performant canvas element.
       </Typography>
-      {/* <TextField
-        label="Number"
-        type="number"
-        variant='outlined'
-        disabled
-        value={number}
-        onChange={handleChange}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-       */}
       <Divider />
       <br />
       <InputBase
@@ -116,20 +109,22 @@ export default function D3andCanvasl() {
       <Slider
         value={number}
         min={0}
-        max={15000}
+        max={MAX_CELLS}
         onChange={handleChange}
       />
-      <div style={{
-        height: height,
-        width: width + 1,
-        border: 'solid',
-        borderRadius: 2,
-        borderWidth: 1,
-        borderColor: 'gray',
-        display: 'block',
-        margin: '10px auto',
-      }} id="canvasContainer">
-        <canvas width={width} height={height} ref={canvasRef}></canvas>
+      <div
+        style={{
+          height: height,
+          width: width + 1,
+          // border: 'solid',
+          borderRadius: 2,
+          borderWidth: 1,
+          // borderColor: 'gray',
+          display: 'block',
+          margin: '10px auto',
+        }}
+        id="canvasContainer">
+        <canvas width={window.innerWidth} height={window.innerHeight} ref={canvasRef}></canvas>
       </div>
     </ExampleContainer>
   );
