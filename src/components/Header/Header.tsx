@@ -1,55 +1,54 @@
-import { makeStyles } from "@material-ui/core/styles";
-import { Toolbar, Link, Button, ButtonGroup } from "@material-ui/core";
-
-import GitHubIcon from '@material-ui/icons/GitHub';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import ObservableIcon from '../../assets/observablehq-logo.svg';
-
-const useStyles = makeStyles((theme) => ({
-  toolbar: {
-    overflowX: "auto",
-    borderBottom: `1px solid ${theme.palette.divider}`,
-  },
-  toolbarLink: {
-    padding: theme.spacing(1),
-    flexShrink: 0,
-  },
-  rightToolbar: {
-    margin: "auto",
-    marginRight: 12
-  }
-}));
+import { Button, Toolbar } from "@mui/material";
 
 type SectionArray = Array<{ title: string; url: string }>;
 
 export default function Header(props: { sections: SectionArray }) {
-  const classes = useStyles();
   const { sections } = props;
 
   return (
     <>
-      <Toolbar disableGutters variant="dense" className={classes.toolbar}>
-        {sections.map((section) => (
-          <Link
-            color={
-              section.url === window.location.pathname ? "primary" : "inherit"
-            }
-            noWrap
-            key={section.title}
-            variant="body2"
-            href={section.url}
-            className={classes.toolbarLink}
-          >
-            {section.title}
-          </Link>
-        ))}
-        <section className={classes.rightToolbar}>
+      <Toolbar
+        disableGutters
+        variant="dense"
+        sx={{
+          overflowX: "auto",
+          borderBottom: "1px solid",
+          borderBottomColor: "theme.palette.divider",
+        }}
+      >
+        {sections.map((section) => {
+          return (
+            <Button
+              variant="text"
+              href={section.url}
+              sx={{
+                padding: "theme.spacing(2)",
+                flexShrink: 0,
+              }}
+            >
+              {section.title}
+            </Button>
+          );
+        })}
+
+        {/* <section
+          style={{
+            margin: "auto",
+            marginRight: 12,
+          }}
+        >
           <ButtonGroup variant="text" size="small" aria-label="small outlined button group">
-            <Button href="https://observablehq.com/@minimumness"><img src={ObservableIcon} alt=""/></Button>
-            <Button href="https://github.com/ministrudels"><GitHubIcon /></Button>
-            <Button href="https://www.linkedin.com/in/huanmingan/"><LinkedInIcon /></Button>
+            <Button href="https://observablehq.com/@minimumness">
+              <img src={ObservableIcon} alt="" />
+            </Button>
+            <Button href="https://github.com/ministrudels">
+              <GitHubIcon />
+            </Button>
+            <Button href="https://www.linkedin.com/in/huanmingan/">
+              <LinkedInIcon />
+            </Button>
           </ButtonGroup>
-        </section>
+        </section> */}
       </Toolbar>
     </>
   );
