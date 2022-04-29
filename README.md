@@ -48,4 +48,12 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 ## Node v
 17.9.0
 ## Deploy to gh pages
-`npm run predeploy && npm run deploy`
+Run the following commands to publish to gh-pages
+```
+`npm run build`
+`node`
+```js
+var ghpages = require('gh-pages');
+
+ghpages.publish('build', function(err) {});
+```
