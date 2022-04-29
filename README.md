@@ -46,14 +46,15 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## Node v
-17.9.0
+16.15.0
 ## Deploy to gh pages
 Run the following commands to publish to gh-pages
-```
-`npm run build`
-`node`
-```js
-var ghpages = require('gh-pages');
 
-ghpages.publish('build', function(err) {});
-```
+1. `npm run build`
+
+2. `node`
+3. ```js
+    var ghpages = require('gh-pages');
+
+    ghpages.publish('build', function(err) {});
+    ```
