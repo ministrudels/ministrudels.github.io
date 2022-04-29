@@ -21,7 +21,7 @@ export default function Home() {
 
       <Grid item container justifyContent="center">
         <ButtonGroup variant="text">
-          <Button href="https://observablehq.com/@minimumness">
+          <Button href="https://observablehq.com/@huanmingan">
             <img
               style={{
                 width: 100,
@@ -32,7 +32,9 @@ export default function Home() {
           </Button>
           <Button href="https://github.com/ministrudels">
             <GitHubIcon
+              color="secondary"
               style={{
+                color: "black",
                 fontSize: 100,
               }}
             />
