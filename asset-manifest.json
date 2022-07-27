@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/static/css/main.e6c13ad2.css",
-    "main.js": "/static/js/main.a93e9e0b.js",
+    "main.js": "/static/js/main.21e711c7.js",
     "static/js/787.ac559e85.chunk.js": "/static/js/787.ac559e85.chunk.js",
     "static/media/observablehq-logo.svg": "/static/media/observablehq-logo.8471f109e37bee8fcb35c56a9258307c.svg",
     "index.html": "/index.html",
     "main.e6c13ad2.css.map": "/static/css/main.e6c13ad2.css.map",
-    "main.a93e9e0b.js.map": "/static/js/main.a93e9e0b.js.map",
+    "main.21e711c7.js.map": "/static/js/main.21e711c7.js.map",
     "787.ac559e85.chunk.js.map": "/static/js/787.ac559e85.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.a93e9e0b.js"
+    "static/js/main.21e711c7.js"
   ]
 }
