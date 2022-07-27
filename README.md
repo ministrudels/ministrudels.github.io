@@ -15,5 +15,16 @@ Start the development server.
 ### `yarn build`
 Build the application for production. to the `/dist` directory.
 
-### `yarn deploys`
+### `yarn deploy`
 Deploys the app to gh-pages.
+
+## Deploy to gh pages
+Run the following commands to publish to gh-pages
+
+1. `yarn build`
+
+2. `node`
+3. ```js
+    var ghpages = require('gh-pages');
+    ghpages.publish('build', function(err) {});
+    ```
