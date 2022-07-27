@@ -3,7 +3,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
-
 In the project directory, you can run:
 
 ### `yarn`
@@ -17,14 +16,3 @@ Build the application for production. to the `/dist` directory.
 
 ### `yarn deploy`
 Deploys the app to gh-pages.
-
-## Deploy to gh pages
-Run the following commands to publish to gh-pages
-
-1. `yarn build`
-
-2. `node`
-3. ```js
-    var ghpages = require('gh-pages');
-    ghpages.publish('build', function(err) {});
-    ```
