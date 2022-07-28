@@ -17,6 +17,7 @@ export default function Footer() {
         display: "flex",
         flexDirection: "column",
         minHeight: "10vh",
+        å,
       }}
     >
       <footer

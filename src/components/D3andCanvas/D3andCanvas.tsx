@@ -1,6 +1,13 @@
 import * as d3 from "d3";
 
-import { Divider, Grid, Slider, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import {
+  Divider,
+  Grid,
+  Slider,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography,
+} from "@mui/material";
 import { RefObject, useEffect, useRef, useState } from "react";
 
 import ExampleContainer from "../ExampleContainer";
@@ -14,12 +21,14 @@ const layout = {
   cellSize: 3,
 };
 const cellsPerRow = width / (layout.cellSize + layout.cellSpacing);
-const height = (MAX_CELLS / cellsPerRow) * (layout.cellSize + layout.cellSpacing);
+const height =
+  (MAX_CELLS / cellsPerRow) * (layout.cellSize + layout.cellSpacing);
 
 type GraphicsElement = "canvas" | "svg";
 
 export default function D3andCanvasl() {
-  const [graphicsElement, setGraphicsElement] = useState<GraphicsElement>("svg");
+  const [graphicsElement, setGraphicsElement] =
+    useState<GraphicsElement>("svg");
   const [squareCount, setSquareCount] = useState(12000);
   const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
   const svgRef: RefObject<SVGSVGElement> = useRef(null);
@@ -36,8 +45,17 @@ export default function D3andCanvasl() {
             enter
               .append("custom")
               .attr("class", "rect")
-              .attr("x", (d, i) => (i % cellsPerRow) * (layout.cellSize + layout.cellSpacing))
-              .attr("y", (d, i) => Math.floor(i / cellsPerRow) * (layout.cellSize + layout.cellSpacing))
+              .attr(
+                "x",
+                (d, i) =>
+                  (i % cellsPerRow) * (layout.cellSize + layout.cellSpacing)
+              )
+              .attr(
+                "y",
+                (d, i) =>
+                  Math.floor(i / cellsPerRow) *
+                  (layout.cellSize + layout.cellSpacing)
+              )
               .attr("width", (d, i) => layout.cellSize)
               .attr("height", (d, i) => layout.cellSize)
               .attr("fillStyle", (d) => colourScale(d)),
@@ -47,13 +65,19 @@ export default function D3andCanvasl() {
       const context = canvasRef.current?.getContext("2d")!;
       const elements = d3.selectAll("custom.rect");
       context.canvas.width = Math.min(600, window.innerWidth - 400);
-      context.canvas.height = (MAX_CELLS / cellsPerRow) * (layout.cellSize + layout.cellSpacing);
+      context.canvas.height =
+        (MAX_CELLS / cellsPerRow) * (layout.cellSize + layout.cellSpacing);
       context.clearRect(0, 0, width, height);
       elements.each(function (d, i) {
         // This is each individual element in the loop.
         let node = d3.select(this);
         context.fillStyle = node.attr("fillStyle");
-        context.fillRect(+node.attr("x"), +node.attr("y"), +node.attr("width"), +node.attr("height"));
+        context.fillRect(
+          +node.attr("x"),
+          +node.attr("y"),
+          +node.attr("width"),
+          +node.attr("height")
+        );
       });
     };
 
@@ -67,8 +91,17 @@ export default function D3andCanvasl() {
             enter
               .append("rect")
               .attr("class", "rect")
-              .attr("x", (_, i) => (i % cellsPerRow) * (layout.cellSize + layout.cellSpacing))
-              .attr("y", (_, i) => Math.floor(i / cellsPerRow) * (layout.cellSize + layout.cellSpacing))
+              .attr(
+                "x",
+                (_, i) =>
+                  (i % cellsPerRow) * (layout.cellSize + layout.cellSpacing)
+              )
+              .attr(
+                "y",
+                (_, i) =>
+                  Math.floor(i / cellsPerRow) *
+                  (layout.cellSize + layout.cellSpacing)
+              )
               .attr("width", (_, i) => layout.cellSize)
               .attr("height", (_, i) => layout.cellSize)
               .style("fill", (_, i) => colourScale(i)),
@@ -103,27 +136,39 @@ export default function D3andCanvasl() {
   useEffect(redraw);
 
   return (
-    <ExampleContainer title="D3 and Canvas" date={new Date("7 21 2021")} tags={["d3", "svg", "canvas"]}>
+    <ExampleContainer
+      title="D3 and Canvas"
+      date={new Date("7 21 2021")}
+      tags={["d3", "svg", "canvas"]}
+    >
       <Typography variant="body1" align="justify">
-        There are situations in data visualisation where we need to visualise a large amount of data. There is only so
-        many datapoints which can be displayed on a screen until it is considered information overload for the user. In
-        most cases, we would consider applying additional filters to simply reduce the number of datapoints and
-        inevitably, elements to render.
+        There are situations in data visualisation where we need to visualise a
+        large amount of data. There is only so many datapoints which can be
+        displayed on a screen until it is considered information overload for
+        the user. In most cases, we would consider applying additional filters
+        to simply reduce the number of datapoints and inevitably, elements to
+        render.
         <br />
         <br />
-        But what if there is a visualisation which shouldnt be limited by the number of its datapoints? HTML5 Canvas is
-        more performant medium but has a less mature API.
+        But what if there is a visualisation which shouldnt be limited by the
+        number of its datapoints? HTML5 Canvas is more performant medium but has
+        a less mature API.
         <br />
         <br />
-        This studio example experiments with D3's data bind paradigm to drive visualisations onto HTML5's performant
-        canvas element.
+        This studio example experiments with D3's data bind paradigm to drive
+        visualisations onto HTML5's performant canvas element.
       </Typography>
       <Divider />
       <br />
       <Grid container spacing={2} alignItems="center">
         <Grid item lg={9}>
           <Typography>{squareCount} squares</Typography>
-          <Slider value={squareCount} min={0} max={MAX_CELLS} onChange={handleChange}></Slider>
+          <Slider
+            value={squareCount}
+            min={0}
+            max={MAX_CELLS}
+            onChange={handleChange}
+          ></Slider>
         </Grid>
         <Grid item lg={3}>
           <ToggleButtonGroup
@@ -152,7 +197,11 @@ export default function D3andCanvasl() {
         id="drawingContainer"
       >
         <svg width="100%" height="100%" ref={svgRef} />
-        <canvas width={window.innerWidth} height={window.innerHeight} ref={canvasRef}></canvas>
+        <canvas
+          width={window.innerWidth}
+          height={window.innerHeight}
+          ref={canvasRef}
+        ></canvas>
       </div>
     </ExampleContainer>
   );

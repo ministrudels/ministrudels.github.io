@@ -42,21 +42,35 @@ export default function Ball() {
   };
 
   // Function typing
-  const handleShuffleClickX: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+  const handleShuffleClickX: React.MouseEventHandler<HTMLButtonElement> = (
+    e
+  ) => {
     if (shuffleXInterval) {
       clearInterval(shuffleXInterval);
       setShuffleXInterval(null);
     } else {
-      setShuffleXInterval(window.setInterval(() => setx(Math.random() * (width - 2 * margin + 1)), 2000));
+      setShuffleXInterval(
+        window.setInterval(
+          () => setx(Math.random() * (width - 2 * margin + 1)),
+          2000
+        )
+      );
     }
   };
 
-  const handleShuffleClickY: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+  const handleShuffleClickY: React.MouseEventHandler<HTMLButtonElement> = (
+    e
+  ) => {
     if (shuffleYInterval) {
       clearInterval(shuffleYInterval);
       setShuffleYInterval(null);
     } else {
-      setShuffleYInterval(window.setInterval(() => sety(Math.random() * (height - 2 * margin + 1)), 2000));
+      setShuffleYInterval(
+        window.setInterval(
+          () => sety(Math.random() * (height - 2 * margin + 1)),
+          2000
+        )
+      );
     }
   };
 
@@ -73,8 +87,12 @@ export default function Ball() {
   };
 
   const draw = () => {
-    const rootSVG = d3.select(svgRefElement.current).attr("viewBox", `${[0, 0, width, height]}`);
-    const g = rootSVG.append("g").attr("transform", `translate(${margin},${margin})`);
+    const rootSVG = d3
+      .select(svgRefElement.current)
+      .attr("viewBox", `${[0, 0, width, height]}`);
+    const g = rootSVG
+      .append("g")
+      .attr("transform", `translate(${margin},${margin})`);
     g.append("circle").attr("r", margin);
   };
 
@@ -92,10 +110,18 @@ export default function Ball() {
           <Typography variant="body1">X Pos</Typography>
         </Grid>
         <Grid item>
-          <IconButton onClick={handleShuffleClickX}>{shuffleXInterval ? <PauseIcon /> : <PlayArrowIcon />}</IconButton>
+          <IconButton onClick={handleShuffleClickX}>
+            {shuffleXInterval ? <PauseIcon /> : <PlayArrowIcon />}
+          </IconButton>
         </Grid>
         <Grid item xs>
-          <Slider track={false} value={x} min={min} max={maxX} onChange={handleXChange} />
+          <Slider
+            track={false}
+            value={x}
+            min={min}
+            max={maxX}
+            onChange={handleXChange}
+          />
         </Grid>
       </Grid>
 
@@ -104,11 +130,19 @@ export default function Ball() {
           <Typography variant="body1">Y Pos</Typography>
         </Grid>
         <Grid item>
-          <IconButton onClick={handleShuffleClickY}>{shuffleYInterval ? <PauseIcon /> : <PlayArrowIcon />}</IconButton>
+          <IconButton onClick={handleShuffleClickY}>
+            {shuffleYInterval ? <PauseIcon /> : <PlayArrowIcon />}
+          </IconButton>
         </Grid>
 
         <Grid item xs>
-          <Slider track={false} value={y} min={min} max={maxY} onChange={handleYChange} />
+          <Slider
+            track={false}
+            value={y}
+            min={min}
+            max={maxY}
+            onChange={handleYChange}
+          />
         </Grid>
       </Grid>
 

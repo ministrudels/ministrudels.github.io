@@ -1,1 +1,1 @@
-export { default } from './MalaysiasCovidVaccination'
+export { default } from "./MalaysiasCovidVaccination";

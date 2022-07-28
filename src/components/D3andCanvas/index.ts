@@ -1,1 +1,1 @@
-export { default } from './D3andCanvas';
+export { default } from "./D3andCanvas";
