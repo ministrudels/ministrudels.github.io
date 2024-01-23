@@ -3,6 +3,7 @@ import React from "react";
 const BarCSS: React.CSSProperties = {
   height: "10px",
   position: "absolute",
+  borderRadius: "5px",
 };
 
 const containerStyle: React.CSSProperties = {
@@ -26,6 +27,7 @@ export default function Delta({
 }) {
   const isIncrease = next > previous;
   const isDecrease = next < previous;
+  const max = Math.max(previous, next);
   const diff = Math.abs(next - previous);
   return (
     <>
@@ -35,10 +37,10 @@ export default function Delta({
         {diff}
       </div>
       <div style={containerStyle}>
-        <div style={{ ...BarCSS, width: "100%", backgroundColor: "grey" }} />
         <div
-          style={{ ...BarCSS, width: `${next}%`, backgroundColor: "blue" }}
+          style={{ ...BarCSS, width: "100%", backgroundColor: "lightgray" }}
         />
+        <div style={{ ...BarCSS, width: `${max}%`, backgroundColor: "blue" }} />
         {isIncrease && (
           <div
             style={{
@@ -46,6 +48,8 @@ export default function Delta({
               left: `${previous}%`,
               width: `${diff}%`,
               backgroundColor: "green",
+              borderTopLeftRadius: 0,
+              borderBottomLeftRadius: 0,
             }}
           />
         )}
