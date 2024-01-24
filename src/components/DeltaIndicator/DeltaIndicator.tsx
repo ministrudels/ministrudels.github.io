@@ -40,26 +40,45 @@ export default function Delta({
         <div
           style={{ ...BarCSS, width: "100%", backgroundColor: "lightgray" }}
         />
-        <div style={{ ...BarCSS, width: `${max}%`, backgroundColor: "blue" }} />
         {isIncrease && (
-          <div
-            style={{
-              ...BarCSS,
-              left: `${previous}%`,
-              width: `${diff}%`,
-              backgroundColor: "green",
-              borderTopLeftRadius: 0,
-              borderBottomLeftRadius: 0,
-            }}
-          />
+          <>
+            <div
+              style={{ ...BarCSS, width: `${next}%`, backgroundColor: "green" }}
+            />
+            <div
+              style={{
+                ...BarCSS,
+                width: `${previous}%`,
+                backgroundColor: "blue",
+              }}
+            />
+          </>
         )}
         {isDecrease && (
+          <>
+            <div
+              style={{
+                ...BarCSS,
+                width: `${previous}%`,
+                backgroundColor: "blue",
+              }}
+            />
+            <div
+              style={{
+                ...BarCSS,
+                left: `${next}%`,
+                width: `${diff}%`,
+                backgroundColor: "red",
+              }}
+            />
+          </>
+        )}
+        {!isIncrease && !isDecrease && (
           <div
             style={{
               ...BarCSS,
-              left: `${next}%`,
-              width: `${diff}%`,
-              backgroundColor: "red",
+              width: `${previous}%`,
+              backgroundColor: "blue",
             }}
           />
         )}
