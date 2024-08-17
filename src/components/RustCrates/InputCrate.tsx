@@ -31,12 +31,27 @@ export const InputCrate = ({
     setOpenErrorNotification(false);
   };
 
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    cratesIO.api.crates
+      .getCrate(candidateCrate)
+      .then(() => setCrates(new Set([...crates, candidateCrate])))
+      .catch(() => {
+        setInvalidCrate(candidateCrate);
+        setOpenErrorNotification(true);
+      });
+    setCandidateCrate("");
+  };
+
   return (
     <>
       {Array.from(crates).map((c) => (
         <Typography key={c}>{c}</Typography>
       ))}
       <Box
+        component="form"
+        onSubmit={handleSubmit}
+        noValidate
         sx={{
           display: "flex",
           alignItems: "flex-end",
@@ -58,20 +73,7 @@ export const InputCrate = ({
           label="Crate name"
           variant="standard"
         />
-        <IconButton
-          onClick={() => {
-            cratesIO.api.crates
-              .getCrate(candidateCrate)
-              .then(() => setCrates(new Set([...crates, candidateCrate])))
-              .catch(() => {
-                setInvalidCrate(candidateCrate);
-                setOpenErrorNotification(true);
-              });
-            setCandidateCrate("");
-          }}
-          aria-label="add"
-          size="small"
-        >
+        <IconButton type="submit" aria-label="add" size="small">
           <AddCircle fontSize="small" />
         </IconButton>
       </Box>
