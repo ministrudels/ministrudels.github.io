@@ -1,4 +1,4 @@
-import { Divider, Grid, Typography } from "@mui/material";
+import { Box, Divider, Grid, Typography } from "@mui/material";
 import {
   CartesianGrid,
   Legend,
@@ -11,6 +11,7 @@ import {
 import ExampleContainer from "../ExampleContainer";
 
 import { useState } from "react";
+import CrateLogo from "./cargo.png";
 import { InputCrate } from "./InputCrate";
 import { useGetDownloadTimeSeries } from "./utils";
 
@@ -32,9 +33,19 @@ export default function RustCrates() {
       <Grid container spacing={2} alignItems="center">
         <Grid item>
           <Typography variant="body1">
-            It can be difficult to appraise crates in the Rust ecosystem. There
-            are many. This is a component to compare key metrics when appraising
-            a crate.
+            It can be difficult to appraise crates{" "}
+            <span>
+              <Box
+                component="img"
+                sx={{
+                  height: 15,
+                  width: 15,
+                }}
+                src={CrateLogo}
+              />
+            </span>{" "}
+            in the Rust ecosystem. There are many. This is a component to
+            compare key metrics when appraising a crate.
           </Typography>
           <Divider />
         </Grid>

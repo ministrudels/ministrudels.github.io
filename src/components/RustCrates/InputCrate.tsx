@@ -1,15 +1,23 @@
-import { AddCircle } from "@mui/icons-material";
+import { AddCircle, Delete } from "@mui/icons-material";
 import {
   Alert,
   Box,
   IconButton,
   Snackbar,
+  SxProps,
   TextField,
+  Theme,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import CrateLogo from "./cargo.png";
+
 import { cratesIO } from "./utils";
+
+const horizontalSX: SxProps<Theme> = {
+  display: "flex",
+  alignItems: "flex-end",
+  gap: 1, // Add some space between items
+};
 
 export const InputCrate = ({
   onCrateChange,
@@ -45,38 +53,50 @@ export const InputCrate = ({
 
   return (
     <>
-      {Array.from(crates).map((c) => (
-        <Typography key={c}>{c}</Typography>
-      ))}
+      {/* Crate input form */}
       <Box
-        component="form"
-        onSubmit={handleSubmit}
-        noValidate
-        sx={{
-          display: "flex",
-          alignItems: "flex-end",
-          justifyContent: "space-between",
-          gap: 1, // Add some space between items
-        }}
+        sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}
       >
-        <Box
-          component="img"
-          sx={{
-            height: 25,
-            width: 25,
-          }}
-          src={CrateLogo}
-        />
-        <TextField
-          value={candidateCrate}
-          onChange={(e) => setCandidateCrate(e.target.value)}
-          label="Crate name"
-          variant="standard"
-        />
-        <IconButton type="submit" aria-label="add" size="small">
-          <AddCircle fontSize="small" />
-        </IconButton>
+        <Box>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={horizontalSX}
+          >
+            <TextField
+              value={candidateCrate}
+              onChange={(e) => setCandidateCrate(e.target.value)}
+              label="Crate"
+              variant="standard"
+            />
+            <IconButton type="submit" aria-label="add" size="small">
+              <AddCircle fontSize="small" />
+            </IconButton>
+          </Box>
+        </Box>
+        <Box sx={{ marginTop: "20px", marginLeft: "200px" }}>
+          {/* Display the crates along with a x button to delete it from the list */}
+          {Array.from(crates).map((crate) => (
+            <Box sx={horizontalSX} key={crate}>
+              <IconButton
+                onClick={() => {
+                  const newCrates = new Set(crates);
+                  newCrates.delete(crate);
+                  setCrates(newCrates);
+                }}
+                aria-label="delete"
+                size="small"
+              >
+                <Delete fontSize="small" />
+              </IconButton>
+              <Typography>{crate}</Typography>
+            </Box>
+          ))}
+        </Box>
       </Box>
+
+      {/* Display an error notification if the crate is invalid */}
       <Snackbar
         open={openErrorNotification}
         autoHideDuration={3000}
