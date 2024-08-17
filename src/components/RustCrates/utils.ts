@@ -1,7 +1,7 @@
 import { CratesIO, Download } from "crates.io";
 import { useEffect, useState } from "react";
 
-const cratesIO = new CratesIO();
+export const cratesIO = new CratesIO();
 
 /**
  * Sum the downloads across versions on the same date.

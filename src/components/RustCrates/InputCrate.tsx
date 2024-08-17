@@ -1,7 +1,15 @@
 import { AddCircle } from "@mui/icons-material";
-import { Box, IconButton, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  IconButton,
+  Snackbar,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import CrateLogo from "./cargo.png";
+import { cratesIO } from "./utils";
 
 export const InputCrate = ({
   onCrateChange,
@@ -10,11 +18,18 @@ export const InputCrate = ({
 }) => {
   const [crates, setCrates] = useState<Set<string>>(new Set(["sqlx"]));
   const [candidateCrate, setCandidateCrate] = useState("");
+  const [openErrorNotification, setOpenErrorNotification] = useState(false);
+  const [invalidCrate, setInvalidCrate] = useState("");
 
   // Pass it to the parent component
   useEffect(() => {
     onCrateChange(Array.from(crates));
-  }, [crates, onCrateChange]);
+  }, [crates]);
+
+  const handleSnackbarClose = () => {
+    setInvalidCrate("");
+    setOpenErrorNotification(false);
+  };
 
   return (
     <>
@@ -45,8 +60,13 @@ export const InputCrate = ({
         />
         <IconButton
           onClick={() => {
-            // TODO: Check if the crate exists
-            setCrates(new Set([...crates, candidateCrate]));
+            cratesIO.api.crates
+              .getCrate(candidateCrate)
+              .then(() => setCrates(new Set([...crates, candidateCrate])))
+              .catch(() => {
+                setInvalidCrate(candidateCrate);
+                setOpenErrorNotification(true);
+              });
             setCandidateCrate("");
           }}
           aria-label="add"
@@ -55,6 +75,15 @@ export const InputCrate = ({
           <AddCircle fontSize="small" />
         </IconButton>
       </Box>
+      <Snackbar
+        open={openErrorNotification}
+        autoHideDuration={3000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert severity="error" variant="filled" sx={{ width: "100%" }}>
+          Invalid crate given "{invalidCrate}"
+        </Alert>
+      </Snackbar>
     </>
   );
 };
