@@ -81,6 +81,7 @@ export const InputCrate = ({
         open={openErrorNotification}
         autoHideDuration={3000}
         onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert severity="error" variant="filled" sx={{ width: "100%" }}>
           Invalid crate given "{invalidCrate}"
