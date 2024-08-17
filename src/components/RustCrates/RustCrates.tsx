@@ -15,53 +15,36 @@ import { InputCrate } from "./InputCrate";
 import { useGetDownloadTimeSeries } from "./utils";
 
 export default function RustCrates() {
-  const [candidates, setCandidates] = useState<Set<string>>(new Set(["sqlx"]));
-  // For all the candidates, fetch the download count with the custom hook
-  // const data = useGetDownloadCount(candidates);
-  // const isAllLoading = candidates.every((c) => {
-  //   const { isLoading } = useGetDownloadTimeSeries(c);
-  //   return isLoading;
-  // });
+  const [crates, setCrates] = useState<string[]>([]);
   const { data, isLoading } = useGetDownloadTimeSeries("sqlx");
 
-  // const a = candidates.map((c) => {
-  //   const { data } = useGetDownloadTimeSeries(c);
-  //   return data;
-  // });
+  const handleDataFromChild = (data: string[]) => {
+    setCrates(data);
+  };
 
-  // const chartData
   const chartData = data?.map((d) => ({
     name: d.date,
     pv: d.downloads,
   }));
 
   return (
-    <ExampleContainer
-      title="Rust Crates"
-      date={new Date("8 17 2024")}
-      tags={["Rust", "visualization"]}
-    >
+    <ExampleContainer title="Rust Crates" date={new Date("8 17 2024")}>
       <Grid container spacing={2} alignItems="center">
         <Grid item>
           <Typography variant="body1">
             It can be difficult to appraise crates in the Rust ecosystem. There
-            are many. This is a simple component to compare key metrics when
-            appraising a crate.
+            are many. This is a component to compare key metrics when appraising
+            a crate.
           </Typography>
           <Divider />
         </Grid>
         <Grid item>
-          {/* List all the candidates */}
-          {Array.from(candidates).map((c) => (
-            <Typography key={c}>{c}</Typography>
+          {Array.from(crates).map((c) => (
+            <Typography variant={"h1"} key={c}>
+              {c}
+            </Typography>
           ))}
-
-          {/* Update state with the crate */}
-          <InputCrate
-            onSubmit={(crate) => {
-              setCandidates(new Set([...candidates, crate]));
-            }}
-          />
+          <InputCrate onCrateChange={handleDataFromChild} />
         </Grid>
         <Grid item xs={12}>
           <LineChart
@@ -88,9 +71,6 @@ export default function RustCrates() {
             />
             <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
           </LineChart>
-          {/* <Typography variant="body1">
-            {isLoading ? "Loading..." : "Loaded!"}
-          </Typography> */}
         </Grid>
       </Grid>
     </ExampleContainer>

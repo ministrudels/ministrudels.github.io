@@ -1,48 +1,60 @@
 import { AddCircle } from "@mui/icons-material";
-import { Box, IconButton, TextField } from "@mui/material";
-import { useState } from "react";
+import { Box, IconButton, TextField, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import CrateLogo from "./cargo.png";
 
 export const InputCrate = ({
-  onSubmit,
+  onCrateChange,
 }: {
-  onSubmit: (lookup: string) => void;
+  onCrateChange: (validCrates: string[]) => void;
 }) => {
-  const [crateName, setCrateName] = useState("");
+  const [crates, setCrates] = useState<Set<string>>(new Set(["sqlx"]));
+  const [candidateCrate, setCandidateCrate] = useState("");
+
+  // Pass it to the parent component
+  useEffect(() => {
+    onCrateChange(Array.from(crates));
+  }, [crates, onCrateChange]);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "flex-end",
-        justifyContent: "space-between",
-        gap: 1, // Add some space between items
-      }}
-    >
+    <>
+      {Array.from(crates).map((c) => (
+        <Typography key={c}>{c}</Typography>
+      ))}
       <Box
-        component="img"
         sx={{
-          height: 25,
-          width: 25,
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "space-between",
+          gap: 1, // Add some space between items
         }}
-        src={CrateLogo}
-      />
-      <TextField
-        value={crateName}
-        onChange={(e) => setCrateName(e.target.value)}
-        label="Crate name"
-        variant="standard"
-      />
-      <IconButton
-        onClick={() => {
-          onSubmit(crateName);
-          setCrateName("");
-        }}
-        aria-label="add"
-        size="small"
       >
-        <AddCircle fontSize="small" />
-      </IconButton>
-    </Box>
+        <Box
+          component="img"
+          sx={{
+            height: 25,
+            width: 25,
+          }}
+          src={CrateLogo}
+        />
+        <TextField
+          value={candidateCrate}
+          onChange={(e) => setCandidateCrate(e.target.value)}
+          label="Crate name"
+          variant="standard"
+        />
+        <IconButton
+          onClick={() => {
+            // TODO: Check if the crate exists
+            setCrates(new Set([...crates, candidateCrate]));
+            setCandidateCrate("");
+          }}
+          aria-label="add"
+          size="small"
+        >
+          <AddCircle fontSize="small" />
+        </IconButton>
+      </Box>
+    </>
   );
 };
