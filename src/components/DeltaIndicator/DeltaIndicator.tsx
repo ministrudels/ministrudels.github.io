@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import React from "react";
 
 const BarCSS: React.CSSProperties = {
@@ -27,15 +28,23 @@ export default function Delta({
 }) {
   const isIncrease = next > previous;
   const isDecrease = next < previous;
-  const max = Math.max(previous, next);
   const diff = Math.abs(next - previous);
   return (
-    <>
-      <div style={{ textAlign: "right" }}>
-        {isIncrease && `+`}
-        {isDecrease && `-`}
-        {diff}
-      </div>
+    <div>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "100%",
+        }}
+      >
+        <Box sx={{ textAlign: "left" }}>{`${previous} → ${next}`}</Box>
+        <Box sx={{ textAlign: "right" }}>
+          {isIncrease && `+`}
+          {isDecrease && `-`}
+          {diff}
+        </Box>
+      </Box>
       <div style={containerStyle}>
         <div
           style={{ ...BarCSS, width: "100%", backgroundColor: "lightgray" }}
@@ -83,6 +92,6 @@ export default function Delta({
           />
         )}
       </div>
-    </>
+    </div>
   );
 }

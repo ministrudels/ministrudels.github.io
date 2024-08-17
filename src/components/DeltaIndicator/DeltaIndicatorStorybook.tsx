@@ -57,20 +57,11 @@ export default function DeltaIndicatorStorybook() {
             </button>
           </div>
           <br />
-          <Grid container direction={"column"} spacing={0}>
+          <Grid container direction={"column"} spacing={5}>
             {randomValues.map(([previous, next], i) => (
-              <span key={i}>
-                <>
-                  <Grid item xs={3}>
-                    <div style={{ alignItems: "center" }}>
-                      {`${previous} → ${next}`}
-                    </div>
-                  </Grid>
-                  <Grid item>
-                    <DeltaIndicator previous={previous} next={next} />
-                  </Grid>
-                </>
-              </span>
+              <Grid item key={i}>
+                <DeltaIndicator previous={previous} next={next} />
+              </Grid>
             ))}
           </Grid>
         </Grid>
