@@ -1,5 +1,4 @@
-import { Grid, Typography } from "@mui/material";
-
+import { Divider, Grid, Typography } from "@mui/material";
 import {
   CartesianGrid,
   Legend,
@@ -10,11 +9,27 @@ import {
   YAxis,
 } from "recharts";
 import ExampleContainer from "../ExampleContainer";
+
+import { useState } from "react";
+import { InputCrate } from "./InputCrate";
 import { useGetDownloadTimeSeries } from "./utils";
 
 export default function RustCrates() {
+  const [candidates, setCandidates] = useState<Set<string>>(new Set(["sqlx"]));
+  // For all the candidates, fetch the download count with the custom hook
+  // const data = useGetDownloadCount(candidates);
+  // const isAllLoading = candidates.every((c) => {
+  //   const { isLoading } = useGetDownloadTimeSeries(c);
+  //   return isLoading;
+  // });
   const { data, isLoading } = useGetDownloadTimeSeries("sqlx");
 
+  // const a = candidates.map((c) => {
+  //   const { data } = useGetDownloadTimeSeries(c);
+  //   return data;
+  // });
+
+  // const chartData
   const chartData = data?.map((d) => ({
     name: d.date,
     pv: d.downloads,
@@ -33,6 +48,20 @@ export default function RustCrates() {
             are many. This is a simple component to compare key metrics when
             appraising a crate.
           </Typography>
+          <Divider />
+        </Grid>
+        <Grid item>
+          {/* List all the candidates */}
+          {Array.from(candidates).map((c) => (
+            <Typography key={c}>{c}</Typography>
+          ))}
+
+          {/* Update state with the crate */}
+          <InputCrate
+            onSubmit={(crate) => {
+              setCandidates(new Set([...candidates, crate]));
+            }}
+          />
         </Grid>
         <Grid item xs={12}>
           <LineChart
@@ -59,9 +88,9 @@ export default function RustCrates() {
             />
             <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
           </LineChart>
-          <Typography variant="body1">
+          {/* <Typography variant="body1">
             {isLoading ? "Loading..." : "Loaded!"}
-          </Typography>
+          </Typography> */}
         </Grid>
       </Grid>
     </ExampleContainer>
