@@ -1,9 +1,7 @@
-import { Button, ButtonGroup, Grid, Link, Typography } from "@mui/material";
+import { Button, Grid, Link, Typography } from "@mui/material";
 
 import GitHubIcon from "@mui/icons-material/GitHub";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import MenuBook from "@mui/icons-material/MenuBook";
-import ObservableIcon from "../../assets/observablehq-logo.svg";
 import Studio from "../Studio";
 
 const hoverColor = "#00bcd4";
@@ -24,66 +22,64 @@ function Intro() {
 function Projects() {
   return (
     <Grid item>
-      <Typography variant="body1">
-        <ul>
-          <li>
-            <Typography>
-              Object detection on TfL traffic cameras
-              <Link href="http://doi.org/10.1016/j.eswa.2021.115154"></Link>
-              <Button href="https://github.com/ministrudels/JamCam-Detector">
-                <MenuBook
-                  color="action"
-                  sx={{
-                    ":hover": {
-                      color: hoverColor,
-                    },
-                  }}
-                />
-              </Button>
-              <Button href="https://github.com/ministrudels/JamCam-Detector">
-                <GitHubIcon
-                  color="action"
-                  sx={{
-                    ":hover": {
-                      color: hoverColor,
-                    },
-                  }}
-                />
-              </Button>
-            </Typography>
-          </li>
-          <li>
-            <Typography>
-              Generating travel history from Google Maps location data
-              <Button href="https://github.com/ministrudels/my-travel-history">
-                <GitHubIcon
-                  color="action"
-                  sx={{
-                    ":hover": {
-                      color: hoverColor,
-                    },
-                  }}
-                />
-              </Button>
-            </Typography>
-          </li>
-          <li>
-            <Typography>
-              Find study rooms near you in UCL.
-              <Button href="https://github.com/checo193/FloppyDons">
-                <GitHubIcon
-                  color="action"
-                  sx={{
-                    ":hover": {
-                      color: hoverColor,
-                    },
-                  }}
-                />
-              </Button>
-            </Typography>
-          </li>
-        </ul>
-      </Typography>
+      <ul>
+        <li>
+          <Typography>
+            Object detection on TfL traffic cameras
+            <Link href="http://doi.org/10.1016/j.eswa.2021.115154"></Link>
+            <Button href="https://github.com/ministrudels/JamCam-Detector">
+              <MenuBook
+                color="action"
+                sx={{
+                  ":hover": {
+                    color: hoverColor,
+                  },
+                }}
+              />
+            </Button>
+            <Button href="https://github.com/ministrudels/JamCam-Detector">
+              <GitHubIcon
+                color="action"
+                sx={{
+                  ":hover": {
+                    color: hoverColor,
+                  },
+                }}
+              />
+            </Button>
+          </Typography>
+        </li>
+        <li>
+          <Typography>
+            Generating travel history from Google Maps location data
+            <Button href="https://github.com/ministrudels/my-travel-history">
+              <GitHubIcon
+                color="action"
+                sx={{
+                  ":hover": {
+                    color: hoverColor,
+                  },
+                }}
+              />
+            </Button>
+          </Typography>
+        </li>
+        <li>
+          <Typography>
+            Find study rooms near you in UCL.
+            <Button href="https://github.com/checo193/FloppyDons">
+              <GitHubIcon
+                color="action"
+                sx={{
+                  ":hover": {
+                    color: hoverColor,
+                  },
+                }}
+              />
+            </Button>
+          </Typography>
+        </li>
+      </ul>
     </Grid>
   );
 }

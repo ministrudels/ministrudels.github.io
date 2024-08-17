@@ -1,7 +1,7 @@
 import React from "react";
 
 const BarCSS: React.CSSProperties = {
-  height: "10px",
+  height: "20px",
   position: "absolute",
   borderRadius: "5px",
 };
@@ -9,7 +9,7 @@ const BarCSS: React.CSSProperties = {
 const containerStyle: React.CSSProperties = {
   position: "relative", // Parent container must be relative
   width: "100%", // Set the desired width for the container
-  height: "10px", // Ensure the container has the same height as the bars
+  height: "5px", // Ensure the container has the same height as the bars
 };
 
 /**

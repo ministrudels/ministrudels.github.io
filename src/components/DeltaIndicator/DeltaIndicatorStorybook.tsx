@@ -1,8 +1,8 @@
-import { Divider, Grid, Select, Slider, Typography } from "@mui/material";
+import { Divider, Grid, Typography } from "@mui/material";
 
+import { useState } from "react";
 import DeltaIndicator from ".";
 import ExampleContainer from "../ExampleContainer";
-import { useState } from "react";
 
 const randomizedValues = () => {
   return Array.from({ length: 5 }, () => [
@@ -57,18 +57,20 @@ export default function DeltaIndicatorStorybook() {
             </button>
           </div>
           <br />
-          <Grid container>
+          <Grid container direction={"column"} spacing={0}>
             {randomValues.map(([previous, next], i) => (
-              <>
-                <Grid item xs={3}>
-                  <div style={{ alignItems: "center" }}>
-                    {`${previous} → ${next}`}
-                  </div>
-                </Grid>
-                <Grid item xs={9}>
-                  <DeltaIndicator previous={previous} next={next} />
-                </Grid>
-              </>
+              <span key={i}>
+                <>
+                  <Grid item xs={3}>
+                    <div style={{ alignItems: "center" }}>
+                      {`${previous} → ${next}`}
+                    </div>
+                  </Grid>
+                  <Grid item>
+                    <DeltaIndicator previous={previous} next={next} />
+                  </Grid>
+                </>
+              </span>
             ))}
           </Grid>
         </Grid>
