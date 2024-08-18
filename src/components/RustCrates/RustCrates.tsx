@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Typography } from "@mui/material";
+import { Box, Card, Divider, Grid, Typography } from "@mui/material";
 import {
   CartesianGrid,
   Label,
@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import ExampleContainer from "../ExampleContainer";
 
+import moment from "moment";
 import { useState } from "react";
 import { getColourScale } from "../../utils";
 import CrateLogo from "./cargo.png";
@@ -47,45 +48,54 @@ export default function RustCrates() {
           </Typography>
           <Divider />
         </Grid>
-        <Grid item>
-          <InputCrate onCrateChange={handleDataFromChild} />
-        </Grid>
-        <Grid item xs={12}>
-          <LineChart
-            width={800}
-            height={400}
-            data={data}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis>
-              <Label
-                angle={270}
-                position="left"
-                style={{ textAnchor: "middle" }}
+        <Grid item container alignItems={"flex-start"}>
+          <Grid item xs={2}>
+            <InputCrate onCrateChange={handleDataFromChild} />
+          </Grid>
+          <Grid item>
+            <Card variant="outlined" sx={{ padding: 2 }}>
+              <LineChart
+                width={600}
+                height={400}
+                data={data}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
               >
-                Total Downloads
-              </Label>
-            </YAxis>
-            <Tooltip />
-            <Legend />
-            {crates.map((crate, index) => (
-              <Line
-                key={crate}
-                type="monotone"
-                dataKey={crate}
-                // stroke="#8884d8"
-                stroke={colourScale(index)}
-                activeDot={{ r: 8 }}
-              />
-            ))}
-          </LineChart>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="date"
+                  tick={{ fontSize: 10 }}
+                  tickFormatter={(value: string) =>
+                    moment(value).format("MMM Do")
+                  }
+                />
+                <YAxis style={{ fontSize: 10 }}>
+                  <Label
+                    angle={270}
+                    position="left"
+                    style={{ textAnchor: "middle" }}
+                  >
+                    Total Downloads
+                  </Label>
+                </YAxis>
+                <Tooltip />
+                <Legend />
+                {crates.map((crate, index) => (
+                  <Line
+                    key={crate}
+                    type="monotone"
+                    dataKey={crate}
+                    stroke={colourScale(index)}
+                    activeDot={{ r: 8 }}
+                  />
+                ))}
+              </LineChart>
+            </Card>
+          </Grid>
         </Grid>
       </Grid>
     </ExampleContainer>

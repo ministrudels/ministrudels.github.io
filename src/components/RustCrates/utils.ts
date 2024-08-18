@@ -9,6 +9,7 @@ export const cratesIO = new CratesIO();
 export const sumDownloadsToDate = (
   data: Download[]
 ): Pick<Download, "date" | "downloads">[] => {
+  console.log(data);
   const grouped = data.reduce((acc: { [key: string]: number }, curr) => {
     if (acc[curr.date]) {
       acc[curr.date] += curr.downloads;
@@ -28,9 +29,8 @@ export const sumDownloadsToDate = (
  */
 export const useGetDownloadTimeSeries = (packages: string[]) => {
   const [data, setData] = useState<Record<string, number | string>[]>([]);
-  // const [data, setData] = useState<[]>();
   const [isLoading, setLoading] = useState(true);
-  cratesIO.api.crates.getCrates;
+
   useEffect(() => {
     const fetchData = async () => {
       // Step 1: Fetch the data
@@ -38,6 +38,7 @@ export const useGetDownloadTimeSeries = (packages: string[]) => {
         packages.map((p) => cratesIO.api.crates.getDownloads(p))
       );
 
+      console.log(packageDownloads);
       // Step 2: Transform the to time series data structure for recharts
       const downloadsByDate: Record<
         string,

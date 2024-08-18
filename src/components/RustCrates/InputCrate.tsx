@@ -58,9 +58,7 @@ export const InputCrate = ({
   return (
     <>
       {/* Crate input form */}
-      <Box
-        sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}
-      >
+      <Box>
         <Box>
           <Box
             component="form"
@@ -79,7 +77,7 @@ export const InputCrate = ({
             </IconButton>
           </Box>
         </Box>
-        <Box sx={{ marginTop: "20px", marginLeft: "200px" }}>
+        <Box sx={{ marginTop: "20px" }}>
           {/* Display the crates along with a x button to delete it from the list */}
           {Array.from(crates).map((crate) => (
             <Box sx={horizontalSX} key={crate}>
