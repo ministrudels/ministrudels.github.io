@@ -67,7 +67,7 @@ export default function RustCrates() {
             <Grid item xs={12}>
               <VersionTimeline crates={crates} colourScale={colourScale} />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={8}>
               <LatestVersions crates={crates} colourScale={colourScale} />
             </Grid>
           </Grid>

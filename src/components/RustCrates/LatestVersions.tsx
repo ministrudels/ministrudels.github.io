@@ -15,7 +15,7 @@ export const LatestVersions = ({
     <Card sx={{ width: "100%", padding: 2 }}>
       <Typography variant="body1">Latest Version</Typography>
       <Grid container>
-        <Grid item xs={4}>
+        <Grid item>
           <List>
             {crates.map((crate) => (
               <ListItem key={crate}>
