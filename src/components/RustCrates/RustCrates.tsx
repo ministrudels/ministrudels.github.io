@@ -49,7 +49,7 @@ export default function RustCrates() {
             width: "100%",
           }}
         >
-          <Grid item xs={2}>
+          <Grid item xs={2} sx={{ paddingRight: "10px" }}>
             <InputCrate onCrateChange={handleDataFromChild} />
           </Grid>
           <Grid
