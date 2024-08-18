@@ -1,6 +1,7 @@
 import { Card, Typography } from "@mui/material";
 import moment from "moment";
 import {
+  Cell,
   ResponsiveContainer,
   Scatter,
   ScatterChart,
@@ -11,13 +12,25 @@ import {
 import { getColourScale } from "../../utils";
 import { useGetReleases } from "./utils";
 
+interface CustomShapeProps {
+  cx?: number;
+  cy?: number;
+  // payload?: Release;
+}
+
+// const CustomShape: React.FC<CustomShapeProps> = ({ cx, cy, payload }) => {
+
+// };
+
 export const VersionTimeline = ({ crates }: { crates: string[] }) => {
   const now = moment();
   const oneYearAgo = now.clone().subtract(1, "year");
   const { data } = useGetReleases(crates, oneYearAgo);
   // const timelineData = Object.values(data).flatMap((releases) => releases);
   const colourScale = getColourScale(crates.length);
-
+  // console.log(data);
+  // merge all the releases into one array
+  const releases = Object.values(data).flatMap((releases) => releases);
   return (
     <Card sx={{ width: "100%", padding: 2 }}>
       <Typography variant="body1">Version Releases</Typography>
@@ -48,19 +61,35 @@ export const VersionTimeline = ({ crates }: { crates: string[] }) => {
             cursor={{ strokeDasharray: "3 3" }}
             wrapperStyle={{ zIndex: 100 }}
             content={({ active, payload, label }) => {
-              // console.log(a);
-              console.log(active, payload, label);
-              return <div>{"hello"}</div>;
+              const packageName = payload?.[0]?.payload.package as string;
+              const date = moment(payload?.[0]?.payload.date).format(
+                "YY MMM D"
+              );
+              const value = payload?.[0]?.payload.value;
+              return (
+                <Card
+                  sx={{
+                    padding: 1,
+                    backgroundColor: "#ffffff",
+                  }}
+                >
+                  <span style={{ color: colourScale(value) }}>
+                    {packageName}
+                  </span>{" "}
+                  released on {date}
+                </Card>
+              );
             }}
           />
-          {Object.entries(data).map(([crate, releases], index) => (
-            <Scatter
-              key={crate}
-              name={crate}
-              data={releases}
-              fill={colourScale(index)}
-            />
-          ))}
+          <Scatter name={"some name"} data={releases}>
+            {releases.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={colourScale(entry.value as number)}
+              />
+            ))}
+          </Scatter>
+
           <Tooltip />
         </ScatterChart>
       </ResponsiveContainer>

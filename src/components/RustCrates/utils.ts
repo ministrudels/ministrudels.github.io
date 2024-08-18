@@ -124,6 +124,7 @@ export const useGetReleases = (packages: string[], since: moment.Moment) => {
           .map(({ created_at, crate }) => ({
             value: i + 1,
             date: moment(created_at).valueOf(),
+            package: crate,
           }));
 
         result[crate] = tmp;
