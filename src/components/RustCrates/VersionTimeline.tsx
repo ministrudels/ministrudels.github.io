@@ -12,23 +12,11 @@ import {
 import { getColourScale } from "../../utils";
 import { useGetReleases } from "./utils";
 
-interface CustomShapeProps {
-  cx?: number;
-  cy?: number;
-  // payload?: Release;
-}
-
-// const CustomShape: React.FC<CustomShapeProps> = ({ cx, cy, payload }) => {
-
-// };
-
 export const VersionTimeline = ({ crates }: { crates: string[] }) => {
   const now = moment();
   const oneYearAgo = now.clone().subtract(1, "year");
   const { data } = useGetReleases(crates, oneYearAgo);
-  // const timelineData = Object.values(data).flatMap((releases) => releases);
   const colourScale = getColourScale(crates.length);
-  // console.log(data);
   // merge all the releases into one array
   const releases = Object.values(data).flatMap((releases) => releases);
   return (
@@ -60,7 +48,7 @@ export const VersionTimeline = ({ crates }: { crates: string[] }) => {
           <Tooltip
             cursor={{ strokeDasharray: "3 3" }}
             wrapperStyle={{ zIndex: 100 }}
-            content={({ active, payload, label }) => {
+            content={({ payload }) => {
               const packageName = payload?.[0]?.payload.package as string;
               const date = moment(payload?.[0]?.payload.date).format(
                 "YY MMM D"
