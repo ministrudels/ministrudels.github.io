@@ -19,6 +19,10 @@ const horizontalSX: SxProps<Theme> = {
   gap: 1, // Add some space between items
 };
 
+/**
+ * Crate input form
+ * @param onCrateChange - Callback function to pass the valid crates to the parent component
+ */
 export const InputCrate = ({
   onCrateChange,
 }: {

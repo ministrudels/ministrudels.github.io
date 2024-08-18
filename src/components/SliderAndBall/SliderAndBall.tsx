@@ -3,10 +3,10 @@ import * as d3 from "d3";
 import { Grid, IconButton, Slider, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 
-import ExampleContainer from "../ExampleContainer";
 import PauseIcon from "@mui/icons-material/Pause";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { getColourScale } from "../../utils";
+import ExampleContainer from "../ExampleContainer";
 
 const margin = 10;
 const height = 200;

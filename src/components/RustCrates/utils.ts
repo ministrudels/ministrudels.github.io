@@ -24,18 +24,45 @@ export const sumDownloadsToDate = (
 };
 
 /**
- * hook to get download time series for a package
+ * hook to get download time series for a package. x axis is "date"
  */
-export const useGetDownloadTimeSeries = (packageName: string) => {
-  const [data, setData] = useState<Pick<Download, "date" | "downloads">[]>();
+export const useGetDownloadTimeSeries = (packages: string[]) => {
+  const [data, setData] = useState<Record<string, number | string>[]>([]);
+  // const [data, setData] = useState<[]>();
   const [isLoading, setLoading] = useState(true);
-
+  cratesIO.api.crates.getCrates;
   useEffect(() => {
-    cratesIO.api.crates.getDownloads(packageName).then((data) => {
-      setData(sumDownloadsToDate(data.version_downloads));
+    const fetchData = async () => {
+      // Step 1: Fetch the data
+      const packageDownloads = await Promise.all(
+        packages.map((p) => cratesIO.api.crates.getDownloads(p))
+      );
+
+      // Step 2: Transform the to time series data structure for recharts
+      const downloadsByDate: Record<
+        string,
+        Record<string, number | string>
+      > = {};
+
+      packageDownloads.forEach((data, index) => {
+        const packageName = packages[index];
+        data.version_downloads.forEach((entry) => {
+          if (!downloadsByDate[entry.date]) {
+            downloadsByDate[entry.date] = { date: entry.date };
+          }
+          downloadsByDate[entry.date][packageName] = entry.downloads;
+        });
+      });
+
+      const rechartsFormat = Object.values(downloadsByDate).sort((a, b) =>
+        a.date.toString().localeCompare(b.date.toString())
+      );
+
+      setData(rechartsFormat);
       setLoading(false);
-    });
-  }, [packageName]);
+    };
+    fetchData();
+  }, [packages]);
 
   return { data, isLoading };
 };

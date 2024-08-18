@@ -1,6 +1,7 @@
 import { Box, Divider, Grid, Typography } from "@mui/material";
 import {
   CartesianGrid,
+  Label,
   Legend,
   Line,
   LineChart,
@@ -11,22 +12,19 @@ import {
 import ExampleContainer from "../ExampleContainer";
 
 import { useState } from "react";
+import { getColourScale } from "../../utils";
 import CrateLogo from "./cargo.png";
 import { InputCrate } from "./InputCrate";
 import { useGetDownloadTimeSeries } from "./utils";
 
 export default function RustCrates() {
   const [crates, setCrates] = useState<string[]>([]);
-  const { data, isLoading } = useGetDownloadTimeSeries("sqlx");
+  const { data, isLoading } = useGetDownloadTimeSeries(crates);
 
   const handleDataFromChild = (data: string[]) => {
     setCrates(data);
   };
-
-  const chartData = data?.map((d) => ({
-    name: d.date,
-    pv: d.downloads,
-  }));
+  const colourScale = getColourScale(crates.length);
 
   return (
     <ExampleContainer title="Rust Crates" date={new Date("8 17 2024")}>
@@ -50,18 +48,13 @@ export default function RustCrates() {
           <Divider />
         </Grid>
         <Grid item>
-          {Array.from(crates).map((c) => (
-            <Typography variant={"h1"} key={c}>
-              {c}
-            </Typography>
-          ))}
           <InputCrate onCrateChange={handleDataFromChild} />
         </Grid>
         <Grid item xs={12}>
           <LineChart
             width={800}
-            height={300}
-            data={chartData}
+            height={400}
+            data={data}
             margin={{
               top: 5,
               right: 30,
@@ -70,17 +63,28 @@ export default function RustCrates() {
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
+            <XAxis dataKey="date" />
+            <YAxis>
+              <Label
+                angle={270}
+                position="left"
+                style={{ textAnchor: "middle" }}
+              >
+                Total Downloads
+              </Label>
+            </YAxis>
             <Tooltip />
             <Legend />
-            <Line
-              type="monotone"
-              dataKey="pv"
-              stroke="#8884d8"
-              activeDot={{ r: 8 }}
-            />
-            <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+            {crates.map((crate, index) => (
+              <Line
+                key={crate}
+                type="monotone"
+                dataKey={crate}
+                // stroke="#8884d8"
+                stroke={colourScale(index)}
+                activeDot={{ r: 8 }}
+              />
+            ))}
           </LineChart>
         </Grid>
       </Grid>

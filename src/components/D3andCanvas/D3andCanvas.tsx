@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 import { RefObject, useEffect, useRef, useState } from "react";
 
-import ExampleContainer from "../ExampleContainer";
 import { getColourScale } from "../../utils";
+import ExampleContainer from "../ExampleContainer";
 
 const MAX_CELLS = 15000;
 
