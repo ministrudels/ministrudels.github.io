@@ -23,6 +23,7 @@ export default function Header(props: { sections: SectionArray }) {
         {sections.map((section) => {
           return (
             <Button
+              key={section.title}
               href={section.url}
               sx={{
                 color: "black",

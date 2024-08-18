@@ -8,7 +8,7 @@ In the project directory, you can run:
 ### `yarn`
 Install all packages.
 
-### `yarm dev`
+### `yarn dev`
 Start the development server.
 
 ### `yarn build`
