@@ -1,5 +1,4 @@
 import { Card, Typography } from "@mui/material";
-import moment from "moment";
 import {
   ResponsiveContainer,
   Scatter,
@@ -8,18 +7,12 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { getColourScale } from "../../utils";
 import { useGetReleases } from "./utils";
 
 export const VersionTimeline = ({ crates }: { crates: string[] }) => {
   const { data } = useGetReleases(crates);
-  const data01 = [
-    { date: "2022-01-14", index: 1, value: 1 },
-    { date: "2022-01-16", index: 1, value: 10 },
-    { date: "2022-01-20", index: 1, value: 170 },
-  ].map((entry) => ({
-    ...entry,
-    date: moment(entry.date).valueOf(),
-  }));
+  const colourScale = getColourScale(crates.length);
 
   return (
     <Card sx={{ width: "100%", padding: 2 }}>
@@ -43,17 +36,20 @@ export const VersionTimeline = ({ crates }: { crates: string[] }) => {
           />
           <YAxis
             type="number"
-            dataKey="index"
-            name="sunday"
-            // height={10}
-            // width={80}
+            dataKey="value"
             tick={false}
             tickLine={false}
             axisLine={false}
           />
-          {/* <ZAxis type="number" dataKey="value" domain={domain} range={range} /> */}
           {/* <Tooltip cursor={{ strokeDasharray: '3 3' }} wrapperStyle={{ zIndex: 100 }} content={this.renderTooltip} /> */}
-          <Scatter data={data01} fill="#8884d8" />
+          {Object.entries(data).map(([crate, releases], index) => (
+            <Scatter
+              key={crate}
+              name={crate}
+              data={releases}
+              fill={colourScale(index)}
+            />
+          ))}
           <Tooltip />
         </ScatterChart>
       </ResponsiveContainer>

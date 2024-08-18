@@ -62,11 +62,11 @@ export default function RustCrates() {
             <Grid item xs={12}>
               <TimeSeries crates={crates} />
             </Grid>
+            <Grid item xs={12}>
+              <VersionTimeline crates={crates} />
+            </Grid>
             <Grid item xs={4}>
               <LatestVersions crates={crates} />
-            </Grid>
-            <Grid item xs={8}>
-              <VersionTimeline crates={crates} />
             </Grid>
           </Grid>
         </Grid>

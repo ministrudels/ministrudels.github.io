@@ -108,7 +108,9 @@ export const useGetReleases = (
   packages: string[],
   since = moment().subtract(1, "year")
 ) => {
-  const [data, setData] = useState<Record<string, string[]>>({});
+  const [data, setData] = useState<
+    Record<string, Record<string, number | string>[]>
+  >({});
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -117,26 +119,20 @@ export const useGetReleases = (
         packages.map((p) => cratesIO.api.crates.getVersions(p))
       );
 
-      const releases = packageReleases.reduce(
-        (acc, curr, index) => ({
-          ...acc,
-          [packages[index]]: curr.versions.filter(({ created_at }) =>
-            moment(created_at).isAfter(since)
-          ),
-        }),
-        // {} as Record<string, { date: string; version: string }[]>
-        {}
-      );
-      // console.log(releases);
+      let result: Record<string, Record<string, number | string>[]> = {};
+      for (let i = 0; i < packageReleases.length; i++) {
+        const crate = packages[i];
+        const tmp = packageReleases[i].versions
+          .filter(({ created_at }) => moment(created_at).isAfter(since))
+          .map(({ created_at, crate }) => ({
+            value: i + 1,
+            date: moment(created_at).valueOf(),
+          }));
 
-      // const allReleases = Object.values(releases)
-      //   .flat()
-      //   .map((entry) => ({
-      //     ...entry,
-      //     date: new Date(entry.date).valueOf(),
-      //   }));
+        result[crate] = tmp;
+      }
 
-      setData({});
+      setData(result);
       setLoading(false);
     };
     fetchData();
