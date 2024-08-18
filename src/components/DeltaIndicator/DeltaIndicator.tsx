@@ -1,5 +1,10 @@
 import { Box } from "@mui/material";
+import * as d3 from "d3";
 import React from "react";
+
+const NEUTRAL = d3.interpolateCool(0.3);
+const INCREASE = d3.interpolateCool(0.8);
+const DECREASE = d3.interpolateWarm(0.4);
 
 const BarCSS: React.CSSProperties = {
   height: "20px",
@@ -52,13 +57,17 @@ export default function Delta({
         {isIncrease && (
           <>
             <div
-              style={{ ...BarCSS, width: `${next}%`, backgroundColor: "green" }}
+              style={{
+                ...BarCSS,
+                width: `${next}%`,
+                backgroundColor: INCREASE,
+              }}
             />
             <div
               style={{
                 ...BarCSS,
                 width: `${previous}%`,
-                backgroundColor: "blue",
+                backgroundColor: NEUTRAL,
               }}
             />
           </>
@@ -69,7 +78,7 @@ export default function Delta({
               style={{
                 ...BarCSS,
                 width: `${previous}%`,
-                backgroundColor: "blue",
+                backgroundColor: NEUTRAL,
               }}
             />
             <div
@@ -77,7 +86,7 @@ export default function Delta({
                 ...BarCSS,
                 left: `${next}%`,
                 width: `${diff}%`,
-                backgroundColor: "red",
+                backgroundColor: DECREASE,
               }}
             />
           </>
@@ -87,7 +96,7 @@ export default function Delta({
             style={{
               ...BarCSS,
               width: `${previous}%`,
-              backgroundColor: "blue",
+              backgroundColor: NEUTRAL,
             }}
           />
         )}
