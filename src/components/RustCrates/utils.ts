@@ -1,4 +1,5 @@
 import { CratesIO, Download } from "crates.io";
+import moment from "moment";
 import { useEffect, useState } from "react";
 
 export const cratesIO = new CratesIO();
@@ -67,7 +68,7 @@ export const useGetDownloadTimeSeries = (packages: string[]) => {
 };
 
 /**
- * hook to get the latest versions of a package
+ * hook to get the latest versions of packages
  */
 export const useGetLatestVersions = (packages: string[]) => {
   const [data, setData] = useState<Record<string, string>>({});
@@ -86,6 +87,50 @@ export const useGetLatestVersions = (packages: string[]) => {
         {} as Record<string, string>
       );
       setData(latestVersions);
+      setLoading(false);
+    };
+    fetchData();
+  }, [packages]);
+
+  return { data, isLoading };
+};
+
+/**
+ * hook to get the latest version releases of packages
+ */
+export const useGetReleases = (
+  packages: string[],
+  since = moment().subtract(1, "year")
+) => {
+  const [data, setData] = useState<Record<string, string[]>>({});
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const packageReleases = await Promise.all(
+        packages.map((p) => cratesIO.api.crates.getVersions(p))
+      );
+
+      console.log(packageReleases);
+      // const releases = packageReleases.reduce(
+      //   (acc, curr, index) => ({
+      //     ...acc,
+      //     [packages[index]]: curr.releases.map((r) => ({
+      //       date: r.created_at,
+      //       version: r.version,
+      //     })),
+      //   }),
+      //   {} as Record<string, { date: string; version: string }[]>
+      // );
+
+      // const allReleases = Object.values(releases)
+      //   .flat()
+      //   .map((entry) => ({
+      //     ...entry,
+      //     date: new Date(entry.date).valueOf(),
+      //   }));
+
+      setData({});
       setLoading(false);
     };
     fetchData();

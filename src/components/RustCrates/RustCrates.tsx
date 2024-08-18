@@ -6,6 +6,7 @@ import CrateLogo from "./cargo.png";
 import { InputCrate } from "./InputCrate";
 import { LatestVersions } from "./LatestVersions";
 import { TimeSeries } from "./TimeSeries";
+import { VersionTimeline } from "./VersionTimeline";
 
 export default function RustCrates() {
   const [crates, setCrates] = useState<string[]>([]);
@@ -63,6 +64,9 @@ export default function RustCrates() {
             </Grid>
             <Grid item xs={4}>
               <LatestVersions crates={crates} />
+            </Grid>
+            <Grid item xs={8}>
+              <VersionTimeline crates={crates} />
             </Grid>
           </Grid>
         </Grid>

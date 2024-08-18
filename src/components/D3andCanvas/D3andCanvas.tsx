@@ -13,12 +13,12 @@ import { RefObject, useEffect, useRef, useState } from "react";
 import { getColourScale } from "../../utils";
 import ExampleContainer from "../ExampleContainer";
 
-const MAX_CELLS = 15000;
+const MAX_CELLS = 100000;
 
 const width = Math.min(Math.max(window.innerWidth - 400, 400), 600);
 const layout = {
   cellSpacing: 1,
-  cellSize: 3,
+  cellSize: 1,
 };
 const cellsPerRow = width / (layout.cellSize + layout.cellSpacing);
 const height =
@@ -26,7 +26,7 @@ const height =
 
 type GraphicsElement = "canvas" | "svg";
 
-export default function D3andCanvasl() {
+export default function D3andCanvas() {
   const [graphicsElement, setGraphicsElement] =
     useState<GraphicsElement>("svg");
   const [squareCount, setSquareCount] = useState(12000);
@@ -187,10 +187,8 @@ export default function D3andCanvasl() {
         style={{
           height: height,
           width: width + 1,
-          // border: 'solid',
           borderRadius: 2,
           borderWidth: 1,
-          // borderColor: 'gray',
           display: "block",
           margin: "10px auto",
         }}
