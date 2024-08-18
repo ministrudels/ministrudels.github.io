@@ -8,9 +8,10 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { useGetReleases } from "./utils";
 
 export const VersionTimeline = ({ crates }: { crates: string[] }) => {
-  // const { data } = useGetLatestVersions(crates);
+  const { data } = useGetReleases(crates);
   const data01 = [
     { date: "2022-01-14", index: 1, value: 1 },
     { date: "2022-01-16", index: 1, value: 10 },

@@ -28,7 +28,7 @@ export const InputCrate = ({
 }: {
   onCrateChange: (validCrates: string[]) => void;
 }) => {
-  const [crates, setCrates] = useState<Set<string>>(new Set(["sqlx"]));
+  const [crates, setCrates] = useState<Set<string>>(new Set(["tokio"]));
   const [candidateCrate, setCandidateCrate] = useState("");
   const [openErrorNotification, setOpenErrorNotification] = useState(false);
   const [invalidCrate, setInvalidCrate] = useState("");
