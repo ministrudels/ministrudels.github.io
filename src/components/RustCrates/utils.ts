@@ -104,10 +104,7 @@ export const useGetLatestVersions = (packages: string[]) => {
 /**
  * hook to get the latest version releases of packages
  */
-export const useGetReleases = (
-  packages: string[],
-  since = moment().subtract(1, "year")
-) => {
+export const useGetReleases = (packages: string[], since: moment.Moment) => {
   const [data, setData] = useState<
     Record<string, Record<string, number | string>[]>
   >({});

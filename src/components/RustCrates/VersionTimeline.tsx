@@ -1,4 +1,5 @@
 import { Card, Typography } from "@mui/material";
+import moment from "moment";
 import {
   ResponsiveContainer,
   Scatter,
@@ -11,27 +12,29 @@ import { getColourScale } from "../../utils";
 import { useGetReleases } from "./utils";
 
 export const VersionTimeline = ({ crates }: { crates: string[] }) => {
-  const { data } = useGetReleases(crates);
+  const now = moment();
+  const oneYearAgo = now.clone().subtract(1, "year");
+  const { data } = useGetReleases(crates, oneYearAgo);
+  // const timelineData = Object.values(data).flatMap((releases) => releases);
   const colourScale = getColourScale(crates.length);
 
   return (
     <Card sx={{ width: "100%", padding: 2 }}>
       <Typography variant="body1">Version Releases</Typography>
-      <ResponsiveContainer width="100%" height={60}>
+      <ResponsiveContainer width="100%" height={100}>
         <ScatterChart
           margin={{
             top: 10,
-            right: 0,
-            bottom: 0,
-            left: 0,
           }}
         >
           <XAxis
-            // type="number"
+            type="number"
             dataKey="date"
             // interval={0}
-            // tick={{ fontSize: 0 }}
-            // tickLine={{ transform: "translate(0, -6)" }}
+            ticks={[oneYearAgo.valueOf(), now.valueOf()]}
+            domain={[oneYearAgo.valueOf(), now.valueOf()]}
+            tick={{ fontSize: 10 }}
+            tickFormatter={(value: string) => moment(value).format("YY MMM D")}
             scale={"time"}
           />
           <YAxis
@@ -41,7 +44,15 @@ export const VersionTimeline = ({ crates }: { crates: string[] }) => {
             tickLine={false}
             axisLine={false}
           />
-          {/* <Tooltip cursor={{ strokeDasharray: '3 3' }} wrapperStyle={{ zIndex: 100 }} content={this.renderTooltip} /> */}
+          <Tooltip
+            cursor={{ strokeDasharray: "3 3" }}
+            wrapperStyle={{ zIndex: 100 }}
+            content={({ active, payload, label }) => {
+              // console.log(a);
+              console.log(active, payload, label);
+              return <div>{"hello"}</div>;
+            }}
+          />
           {Object.entries(data).map(([crate, releases], index) => (
             <Scatter
               key={crate}
