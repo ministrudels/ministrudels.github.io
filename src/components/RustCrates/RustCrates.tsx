@@ -2,6 +2,7 @@ import { Box, Grid, Typography } from "@mui/material";
 import ExampleContainer from "../ExampleContainer";
 
 import { useState } from "react";
+import { getOrdinalColourScale } from "../../utils";
 import CrateLogo from "./cargo.png";
 import { InputCrate } from "./InputCrate";
 import { LatestVersions } from "./LatestVersions";
@@ -11,6 +12,7 @@ import { VersionTimeline } from "./VersionTimeline";
 export default function RustCrates() {
   const [crates, setCrates] = useState<string[]>([]);
 
+  const colourScale = getOrdinalColourScale(crates);
   const handleDataFromChild = (data: string[]) => {
     setCrates(data);
   };
@@ -60,13 +62,13 @@ export default function RustCrates() {
             }}
           >
             <Grid item xs={12}>
-              <TimeSeries crates={crates} />
+              <TimeSeries crates={crates} colourScale={colourScale} />
             </Grid>
             <Grid item xs={12}>
-              <VersionTimeline crates={crates} />
+              <VersionTimeline crates={crates} colourScale={colourScale} />
             </Grid>
             <Grid item xs={4}>
-              <LatestVersions crates={crates} />
+              <LatestVersions crates={crates} colourScale={colourScale} />
             </Grid>
           </Grid>
         </Grid>

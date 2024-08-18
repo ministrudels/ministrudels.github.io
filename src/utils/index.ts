@@ -4,3 +4,8 @@ import * as d3 from "d3";
 export const getColourScale = (number: number) => {
   return d3.scaleSequential([0, number], d3.interpolateRainbow);
 };
+
+/** Given an array, return a n ordinal colour scale */
+export const getOrdinalColourScale = (array: string[]) => {
+  return d3.scaleOrdinal(d3.schemeCategory10).domain(array);
+};

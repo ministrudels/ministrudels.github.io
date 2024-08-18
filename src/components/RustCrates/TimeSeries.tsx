@@ -10,14 +10,18 @@ import {
   YAxis,
 } from "recharts";
 
+import { ScaleOrdinal } from "d3";
 import moment from "moment";
-import { getColourScale } from "../../utils";
 import { useGetDownloadTimeSeries } from "./utils";
 
-export const TimeSeries = ({ crates }: { crates: string[] }) => {
+export const TimeSeries = ({
+  crates,
+  colourScale,
+}: {
+  crates: string[];
+  colourScale: ScaleOrdinal<string, string, never>;
+}) => {
   const { data } = useGetDownloadTimeSeries(crates);
-
-  const colourScale = getColourScale(crates.length);
 
   return (
     <Card sx={{ width: "100%", padding: 2 }}>
@@ -28,7 +32,7 @@ export const TimeSeries = ({ crates }: { crates: string[] }) => {
           margin={{
             top: 5,
             right: 30,
-            left: 20,
+            left: 5,
             bottom: 5,
           }}
         >
@@ -41,12 +45,12 @@ export const TimeSeries = ({ crates }: { crates: string[] }) => {
           <YAxis style={{ fontSize: 10 }} />
           <Tooltip />
           <Legend />
-          {crates.map((crate, index) => (
+          {crates.map((crate) => (
             <Line
               key={crate}
               type="monotone"
               dataKey={crate}
-              stroke={colourScale(index)}
+              stroke={colourScale(crate)}
               dot={false}
             />
           ))}

@@ -1,10 +1,15 @@
 import { Card, Grid, List, ListItem, Typography } from "@mui/material";
-import { getColourScale } from "../../utils";
+import { ScaleOrdinal } from "d3";
 import { useGetLatestVersions } from "./utils";
 
-export const LatestVersions = ({ crates }: { crates: string[] }) => {
+export const LatestVersions = ({
+  crates,
+  colourScale,
+}: {
+  crates: string[];
+  colourScale: ScaleOrdinal<string, string, never>;
+}) => {
   const { data } = useGetLatestVersions(crates);
-  const scale = getColourScale(crates.length);
 
   return (
     <Card sx={{ width: "100%", padding: 2 }}>
@@ -23,9 +28,12 @@ export const LatestVersions = ({ crates }: { crates: string[] }) => {
         </Grid>
         <Grid item>
           <List>
-            {crates.map((crate, i) => (
+            {crates.map((crate) => (
               <ListItem key={crate}>
-                <Typography sx={{ color: scale(i) }} variant="caption">
+                <Typography
+                  sx={{ color: colourScale(crate) }}
+                  variant="caption"
+                >
                   {crate}
                 </Typography>
               </ListItem>

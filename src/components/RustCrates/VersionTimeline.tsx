@@ -1,4 +1,5 @@
 import { Card, Typography } from "@mui/material";
+import { ScaleOrdinal } from "d3";
 import moment from "moment";
 import {
   Cell,
@@ -9,14 +10,19 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { getColourScale } from "../../utils";
 import { useGetReleases } from "./utils";
 
-export const VersionTimeline = ({ crates }: { crates: string[] }) => {
+export const VersionTimeline = ({
+  crates,
+  colourScale,
+}: {
+  crates: string[];
+  colourScale: ScaleOrdinal<string, string, never>;
+}) => {
   const now = moment();
   const oneYearAgo = now.clone().subtract(1, "year");
   const { data } = useGetReleases(crates, oneYearAgo);
-  const colourScale = getColourScale(crates.length);
+
   // merge all the releases into one array
   const releases = Object.values(data).flatMap((releases) => releases);
   return (
@@ -26,13 +32,19 @@ export const VersionTimeline = ({ crates }: { crates: string[] }) => {
         <ScatterChart
           margin={{
             top: 10,
+            right: 30,
           }}
         >
           <XAxis
             type="number"
             dataKey="date"
-            // interval={0}
-            ticks={[oneYearAgo.valueOf(), now.valueOf()]}
+            ticks={[
+              oneYearAgo.valueOf(),
+              now.clone().subtract(9, "month").valueOf(),
+              now.clone().subtract(6, "month").valueOf(),
+              now.clone().subtract(3, "month").valueOf(),
+              now.valueOf(),
+            ]}
             domain={[oneYearAgo.valueOf(), now.valueOf()]}
             tick={{ fontSize: 10 }}
             tickFormatter={(value: string) => moment(value).format("YY MMM D")}
@@ -47,13 +59,11 @@ export const VersionTimeline = ({ crates }: { crates: string[] }) => {
           />
           <Tooltip
             cursor={{ strokeDasharray: "3 3" }}
-            wrapperStyle={{ zIndex: 100 }}
             content={({ payload }) => {
               const packageName = payload?.[0]?.payload.package as string;
               const date = moment(payload?.[0]?.payload.date).format(
                 "YY MMM D"
               );
-              const value = payload?.[0]?.payload.value;
               return (
                 <Card
                   sx={{
@@ -61,7 +71,7 @@ export const VersionTimeline = ({ crates }: { crates: string[] }) => {
                     backgroundColor: "#ffffff",
                   }}
                 >
-                  <span style={{ color: colourScale(value) }}>
+                  <span style={{ color: colourScale(packageName) }}>
                     {packageName}
                   </span>{" "}
                   released on {date}
@@ -73,12 +83,10 @@ export const VersionTimeline = ({ crates }: { crates: string[] }) => {
             {releases.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
-                fill={colourScale(entry.value as number)}
+                fill={colourScale(entry.package as string)}
               />
             ))}
           </Scatter>
-
-          <Tooltip />
         </ScatterChart>
       </ResponsiveContainer>
     </Card>
