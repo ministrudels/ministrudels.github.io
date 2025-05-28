@@ -9,7 +9,6 @@ export function useCratesDownloads(crateNames: string[]) {
     queries: crateNames.map((crateName) => ({
       queryKey: ["crateDownloads", crateName],
       queryFn: () => cratesIO.api.crates.getDownloads(crateName),
-      enabled: !!crateName,
     })),
   });
 }
@@ -23,3 +22,5 @@ export function useCratesDownloadsChart(crateNames: string[]) {
     data,
   };
 }
+
+// TODO: More hooks
