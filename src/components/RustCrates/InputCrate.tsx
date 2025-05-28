@@ -12,11 +12,23 @@ import {
 import { useEffect, useState } from "react";
 
 import { cratesIO } from "./utils";
+import Cookies from "js-cookie";
 
 const horizontalSX: SxProps<Theme> = {
   display: "flex",
   alignItems: "flex-end",
   gap: 1, // Add some space between items
+};
+
+const CRATES_COOKIE_NAME = "selected_crates";
+
+// Get crates from cookie or use default values
+const getCrates = (): Set<string> => {
+  const savedCrates = Cookies.get(CRATES_COOKIE_NAME);
+  if (savedCrates) {
+    return new Set(JSON.parse(savedCrates));
+  }
+  return new Set();
 };
 
 /**
@@ -28,9 +40,7 @@ export const InputCrate = ({
 }: {
   onCrateChange: (validCrates: string[]) => void;
 }) => {
-  const [crates, setCrates] = useState<Set<string>>(
-    new Set(["sqlx", "diesel", "sea-orm"])
-  );
+  const [crates, setCrates] = useState<Set<string>>(getCrates());
   const [candidateCrate, setCandidateCrate] = useState("");
   const [openErrorNotification, setOpenErrorNotification] = useState(false);
   const [invalidCrate, setInvalidCrate] = useState("");
@@ -39,6 +49,14 @@ export const InputCrate = ({
   useEffect(() => {
     onCrateChange(Array.from(crates));
   }, [crates]);
+
+  // Updates the crates state and the cookie
+  const updateCrates = (newCrates: Set<string>) => {
+    setCrates(newCrates);
+    Cookies.set(CRATES_COOKIE_NAME, JSON.stringify(Array.from(newCrates)), {
+      expires: 365,
+    });
+  };
 
   const handleSnackbarClose = () => {
     setInvalidCrate("");
@@ -49,7 +67,7 @@ export const InputCrate = ({
     e.preventDefault();
     cratesIO.api.crates
       .getCrate(candidateCrate)
-      .then(() => setCrates(new Set([...crates, candidateCrate])))
+      .then(() => updateCrates(new Set([...crates, candidateCrate])))
       .catch(() => {
         setInvalidCrate(candidateCrate);
         setOpenErrorNotification(true);
@@ -87,7 +105,7 @@ export const InputCrate = ({
                 onClick={() => {
                   const newCrates = new Set(crates);
                   newCrates.delete(crate);
-                  setCrates(newCrates);
+                  updateCrates(newCrates);
                 }}
                 aria-label="delete"
                 size="small"
