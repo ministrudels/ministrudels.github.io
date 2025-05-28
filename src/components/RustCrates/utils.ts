@@ -17,6 +17,7 @@ type EnhancedDownloadsResult = DownloadsResult & {
 
 import { UseQueryResult } from "@tanstack/react-query";
 
+// Groups the crates.io downloads by date
 export const sumByDate = (
   downloadsResult: UseQueryResult<DownloadsResult, Error>
 ): Record<string, number> => {
@@ -41,7 +42,7 @@ export const sumByDate = (
   return result;
 };
 
-// Assumes ith index = package
+// Transforms the downloads by date into a format that can be used by recharts
 export const formatDownloadsResultToTimeSeries = (
   packages: string[],
   byDateArr: Record<string, number>[]

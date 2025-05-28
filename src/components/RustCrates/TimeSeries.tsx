@@ -12,8 +12,7 @@ import {
 
 import { ScaleOrdinal } from "d3";
 import moment from "moment";
-import { formatDownloadsResultToTimeSeries, sumByDate } from "./utils";
-import { useCratesDownloads } from "./hooks";
+import { useCratesDownloadsChart } from "./hooks";
 
 export const TimeSeries = ({
   crates,
@@ -22,9 +21,7 @@ export const TimeSeries = ({
   crates: string[];
   colourScale: ScaleOrdinal<string, string, never>;
 }) => {
-  const queryResult = useCratesDownloads(crates);
-  const byDate = queryResult.map((result) => sumByDate(result));
-  const data = formatDownloadsResultToTimeSeries(crates, byDate);
+  const { data } = useCratesDownloadsChart(crates);
 
   return (
     <Card sx={{ width: "100%", padding: 2 }}>
