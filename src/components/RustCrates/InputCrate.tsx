@@ -28,7 +28,7 @@ const getCrates = (): Set<string> => {
   if (savedCrates) {
     return new Set(JSON.parse(savedCrates));
   }
-  return new Set();
+  return new Set(["axum", "serde", "tokio"]);
 };
 
 /**
