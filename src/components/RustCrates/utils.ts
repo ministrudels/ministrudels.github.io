@@ -1,6 +1,4 @@
 import { CratesIO, Download, DownloadsResult } from "crates.io";
-import moment from "moment";
-import { useEffect, useState } from "react";
 
 export const cratesIO = new CratesIO();
 
@@ -64,70 +62,4 @@ export const formatDownloadsResultToTimeSeries = (
     date,
     ...downloads,
   }));
-};
-
-/**
- * hook to get the latest versions of packages
- */
-export const useGetLatestVersions = (packages: string[]) => {
-  const [data, setData] = useState<Record<string, string>>({});
-  const [isLoading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const packageVersions = await Promise.all(
-        packages.map((p) => cratesIO.api.crates.getVersions(p))
-      );
-      const latestVersions = packageVersions.reduce(
-        (acc, curr, index) => ({
-          ...acc,
-          [packages[index]]: curr.versions[0].num,
-        }),
-        {} as Record<string, string>
-      );
-      setData(latestVersions);
-      setLoading(false);
-    };
-    fetchData();
-  }, [packages]);
-
-  return { data, isLoading };
-};
-
-/**
- * hook to get the latest version releases of packages
- */
-export const useGetReleases = (packages: string[], since: moment.Moment) => {
-  const [data, setData] = useState<
-    Record<string, Record<string, number | string>[]>
-  >({});
-  const [isLoading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const packageReleases = await Promise.all(
-        packages.map((p) => cratesIO.api.crates.getVersions(p))
-      );
-
-      let result: Record<string, Record<string, number | string>[]> = {};
-      for (let i = 0; i < packageReleases.length; i++) {
-        const crate = packages[i];
-        const tmp = packageReleases[i].versions
-          .filter(({ created_at }) => moment(created_at).isAfter(since))
-          .map(({ created_at, crate }) => ({
-            value: i + 1,
-            date: moment(created_at).valueOf(),
-            package: crate,
-          }));
-
-        result[crate] = tmp;
-      }
-
-      setData(result);
-      setLoading(false);
-    };
-    fetchData();
-  }, [packages]);
-
-  return { data, isLoading };
 };

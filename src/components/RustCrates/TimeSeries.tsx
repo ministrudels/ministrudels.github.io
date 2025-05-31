@@ -21,7 +21,7 @@ export const TimeSeries = ({
   crates: string[];
   colourScale: ScaleOrdinal<string, string, never>;
 }) => {
-  const { data } = useCratesDownloadsChart(crates);
+  const data = useCratesDownloadsChart(crates);
 
   return (
     <Card sx={{ width: "100%", padding: 2 }}>

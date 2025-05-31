@@ -1,6 +1,6 @@
 import { Card, Grid, List, ListItem, Typography } from "@mui/material";
 import { ScaleOrdinal } from "d3";
-import { useGetLatestVersions } from "./utils";
+import { useCratesLatestVersions } from "./hooks";
 
 export const LatestVersions = ({
   crates,
@@ -9,7 +9,7 @@ export const LatestVersions = ({
   crates: string[];
   colourScale: ScaleOrdinal<string, string, never>;
 }) => {
-  const { data } = useGetLatestVersions(crates);
+  const data = useCratesLatestVersions(crates);
 
   return (
     <Card sx={{ width: "100%", padding: 2 }}>
