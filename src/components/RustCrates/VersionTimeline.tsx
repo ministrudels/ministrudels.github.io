@@ -10,7 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { useGetReleases } from "./utils";
+import { useCratesVersionTimeline } from "./hooks";
 
 export const VersionTimeline = ({
   crates,
@@ -21,10 +21,8 @@ export const VersionTimeline = ({
 }) => {
   const now = moment();
   const oneYearAgo = now.clone().subtract(1, "year");
-  const { data } = useGetReleases(crates, oneYearAgo);
+  const releases = useCratesVersionTimeline(crates, oneYearAgo);
 
-  // merge all the releases into one array
-  const releases = Object.values(data).flatMap((releases) => releases);
   return (
     <Card sx={{ width: "100%", padding: 2 }}>
       <Typography variant="body1">Version Releases</Typography>

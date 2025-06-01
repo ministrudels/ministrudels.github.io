@@ -12,7 +12,7 @@ import {
 
 import { ScaleOrdinal } from "d3";
 import moment from "moment";
-import { useGetDownloadTimeSeries } from "./utils";
+import { useCratesDownloadsChart } from "./hooks";
 
 export const TimeSeries = ({
   crates,
@@ -21,7 +21,7 @@ export const TimeSeries = ({
   crates: string[];
   colourScale: ScaleOrdinal<string, string, never>;
 }) => {
-  const { data } = useGetDownloadTimeSeries(crates);
+  const data = useCratesDownloadsChart(crates);
 
   return (
     <Card sx={{ width: "100%", padding: 2 }}>
