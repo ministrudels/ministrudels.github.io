@@ -14,14 +14,16 @@ import { useState, useCallback, useEffect } from "react";
  * 7. Copy the Client ID to your .env file as VITE_GOOGLE_CLIENT_ID
  */
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string | undefined;
-const SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
+const SCOPES = [
+  "https://www.googleapis.com/auth/calendar.readonly",
+  "https://www.googleapis.com/auth/userinfo.profile",
+].join(" ");
 
 type GoogleAuthState = {
   isSignedIn: boolean;
   accessToken: string | null;
   user: {
     name: string;
-    email: string;
     picture: string;
   } | null;
   isLoading: boolean;
@@ -29,10 +31,12 @@ type GoogleAuthState = {
 };
 
 type TokenResponse = {
-  access_token: string;
-  expires_in: number;
-  scope: string;
-  token_type: string;
+  access_token?: string;
+  expires_in?: number;
+  scope?: string;
+  token_type?: string;
+  error?: string;
+  error_description?: string;
 };
 
 type TokenClient = {
@@ -108,8 +112,15 @@ export function useGoogleAuth() {
           client_id: CLIENT_ID,
           scope: SCOPES,
           callback: (response) => {
+            if (response.error) {
+              setState((prev) => ({
+                ...prev,
+                isLoading: false,
+                error: response.error_description || response.error || "Authentication failed",
+              }));
+              return;
+            }
             if (response.access_token) {
-              // Fetch user info
               fetchUserInfo(response.access_token);
             }
           },
@@ -160,18 +171,20 @@ export function useGoogleAuth() {
         accessToken,
         user: {
           name: data.name,
-          email: data.email,
           picture: data.picture,
         },
         isLoading: false,
         error: null,
       });
     } catch (error) {
-      setState((prev) => ({
-        ...prev,
+      // Still sign in even if user info fails
+      setState({
+        isSignedIn: true,
+        accessToken,
+        user: null,
         isLoading: false,
-        error: "Failed to fetch user information",
-      }));
+        error: null,
+      });
     }
   };
 

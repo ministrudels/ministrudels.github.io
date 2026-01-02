@@ -1,4 +1,4 @@
-import { Button, Avatar, Typography, Box, CircularProgress } from "@mui/material";
+import { Button, Typography, Box, CircularProgress, Avatar } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 
 import "./GoogleAuthButton.css";
@@ -10,7 +10,6 @@ type GoogleAuthButtonProps = {
   error: string | null;
   user: {
     name: string;
-    email: string;
     picture: string;
   } | null;
   onSignIn: () => void;
@@ -22,7 +21,7 @@ type GoogleAuthButtonProps = {
  *
  * Shows:
  * - Sign in button when not authenticated
- * - User info and sign out button when authenticated
+ * - Connected status and sign out button when authenticated
  * - Loading state during authentication
  * - Error message if configuration is missing
  */
@@ -59,20 +58,21 @@ export default function GoogleAuthButton({
     );
   }
 
-  if (isSignedIn && user) {
+  if (isSignedIn) {
     return (
       <Box className="google-auth__user">
-        <Avatar
-          src={user.picture}
-          alt={user.name}
-          className="google-auth__avatar"
-          sx={{ width: 24, height: 24 }}
-        />
+        {user?.picture && (
+          <Avatar
+            src={user.picture}
+            alt={user.name}
+            sx={{ width: 24, height: 24 }}
+          />
+        )}
         <Typography variant="caption" className="google-auth__name">
-          {user.name}
+          {user?.name || "Connected"}
         </Typography>
         <Button size="small" onClick={onSignOut} variant="text">
-          Sign out
+          Disconnect
         </Button>
       </Box>
     );

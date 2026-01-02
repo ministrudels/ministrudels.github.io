@@ -90,7 +90,6 @@ export function useGoogleCalendar(
       const endDate = new Date(year, month + 1, 0, 23, 59, 59);
 
       const params = new URLSearchParams({
-        calendarId: "primary",
         timeMin: startDate.toISOString(),
         timeMax: endDate.toISOString(),
         singleEvents: "true", // Expand recurring events
