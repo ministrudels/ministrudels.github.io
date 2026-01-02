@@ -122,7 +122,6 @@ export default function CalendarOverview() {
           <GoogleAuthButton
             isSignedIn={googleAuth.isSignedIn}
             isLoading={googleAuth.isLoading}
-            isConfigured={googleAuth.isConfigured}
             error={googleAuth.error}
             user={googleAuth.user}
             onSignIn={googleAuth.signIn}

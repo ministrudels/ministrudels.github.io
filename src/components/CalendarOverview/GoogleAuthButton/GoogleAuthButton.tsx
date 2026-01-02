@@ -6,7 +6,6 @@ import "./GoogleAuthButton.css";
 type GoogleAuthButtonProps = {
   isSignedIn: boolean;
   isLoading: boolean;
-  isConfigured: boolean;
   error: string | null;
   user: {
     name: string;
@@ -18,30 +17,15 @@ type GoogleAuthButtonProps = {
 
 /**
  * GoogleAuthButton - Sign in/out button for Google authentication.
- *
- * Shows:
- * - Sign in button when not authenticated
- * - Connected status and sign out button when authenticated
- * - Loading state during authentication
- * - Error message if configuration is missing
  */
 export default function GoogleAuthButton({
   isSignedIn,
   isLoading,
-  isConfigured,
   error,
   user,
   onSignIn,
   onSignOut,
 }: GoogleAuthButtonProps) {
-  if (!isConfigured) {
-    return (
-      <Typography variant="caption" color="textSecondary" className="google-auth__error">
-        Google Calendar not configured
-      </Typography>
-    );
-  }
-
   if (error) {
     return (
       <Typography variant="caption" color="error" className="google-auth__error">
