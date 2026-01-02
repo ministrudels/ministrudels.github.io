@@ -2,12 +2,13 @@ import {
   Card,
   CardActions,
   CardContent,
-  Chip,
   Grid,
   Typography,
 } from "@mui/material";
 
 import { ReactNode } from "react";
+
+import "./ExampleContainer.css";
 
 type Props = {
   title: string;
@@ -38,11 +39,17 @@ export default function ExampleContainer(props: Props) {
         </Grid>
         {children}
       </CardContent>
-      <CardActions>
-        {tags?.map((x) => (
-          <Chip key={x} label={x} />
-        ))}
-      </CardActions>
+      {tags && tags.length > 0 && (
+        <CardActions>
+          <div className="example-container__tags">
+            {tags.map((tag) => (
+              <span key={tag} className="example-container__tag">
+                <em>{tag}</em>
+              </span>
+            ))}
+          </div>
+        </CardActions>
+      )}
     </Card>
   );
 }
