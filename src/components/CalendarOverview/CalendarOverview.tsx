@@ -5,7 +5,7 @@ import {
   Grid,
   IconButton,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
@@ -56,11 +56,30 @@ export default function CalendarOverview() {
 
   // Google Calendar integration
   const googleAuth = useGoogleAuth();
-  const { eventsByDate } = useGoogleCalendar(
+  const { events, eventsByDate } = useGoogleCalendar(
     googleAuth.accessToken,
     currentYear,
     currentMonth
   );
+
+  // Log user and calendar events to console
+  useEffect(() => {
+    if (googleAuth.user) {
+      console.log("=== Google User ===");
+      console.log("Name:", googleAuth.user.name);
+      console.log("Picture:", googleAuth.user.picture);
+    }
+  }, [googleAuth.user]);
+
+  useEffect(() => {
+    if (events.length > 0) {
+      console.log("=== Google Calendar Events ===");
+      events.forEach((event) => {
+        const date = event.start.dateTime || event.start.date;
+        console.log(`- ${event.summary} (${date})`);
+      });
+    }
+  }, [events]);
 
   const handlePrevMonth = () => {
     if (currentMonth === 0) {

@@ -117,6 +117,9 @@ export function useGoogleCalendar(
       const data = await response.json();
       const events: CalendarEvent[] = data.items || [];
 
+      // Log events to console
+      console.log("Google Calendar Events:", events);
+
       // Group events by date
       const eventsByDate: EventsByDate = {};
       events.forEach((event) => {
