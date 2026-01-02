@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
+import Cookies from "js-cookie";
 
 /**
  * Google OAuth 2.0 configuration.
@@ -18,6 +19,36 @@ const SCOPES = [
   "https://www.googleapis.com/auth/calendar.readonly",
   "https://www.googleapis.com/auth/userinfo.profile",
 ].join(" ");
+
+const AUTH_COOKIE_NAME = "google_calendar_auth";
+
+type StoredAuth = {
+  accessToken: string;
+  user: {
+    name: string;
+    picture: string;
+  } | null;
+};
+
+const getStoredAuth = (): StoredAuth | null => {
+  const saved = Cookies.get(AUTH_COOKIE_NAME);
+  if (saved) {
+    try {
+      return JSON.parse(saved);
+    } catch {
+      return null;
+    }
+  }
+  return null;
+};
+
+const saveAuth = (auth: StoredAuth) => {
+  Cookies.set(AUTH_COOKIE_NAME, JSON.stringify(auth), { expires: 1 }); // 1 day (token typically expires in ~1 hour)
+};
+
+const clearAuth = () => {
+  Cookies.remove(AUTH_COOKIE_NAME);
+};
 
 type GoogleAuthState = {
   isSignedIn: boolean;
@@ -81,11 +112,13 @@ declare global {
  * }
  */
 export function useGoogleAuth() {
+  // Initialize state from cookie if available
+  const storedAuth = getStoredAuth();
   const [state, setState] = useState<GoogleAuthState>({
-    isSignedIn: false,
-    accessToken: null,
-    user: null,
-    isLoading: true,
+    isSignedIn: !!storedAuth,
+    accessToken: storedAuth?.accessToken || null,
+    user: storedAuth?.user || null,
+    isLoading: !storedAuth, // Not loading if we have stored auth
     error: null,
   });
 
@@ -133,7 +166,10 @@ export function useGoogleAuth() {
           },
         });
         setTokenClient(client);
-        setState((prev) => ({ ...prev, isLoading: false }));
+        // Only set loading false if we don't have stored auth
+        if (!storedAuth) {
+          setState((prev) => ({ ...prev, isLoading: false }));
+        }
       }
     };
     script.onerror = () => {
@@ -166,18 +202,24 @@ export function useGoogleAuth() {
       }
 
       const data = await response.json();
+      const user = {
+        name: data.name,
+        picture: data.picture,
+      };
+
+      // Save to cookie
+      saveAuth({ accessToken, user });
+
       setState({
         isSignedIn: true,
         accessToken,
-        user: {
-          name: data.name,
-          picture: data.picture,
-        },
+        user,
         isLoading: false,
         error: null,
       });
     } catch (error) {
       // Still sign in even if user info fails
+      saveAuth({ accessToken, user: null });
       setState({
         isSignedIn: true,
         accessToken,
@@ -196,6 +238,7 @@ export function useGoogleAuth() {
   }, [tokenClient]);
 
   const signOut = useCallback(() => {
+    clearAuth();
     if (state.accessToken && window.google) {
       window.google.accounts.oauth2.revoke(state.accessToken, () => {
         setState({
