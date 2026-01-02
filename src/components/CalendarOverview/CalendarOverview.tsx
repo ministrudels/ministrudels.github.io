@@ -13,7 +13,7 @@ import CalendarContent from "./CalendarContent";
 import ExampleContainer from "../ExampleContainer";
 import GoogleAuthButton from "./GoogleAuthButton";
 import { SelectedDate, ViewMode } from "./types";
-import { useGoogleAuth, useGoogleCalendar } from "./hooks";
+import { useGoogle } from "./hooks";
 
 import "./variables.css";
 import "./CalendarOverview.css";
@@ -55,21 +55,25 @@ export default function CalendarOverview() {
   const [viewMode, setViewMode] = useState<ViewMode>("month");
 
   // Google Calendar integration
-  const googleAuth = useGoogleAuth();
-  const { events, eventsByDate } = useGoogleCalendar(
-    googleAuth.accessToken,
-    currentYear,
-    currentMonth
-  );
+  const {
+    isSignedIn,
+    isLoading,
+    error,
+    user,
+    signIn,
+    signOut,
+    events,
+    eventsByDate,
+  } = useGoogle(currentYear, currentMonth);
 
   // Log user and calendar events to console
   useEffect(() => {
-    if (googleAuth.user) {
+    if (user) {
       console.log("=== Google User ===");
-      console.log("Name:", googleAuth.user.name);
-      console.log("Picture:", googleAuth.user.picture);
+      console.log("Name:", user.name);
+      console.log("Picture:", user.picture);
     }
-  }, [googleAuth.user]);
+  }, [user]);
 
   useEffect(() => {
     if (events.length > 0) {
@@ -120,12 +124,12 @@ export default function CalendarOverview() {
       <div className="calendar-overview__container">
         <div className="calendar-overview__toolbar">
           <GoogleAuthButton
-            isSignedIn={googleAuth.isSignedIn}
-            isLoading={googleAuth.isLoading}
-            error={googleAuth.error}
-            user={googleAuth.user}
-            onSignIn={googleAuth.signIn}
-            onSignOut={googleAuth.signOut}
+            isSignedIn={isSignedIn}
+            isLoading={isLoading}
+            error={error}
+            user={user}
+            onSignIn={signIn}
+            onSignOut={signOut}
           />
           <IconButton
             className="calendar-overview__expand-button"

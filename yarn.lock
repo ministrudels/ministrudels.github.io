@@ -382,6 +382,30 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@maxim_mazurok/gapi.client.calendar-v3@latest":
+  version "0.1.20251216"
+  resolved "https://registry.npmjs.org/@maxim_mazurok/gapi.client.calendar-v3/-/gapi.client.calendar-v3-0.1.20251216.tgz"
+  integrity sha512-Z8RL0s8mXVL11wWbCfdcfkmoGgthi8013KBUJdLyID1/UjPh9Su6uTP/HmS1E/t3RRwvHGXtGNNd/LBKQMniqA==
+  dependencies:
+    "@types/gapi.client" "*"
+    "@types/gapi.client.discovery-v1" "*"
+
+"@maxim_mazurok/gapi.client.discovery-v1@latest":
+  version "0.4.20200806"
+  resolved "https://registry.npmjs.org/@maxim_mazurok/gapi.client.discovery-v1/-/gapi.client.discovery-v1-0.4.20200806.tgz"
+  integrity sha512-Jeo/KZqK39DI6ExXHcJ4lqnn1O/wEqboQ6eQ8WnNpu5eJ7wUnX/C5KazOgs1aRhnIB/dVzDe8wm62nmtkMIoaw==
+  dependencies:
+    "@types/gapi.client" "*"
+    "@types/gapi.client.discovery-v1" "*"
+
+"@maxim_mazurok/gapi.client.oauth2-v2@latest":
+  version "0.2.20200213"
+  resolved "https://registry.npmjs.org/@maxim_mazurok/gapi.client.oauth2-v2/-/gapi.client.oauth2-v2-0.2.20200213.tgz"
+  integrity sha512-5ZyM/x5rGZoq2mtV96GUAbm7qI0OGCIY7ikqBYRfaCkPyYdb96GWtmM7OQPn/EJ/quBc8loD42Fa9Yu4YYxbTg==
+  dependencies:
+    "@types/gapi.client" "*"
+    "@types/gapi.client.discovery-v1" "*"
+
 "@mui/base@5.0.0-alpha.91":
   version "5.0.0-alpha.91"
   resolved "https://registry.npmjs.org/@mui/base/-/base-5.0.0-alpha.91.tgz"
@@ -741,6 +765,37 @@
     "@types/d3-timer" "*"
     "@types/d3-transition" "*"
     "@types/d3-zoom" "*"
+
+"@types/gapi.client.calendar-v3@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@types/gapi.client.calendar-v3/-/gapi.client.calendar-v3-0.0.4.tgz"
+  integrity sha512-EwXzPhk98ef+esL1R951e3HFeMQSP6hSBv+YBbaAJoOLLRANV2JY5KHOImBSkk7HKt1PiarQGx5BD8+4eHeeIQ==
+  dependencies:
+    "@maxim_mazurok/gapi.client.calendar-v3" latest
+
+"@types/gapi.client.discovery-v1@*":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@types/gapi.client.discovery-v1/-/gapi.client.discovery-v1-0.0.4.tgz"
+  integrity sha512-uevhRumNE65F5mf2gABLaReOmbFSXONuzFZjNR3dYv6BmkHg+wciubHrfBAsp3554zNo3Dcg6dUAlwMqQfpwjQ==
+  dependencies:
+    "@maxim_mazurok/gapi.client.discovery-v1" latest
+
+"@types/gapi.client.oauth2-v2@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@types/gapi.client.oauth2-v2/-/gapi.client.oauth2-v2-0.0.4.tgz"
+  integrity sha512-lmXvz11xMEvyGwBLrArMYYcfb5MnW6f4Sm0rzjNRA7B8VOWOBnFEhPIuWm8lk0IV7jlIqf299FO5KBiKlXqsrw==
+  dependencies:
+    "@maxim_mazurok/gapi.client.oauth2-v2" latest
+
+"@types/gapi.client@*":
+  version "1.0.8"
+  resolved "https://registry.npmjs.org/@types/gapi.client/-/gapi.client-1.0.8.tgz"
+  integrity sha512-qJQUmmumbYym3Amax0S8CVzuSngcXsC1fJdwRS2zeW5lM63zXkw4wJFP+bG0jzgi0R6EsJKoHnGNVTDbOyG1ng==
+
+"@types/gapi@^0.0.47":
+  version "0.0.47"
+  resolved "https://registry.npmjs.org/@types/gapi/-/gapi-0.0.47.tgz"
+  integrity sha512-/ZsLuq6BffMgbKMtZyDZ8vwQvTyKhKQ1G2K6VyWCgtHHhfSSXbk4+4JwImZiTjWNXfI2q1ZStAwFFHSkNoTkHA==
 
 "@types/geojson@*":
   version "7946.0.10"

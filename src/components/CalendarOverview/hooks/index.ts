@@ -1,8 +1,3 @@
 export { useMonthDays, useToday } from "./useMonthDays";
-export { useGoogleAuth } from "./useGoogleAuth";
-export {
-  useGoogleCalendar,
-  getEventsForDay,
-  type CalendarEvent,
-  type EventsByDate,
-} from "./useGoogleCalendar";
+export { useGoogle, getEventsForDay } from "./useGoogle";
+export type { EventsByDate, CalendarEvent } from "./useGoogle";
