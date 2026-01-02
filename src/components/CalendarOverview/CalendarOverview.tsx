@@ -75,15 +75,18 @@ export default function CalendarOverview() {
     setCurrentYear(currentYear + 1);
   };
 
-  const handleSelectMonth = (month: number) => {
-    setCurrentMonth(month);
-    setViewMode("month");
-  };
-
   const handleSelectDate = (day: number) => {
     setSelectedDate({
       year: currentYear,
       month: currentMonth,
+      day,
+    });
+  };
+
+  const handleSelectDateWithMonth = (month: number, day: number) => {
+    setSelectedDate({
+      year: currentYear,
+      month,
       day,
     });
   };
@@ -114,14 +117,14 @@ export default function CalendarOverview() {
           onPrevYear={handlePrevYear}
           onNextYear={handleNextYear}
           onSelectDate={handleSelectDate}
-          onSelectMonth={handleSelectMonth}
+          onSelectDateWithMonth={handleSelectDateWithMonth}
         />
       </div>
 
       <Dialog
         open={expanded}
         onClose={() => setExpanded(false)}
-        maxWidth="sm"
+        maxWidth={viewMode === "year" ? "xl" : "sm"}
         fullWidth
       >
         <DialogTitle>
@@ -146,9 +149,9 @@ export default function CalendarOverview() {
             onPrevYear={handlePrevYear}
             onNextYear={handleNextYear}
             onSelectDate={handleSelectDate}
-            onSelectMonth={handleSelectMonth}
+            onSelectDateWithMonth={handleSelectDateWithMonth}
             daySize={48}
-            monthCellSize={80}
+            yearDaySize={28}
           />
         </DialogContent>
       </Dialog>

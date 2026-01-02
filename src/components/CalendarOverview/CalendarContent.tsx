@@ -1,7 +1,7 @@
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
+import FullYearGrid from "./FullYearGrid";
 import MonthGrid from "./MonthGrid";
-import YearGrid from "./YearGrid";
 import { SelectedDate, ViewMode } from "./types";
 
 type CalendarContentProps = {
@@ -25,12 +25,12 @@ type CalendarContentProps = {
   onNextYear: () => void;
   /** Callback when a day is selected in month view */
   onSelectDate: (day: number) => void;
-  /** Callback when a month is selected in year view */
-  onSelectMonth: (month: number) => void;
+  /** Callback when a day is selected in year view (includes month) */
+  onSelectDateWithMonth: (month: number, day: number) => void;
   /** Size of each day cell in pixels for month view (default: 36) */
   daySize?: number;
-  /** Size of each month cell in pixels for year view (default: 60) */
-  monthCellSize?: number;
+  /** Size of each day cell in pixels for year view mini months (default: 24) */
+  yearDaySize?: number;
 };
 
 /**
@@ -56,9 +56,9 @@ type CalendarContentProps = {
  *   onPrevYear={handlePrevYear}
  *   onNextYear={handleNextYear}
  *   onSelectDate={handleSelectDate}
- *   onSelectMonth={handleSelectMonth}
+ *   onSelectDateWithMonth={handleSelectDateWithMonth}
  *   daySize={48}
- *   monthCellSize={80}
+ *   yearDaySize={28}
  * />
  */
 export default function CalendarContent({
@@ -72,13 +72,15 @@ export default function CalendarContent({
   onPrevYear,
   onNextYear,
   onSelectDate,
-  onSelectMonth,
+  onSelectDateWithMonth,
   daySize = 36,
-  monthCellSize = 60,
+  yearDaySize = 36,
 }: CalendarContentProps) {
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+      <div
+        style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}
+      >
         <ToggleButtonGroup
           value={viewMode}
           exclusive
@@ -101,13 +103,13 @@ export default function CalendarContent({
           daySize={daySize}
         />
       ) : (
-        <YearGrid
+        <FullYearGrid
           currentYear={currentYear}
-          currentMonth={currentMonth}
+          selectedDate={selectedDate}
           onPrevYear={onPrevYear}
           onNextYear={onNextYear}
-          onSelectMonth={onSelectMonth}
-          cellSize={monthCellSize}
+          onSelectDate={onSelectDateWithMonth}
+          daySize={yearDaySize}
         />
       )}
     </div>
