@@ -1,9 +1,10 @@
 import { Typography } from "@mui/material";
 
 import DayCell from "./DayCell";
-import { DAYS, MONTHS } from "./constants";
-import { SelectedDate } from "./types";
-import { getDaysInMonth, getFirstDayOfMonth, isSameDay } from "./utils";
+import { COLORS, DAYS, MONTHS } from "./constants";
+import { DateSelectHandler, SelectedDate } from "./types";
+import { useMonthDays, useToday } from "./useMonthDays";
+import { isSameDay } from "./utils";
 
 type MiniMonthGridProps = {
   /** The month to display (0-11) */
@@ -12,8 +13,8 @@ type MiniMonthGridProps = {
   year: number;
   /** The currently selected date */
   selectedDate: SelectedDate;
-  /** Callback when a day is selected */
-  onSelectDate: (month: number, day: number) => void;
+  /** Callback when a day is selected (year, month, day) */
+  onSelectDate: DateSelectHandler;
   /** Size of each day cell in pixels (default: 24) */
   daySize?: number;
 };
@@ -31,24 +32,8 @@ export default function MiniMonthGrid({
   onSelectDate,
   daySize = 24,
 }: MiniMonthGridProps) {
-  const today = new Date();
-  const todayDate = {
-    year: today.getFullYear(),
-    month: today.getMonth(),
-    day: today.getDate(),
-  };
-
-  const daysInMonth = getDaysInMonth(year, month);
-  const firstDay = getFirstDayOfMonth(year, month);
-
-  const days: (number | null)[] = [];
-  for (let i = 0; i < firstDay; i++) {
-    days.push(null);
-  }
-  for (let i = 1; i <= daysInMonth; i++) {
-    days.push(i);
-  }
-
+  const todayDate = useToday();
+  const days = useMonthDays(year, month);
   const gridWidth = daySize * 7 + 6 * 2;
 
   return (
@@ -82,7 +67,7 @@ export default function MiniMonthGrid({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "#666",
+              color: COLORS.muted,
             }}
           >
             {day.charAt(0)}
@@ -103,7 +88,7 @@ export default function MiniMonthGrid({
               day !== null &&
               isSameDay(todayDate, { year, month, day })
             }
-            onClick={() => day && onSelectDate(month, day)}
+            onClick={() => day && onSelectDate(year, month, day)}
           />
         ))}
       </div>

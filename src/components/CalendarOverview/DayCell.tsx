@@ -1,3 +1,5 @@
+import { COLORS } from "./constants";
+
 type DayCellProps = {
   /** The day number (1-31), or null for empty cells */
   day: number | null;
@@ -57,11 +59,11 @@ export default function DayCell({
         cursor: "pointer",
         borderRadius: 4,
         backgroundColor: isSelected
-          ? "#1976d2"
+          ? COLORS.selected
           : isToday
-            ? "#e3f2fd"
-            : "transparent",
-        color: isSelected ? "white" : "inherit",
+            ? COLORS.today
+            : COLORS.default,
+        color: isSelected ? COLORS.selectedText : "inherit",
         fontWeight: isToday ? "bold" : "normal",
         fontSize: size * 0.4,
       }}

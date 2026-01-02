@@ -1,7 +1,7 @@
 import { Grid, Typography } from "@mui/material";
 
 import MiniMonthGrid from "./MiniMonthGrid";
-import { SelectedDate } from "./types";
+import { DateSelectHandler, SelectedDate } from "./types";
 
 type FullYearGridProps = {
   /** The year to display */
@@ -12,8 +12,8 @@ type FullYearGridProps = {
   onPrevYear: () => void;
   /** Callback to navigate to the next year */
   onNextYear: () => void;
-  /** Callback when a day is selected */
-  onSelectDate: (month: number, day: number) => void;
+  /** Callback when a day is selected (year, month, day) */
+  onSelectDate: DateSelectHandler;
   /** Size of each day cell in pixels (default: 24) */
   daySize?: number;
 };
@@ -34,7 +34,7 @@ export default function FullYearGrid({
   onPrevYear,
   onNextYear,
   onSelectDate,
-  daySize = 24,
+  daySize = 36,
 }: FullYearGridProps) {
   const months = Array.from({ length: 12 }, (_, i) => i);
 

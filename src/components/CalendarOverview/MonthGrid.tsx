@@ -2,8 +2,9 @@ import { Grid, Typography } from "@mui/material";
 
 import DayCell from "./DayCell";
 import { DAYS, MONTHS } from "./constants";
-import { SelectedDate } from "./types";
-import { getDaysInMonth, getFirstDayOfMonth, isSameDay } from "./utils";
+import { DateSelectHandler, SelectedDate } from "./types";
+import { useMonthDays, useToday } from "./useMonthDays";
+import { isSameDay } from "./utils";
 
 type MonthGridProps = {
   /** The current month being displayed (0-11) */
@@ -16,8 +17,8 @@ type MonthGridProps = {
   onPrevMonth: () => void;
   /** Callback to navigate to the next month */
   onNextMonth: () => void;
-  /** Callback when a day is selected */
-  onSelectDate: (day: number) => void;
+  /** Callback when a day is selected (year, month, day) */
+  onSelectDate: DateSelectHandler;
   /** Size of each day cell in pixels (default: 36) */
   daySize?: number;
 };
@@ -40,7 +41,7 @@ type MonthGridProps = {
  *   selectedDate={{ year: 2026, month: 0, day: 15 }}
  *   onPrevMonth={() => {}}
  *   onNextMonth={() => {}}
- *   onSelectDate={(day) => console.log(day)}
+ *   onSelectDate={(year, month, day) => console.log(year, month, day)}
  *   daySize={40}
  * />
  */
@@ -53,24 +54,8 @@ export default function MonthGrid({
   onSelectDate,
   daySize = 36,
 }: MonthGridProps) {
-  const today = new Date();
-  const todayDate = {
-    year: today.getFullYear(),
-    month: today.getMonth(),
-    day: today.getDate(),
-  };
-
-  const daysInMonth = getDaysInMonth(currentYear, currentMonth);
-  const firstDay = getFirstDayOfMonth(currentYear, currentMonth);
-
-  const days: (number | null)[] = [];
-  for (let i = 0; i < firstDay; i++) {
-    days.push(null);
-  }
-  for (let i = 1; i <= daysInMonth; i++) {
-    days.push(i);
-  }
-
+  const todayDate = useToday();
+  const days = useMonthDays(currentYear, currentMonth);
   const gridWidth = daySize * 7 + 6 * 4; // 7 columns + gaps
 
   return (
@@ -136,7 +121,7 @@ export default function MonthGrid({
               day !== null &&
               isSameDay(todayDate, { year: currentYear, month: currentMonth, day })
             }
-            onClick={() => day && onSelectDate(day)}
+            onClick={() => day && onSelectDate(currentYear, currentMonth, day)}
           />
         ))}
       </div>

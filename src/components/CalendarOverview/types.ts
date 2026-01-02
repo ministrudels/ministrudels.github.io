@@ -16,3 +16,9 @@ export type SelectedDate = {
   month: number;
   day: number | null;
 };
+
+/**
+ * Unified callback type for date selection.
+ * All date selection handlers use the same signature for consistency.
+ */
+export type DateSelectHandler = (year: number, month: number, day: number) => void;

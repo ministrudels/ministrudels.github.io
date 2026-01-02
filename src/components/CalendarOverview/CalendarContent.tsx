@@ -2,7 +2,7 @@ import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 import FullYearGrid from "./FullYearGrid";
 import MonthGrid from "./MonthGrid";
-import { SelectedDate, ViewMode } from "./types";
+import { DateSelectHandler, SelectedDate, ViewMode } from "./types";
 
 type CalendarContentProps = {
   /** Current view mode ("month" or "year") */
@@ -23,10 +23,8 @@ type CalendarContentProps = {
   onPrevYear: () => void;
   /** Callback to navigate to the next year */
   onNextYear: () => void;
-  /** Callback when a day is selected in month view */
-  onSelectDate: (day: number) => void;
-  /** Callback when a day is selected in year view (includes month) */
-  onSelectDateWithMonth: (month: number, day: number) => void;
+  /** Callback when a day is selected (year, month, day) */
+  onSelectDate: DateSelectHandler;
   /** Size of each day cell in pixels for month view (default: 36) */
   daySize?: number;
   /** Size of each day cell in pixels for year view mini months (default: 24) */
@@ -55,8 +53,7 @@ type CalendarContentProps = {
  *   onNextMonth={handleNextMonth}
  *   onPrevYear={handlePrevYear}
  *   onNextYear={handleNextYear}
- *   onSelectDate={handleSelectDate}
- *   onSelectDateWithMonth={handleSelectDateWithMonth}
+ *   onSelectDate={(year, month, day) => setSelectedDate({ year, month, day })}
  *   daySize={48}
  *   yearDaySize={28}
  * />
@@ -72,7 +69,6 @@ export default function CalendarContent({
   onPrevYear,
   onNextYear,
   onSelectDate,
-  onSelectDateWithMonth,
   daySize = 36,
   yearDaySize = 36,
 }: CalendarContentProps) {
@@ -108,7 +104,7 @@ export default function CalendarContent({
           selectedDate={selectedDate}
           onPrevYear={onPrevYear}
           onNextYear={onNextYear}
-          onSelectDate={onSelectDateWithMonth}
+          onSelectDate={onSelectDate}
           daySize={yearDaySize}
         />
       )}

@@ -75,20 +75,8 @@ export default function CalendarOverview() {
     setCurrentYear(currentYear + 1);
   };
 
-  const handleSelectDate = (day: number) => {
-    setSelectedDate({
-      year: currentYear,
-      month: currentMonth,
-      day,
-    });
-  };
-
-  const handleSelectDateWithMonth = (month: number, day: number) => {
-    setSelectedDate({
-      year: currentYear,
-      month,
-      day,
-    });
+  const handleSelectDate = (year: number, month: number, day: number) => {
+    setSelectedDate({ year, month, day });
   };
 
   return (
@@ -117,7 +105,6 @@ export default function CalendarOverview() {
           onPrevYear={handlePrevYear}
           onNextYear={handleNextYear}
           onSelectDate={handleSelectDate}
-          onSelectDateWithMonth={handleSelectDateWithMonth}
         />
       </div>
 
@@ -149,7 +136,6 @@ export default function CalendarOverview() {
             onPrevYear={handlePrevYear}
             onNextYear={handleNextYear}
             onSelectDate={handleSelectDate}
-            onSelectDateWithMonth={handleSelectDateWithMonth}
             daySize={48}
             yearDaySize={28}
           />
