@@ -2,8 +2,13 @@
   position: relative;
 }
 
+.calendar-overview__toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
 .calendar-overview__expand-button {
-  position: absolute;
-  top: 0;
-  right: 0;
+  margin-left: auto;
 }

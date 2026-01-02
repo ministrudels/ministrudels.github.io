@@ -11,7 +11,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import CalendarContent from "./CalendarContent";
 import ExampleContainer from "../ExampleContainer";
+import GoogleAuthButton from "./GoogleAuthButton";
 import { SelectedDate, ViewMode } from "./types";
+import { useGoogleAuth, useGoogleCalendar } from "./hooks";
 
 import "./variables.css";
 import "./CalendarOverview.css";
@@ -52,6 +54,14 @@ export default function CalendarOverview() {
   const [expanded, setExpanded] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>("month");
 
+  // Google Calendar integration
+  const googleAuth = useGoogleAuth();
+  const { eventsByDate } = useGoogleCalendar(
+    googleAuth.accessToken,
+    currentYear,
+    currentMonth
+  );
+
   const handlePrevMonth = () => {
     if (currentMonth === 0) {
       setCurrentMonth(11);
@@ -86,16 +96,27 @@ export default function CalendarOverview() {
     <ExampleContainer
       title="Calendar Overview"
       date={new Date("1 2 2026")}
-      tags={["calendar", "date", "grid", "dialog"]}
+      tags={["calendar", "date", "grid", "dialog", "google"]}
     >
       <div className="calendar-overview__container">
-        <IconButton
-          className="calendar-overview__expand-button"
-          onClick={() => setExpanded(true)}
-          size="small"
-        >
-          <OpenInFullIcon />
-        </IconButton>
+        <div className="calendar-overview__toolbar">
+          <GoogleAuthButton
+            isSignedIn={googleAuth.isSignedIn}
+            isLoading={googleAuth.isLoading}
+            isConfigured={googleAuth.isConfigured}
+            error={googleAuth.error}
+            user={googleAuth.user}
+            onSignIn={googleAuth.signIn}
+            onSignOut={googleAuth.signOut}
+          />
+          <IconButton
+            className="calendar-overview__expand-button"
+            onClick={() => setExpanded(true)}
+            size="small"
+          >
+            <OpenInFullIcon />
+          </IconButton>
+        </div>
 
         <CalendarContent
           viewMode={viewMode}
@@ -108,6 +129,7 @@ export default function CalendarOverview() {
           onPrevYear={handlePrevYear}
           onNextYear={handleNextYear}
           onSelectDate={handleSelectDate}
+          eventsByDate={eventsByDate}
         />
       </div>
 
@@ -141,6 +163,7 @@ export default function CalendarOverview() {
             onSelectDate={handleSelectDate}
             daySize={48}
             yearDaySize={32}
+            eventsByDate={eventsByDate}
           />
         </DialogContent>
       </Dialog>

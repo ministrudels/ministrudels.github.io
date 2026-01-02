@@ -1,7 +1,8 @@
 import { Typography } from "@mui/material";
 
-import MiniMonthGrid from "./MiniMonthGrid";
-import { DateSelectHandler, SelectedDate } from "./types";
+import MiniMonthGrid from "../MiniMonthGrid";
+import { DateSelectHandler, SelectedDate } from "../types";
+import { EventsByDate } from "../hooks";
 
 import "./FullYearGrid.css";
 
@@ -18,6 +19,8 @@ type FullYearGridProps = {
   onSelectDate: DateSelectHandler;
   /** Size of each day cell in pixels (default: 32) */
   daySize?: number;
+  /** Events grouped by date from Google Calendar */
+  eventsByDate?: EventsByDate;
 };
 
 /**
@@ -37,6 +40,7 @@ export default function FullYearGrid({
   onNextYear,
   onSelectDate,
   daySize = 32,
+  eventsByDate = {},
 }: FullYearGridProps) {
   const months = Array.from({ length: 12 }, (_, i) => i);
 
@@ -61,6 +65,7 @@ export default function FullYearGrid({
             selectedDate={selectedDate}
             onSelectDate={onSelectDate}
             daySize={daySize}
+            eventsByDate={eventsByDate}
           />
         ))}
       </div>

@@ -1,10 +1,10 @@
 import { Typography } from "@mui/material";
 
-import DayCell from "./DayCell";
-import { DAYS, MONTHS } from "./constants";
-import { DateSelectHandler, SelectedDate } from "./types";
-import { useMonthDays, useToday } from "./useMonthDays";
-import { isSameDay } from "./utils";
+import DayCell from "../DayCell";
+import { DAYS, MONTHS } from "../constants";
+import { DateSelectHandler, SelectedDate } from "../types";
+import { useMonthDays, useToday, EventsByDate, getEventsForDay } from "../hooks";
+import { isSameDay } from "../utils";
 
 import "./MonthGrid.css";
 
@@ -23,6 +23,8 @@ type MonthGridProps = {
   onSelectDate: DateSelectHandler;
   /** Size of each day cell in pixels (default: 36) */
   daySize?: number;
+  /** Events grouped by date from Google Calendar */
+  eventsByDate?: EventsByDate;
 };
 
 /**
@@ -55,6 +57,7 @@ export default function MonthGrid({
   onNextMonth,
   onSelectDate,
   daySize = 36,
+  eventsByDate = {},
 }: MonthGridProps) {
   const todayDate = useToday();
   const days = useMonthDays(currentYear, currentMonth);
@@ -101,6 +104,11 @@ export default function MonthGrid({
             isToday={
               day !== null &&
               isSameDay(todayDate, { year: currentYear, month: currentMonth, day })
+            }
+            eventCount={
+              day !== null
+                ? getEventsForDay(eventsByDate, currentYear, currentMonth, day).length
+                : 0
             }
             onClick={() => day && onSelectDate(currentYear, currentMonth, day)}
           />

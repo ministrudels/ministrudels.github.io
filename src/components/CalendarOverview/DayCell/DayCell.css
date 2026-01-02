@@ -19,3 +19,18 @@
   background-color: var(--color-today);
   font-weight: bold;
 }
+
+.day-cell--has-events {
+  position: relative;
+}
+
+.day-cell__number {
+  z-index: 1;
+}
+
+.day-cell__event-dot {
+  position: absolute;
+  bottom: 2px;
+  background-color: var(--color-event-dot, #4caf50);
+  border-radius: 50%;
+}

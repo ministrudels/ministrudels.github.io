@@ -1,8 +1,9 @@
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
-import FullYearGrid from "./FullYearGrid";
-import MonthGrid from "./MonthGrid";
-import { DateSelectHandler, SelectedDate, ViewMode } from "./types";
+import FullYearGrid from "../FullYearGrid";
+import MonthGrid from "../MonthGrid";
+import { DateSelectHandler, SelectedDate, ViewMode } from "../types";
+import { EventsByDate } from "../hooks";
 
 import "./CalendarContent.css";
 
@@ -31,6 +32,8 @@ type CalendarContentProps = {
   daySize?: number;
   /** Size of each day cell in pixels for year view mini months (default: 32) */
   yearDaySize?: number;
+  /** Events grouped by date from Google Calendar */
+  eventsByDate?: EventsByDate;
 };
 
 /**
@@ -73,6 +76,7 @@ export default function CalendarContent({
   onSelectDate,
   daySize = 36,
   yearDaySize = 32,
+  eventsByDate = {},
 }: CalendarContentProps) {
   return (
     <div>
@@ -97,6 +101,7 @@ export default function CalendarContent({
           onNextMonth={onNextMonth}
           onSelectDate={onSelectDate}
           daySize={daySize}
+          eventsByDate={eventsByDate}
         />
       ) : (
         <FullYearGrid
@@ -106,6 +111,7 @@ export default function CalendarContent({
           onNextYear={onNextYear}
           onSelectDate={onSelectDate}
           daySize={yearDaySize}
+          eventsByDate={eventsByDate}
         />
       )}
     </div>

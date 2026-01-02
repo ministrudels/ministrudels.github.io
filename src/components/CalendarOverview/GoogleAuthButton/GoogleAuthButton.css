@@ -1,0 +1,32 @@
+.google-auth__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+
+.google-auth__user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.google-auth__avatar {
+  width: 24px;
+  height: 24px;
+}
+
+.google-auth__name {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.google-auth__error {
+  padding: 8px;
+}
+
+.google-auth__signin {
+  text-transform: none;
+}

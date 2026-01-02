@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { getDaysInMonth, getFirstDayOfMonth } from "./utils";
+import { getDaysInMonth, getFirstDayOfMonth } from "../utils";
 
 /**
  * useMonthDays - Hook that generates the days array for a calendar month.

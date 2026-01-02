@@ -1,10 +1,10 @@
 import { Typography } from "@mui/material";
 
-import DayCell from "./DayCell";
-import { DAYS, MONTHS } from "./constants";
-import { DateSelectHandler, SelectedDate } from "./types";
-import { useMonthDays, useToday } from "./useMonthDays";
-import { isSameDay } from "./utils";
+import DayCell from "../DayCell";
+import { DAYS, MONTHS } from "../constants";
+import { DateSelectHandler, SelectedDate } from "../types";
+import { useMonthDays, useToday, EventsByDate, getEventsForDay } from "../hooks";
+import { isSameDay } from "../utils";
 
 import "./MiniMonthGrid.css";
 
@@ -19,6 +19,8 @@ type MiniMonthGridProps = {
   onSelectDate: DateSelectHandler;
   /** Size of each day cell in pixels (default: 32) */
   daySize?: number;
+  /** Events grouped by date from Google Calendar */
+  eventsByDate?: EventsByDate;
 };
 
 /**
@@ -33,6 +35,7 @@ export default function MiniMonthGrid({
   selectedDate,
   onSelectDate,
   daySize = 32,
+  eventsByDate = {},
 }: MiniMonthGridProps) {
   const todayDate = useToday();
   const days = useMonthDays(year, month);
@@ -71,6 +74,11 @@ export default function MiniMonthGrid({
             isToday={
               day !== null &&
               isSameDay(todayDate, { year, month, day })
+            }
+            eventCount={
+              day !== null
+                ? getEventsForDay(eventsByDate, year, month, day).length
+                : 0
             }
             onClick={() => day && onSelectDate(year, month, day)}
           />

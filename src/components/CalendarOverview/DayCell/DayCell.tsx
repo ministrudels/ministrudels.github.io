@@ -9,6 +9,8 @@ type DayCellProps = {
   isToday: boolean;
   /** The size of the cell in pixels (width and height) */
   size: number;
+  /** Number of events on this day (optional) */
+  eventCount?: number;
   /** Callback when the day is clicked */
   onClick: () => void;
 };
@@ -23,6 +25,7 @@ type DayCellProps = {
  * - Selected: Blue background with white text
  * - Today: Light blue background with bold text
  * - Default: Transparent background
+ * - Has events: Shows colored dot below the day number
  *
  * Empty cells (day = null) render as blank spacers to maintain grid alignment
  * for days before the first of the month.
@@ -33,6 +36,7 @@ type DayCellProps = {
  *   isSelected={false}
  *   isToday={true}
  *   size={36}
+ *   eventCount={3}
  *   onClick={() => handleSelectDay(15)}
  * />
  */
@@ -41,6 +45,7 @@ export default function DayCell({
   isSelected,
   isToday,
   size,
+  eventCount = 0,
   onClick,
 }: DayCellProps) {
   if (day === null) {
@@ -56,6 +61,7 @@ export default function DayCell({
     "day-cell",
     isSelected && "day-cell--selected",
     isToday && !isSelected && "day-cell--today",
+    eventCount > 0 && "day-cell--has-events",
   ]
     .filter(Boolean)
     .join(" ");
@@ -70,7 +76,16 @@ export default function DayCell({
         fontSize: size * 0.4,
       }}
     >
-      {day}
+      <span className="day-cell__number">{day}</span>
+      {eventCount > 0 && (
+        <span
+          className="day-cell__event-dot"
+          style={{
+            width: Math.max(4, size * 0.15),
+            height: Math.max(4, size * 0.15),
+          }}
+        />
+      )}
     </div>
   );
 }
