@@ -13,6 +13,9 @@ import CalendarContent from "./CalendarContent";
 import ExampleContainer from "../ExampleContainer";
 import { SelectedDate, ViewMode } from "./types";
 
+import "./variables.css";
+import "./CalendarOverview.css";
+
 /**
  * CalendarOverview - Main calendar sandbox component.
  *
@@ -23,7 +26,7 @@ import { SelectedDate, ViewMode } from "./types";
  *
  * Features:
  * - **Month View**: Traditional calendar grid showing days of the month
- * - **Year View**: 4x3 grid of all months, click to navigate to that month
+ * - **Year View**: 4x3 grid of all months with all days visible
  * - **Expand Button**: Opens a larger dialog version of the calendar
  * - **State Sync**: Selection and view mode are synced between card and dialog
  *
@@ -85,10 +88,10 @@ export default function CalendarOverview() {
       date={new Date("1 2 2026")}
       tags={["calendar", "date", "grid", "dialog"]}
     >
-      <div style={{ position: "relative" }}>
+      <div className="calendar-overview__container">
         <IconButton
+          className="calendar-overview__expand-button"
           onClick={() => setExpanded(true)}
-          style={{ position: "absolute", top: 0, right: 0 }}
           size="small"
         >
           <OpenInFullIcon />
@@ -137,7 +140,7 @@ export default function CalendarOverview() {
             onNextYear={handleNextYear}
             onSelectDate={handleSelectDate}
             daySize={48}
-            yearDaySize={28}
+            yearDaySize={32}
           />
         </DialogContent>
       </Dialog>

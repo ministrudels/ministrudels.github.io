@@ -4,6 +4,8 @@ import FullYearGrid from "./FullYearGrid";
 import MonthGrid from "./MonthGrid";
 import { DateSelectHandler, SelectedDate, ViewMode } from "./types";
 
+import "./CalendarContent.css";
+
 type CalendarContentProps = {
   /** Current view mode ("month" or "year") */
   viewMode: ViewMode;
@@ -27,7 +29,7 @@ type CalendarContentProps = {
   onSelectDate: DateSelectHandler;
   /** Size of each day cell in pixels for month view (default: 36) */
   daySize?: number;
-  /** Size of each day cell in pixels for year view mini months (default: 24) */
+  /** Size of each day cell in pixels for year view mini months (default: 32) */
   yearDaySize?: number;
 };
 
@@ -55,7 +57,7 @@ type CalendarContentProps = {
  *   onNextYear={handleNextYear}
  *   onSelectDate={(year, month, day) => setSelectedDate({ year, month, day })}
  *   daySize={48}
- *   yearDaySize={28}
+ *   yearDaySize={32}
  * />
  */
 export default function CalendarContent({
@@ -70,13 +72,11 @@ export default function CalendarContent({
   onNextYear,
   onSelectDate,
   daySize = 36,
-  yearDaySize = 36,
+  yearDaySize = 32,
 }: CalendarContentProps) {
   return (
     <div>
-      <div
-        style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}
-      >
+      <div className="calendar-content__toggle">
         <ToggleButtonGroup
           value={viewMode}
           exclusive

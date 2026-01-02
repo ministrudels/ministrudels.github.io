@@ -1,0 +1,18 @@
+.full-year-grid__header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.full-year-grid__nav-button {
+  cursor: pointer;
+}
+
+.full-year-grid__months {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  justify-items: center;
+}

@@ -1,0 +1,21 @@
+.day-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.day-cell--empty {
+  cursor: default;
+}
+
+.day-cell--selected {
+  background-color: var(--color-selected);
+  color: var(--color-selected-text);
+}
+
+.day-cell--today {
+  background-color: var(--color-today);
+  font-weight: bold;
+}

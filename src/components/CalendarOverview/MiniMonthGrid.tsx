@@ -1,10 +1,12 @@
 import { Typography } from "@mui/material";
 
 import DayCell from "./DayCell";
-import { COLORS, DAYS, MONTHS } from "./constants";
+import { DAYS, MONTHS } from "./constants";
 import { DateSelectHandler, SelectedDate } from "./types";
 import { useMonthDays, useToday } from "./useMonthDays";
 import { isSameDay } from "./utils";
+
+import "./MiniMonthGrid.css";
 
 type MiniMonthGridProps = {
   /** The month to display (0-11) */
@@ -15,7 +17,7 @@ type MiniMonthGridProps = {
   selectedDate: SelectedDate;
   /** Callback when a day is selected (year, month, day) */
   onSelectDate: DateSelectHandler;
-  /** Size of each day cell in pixels (default: 24) */
+  /** Size of each day cell in pixels (default: 32) */
   daySize?: number;
 };
 
@@ -30,7 +32,7 @@ export default function MiniMonthGrid({
   year,
   selectedDate,
   onSelectDate,
-  daySize = 24,
+  daySize = 32,
 }: MiniMonthGridProps) {
   const todayDate = useToday();
   const days = useMonthDays(year, month);
@@ -38,36 +40,18 @@ export default function MiniMonthGrid({
 
   return (
     <div style={{ width: gridWidth }}>
-      <Typography
-        variant="subtitle2"
-        style={{
-          textAlign: "center",
-          marginBottom: 8,
-          fontWeight: "bold",
-        }}
-      >
+      <Typography variant="subtitle2" className="mini-month-grid__title">
         {MONTHS[month]}
       </Typography>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(7, 1fr)",
-          gap: 2,
-          textAlign: "center",
-        }}
-      >
+      <div className="mini-month-grid__days">
         {DAYS.map((day) => (
           <div
             key={day}
+            className="mini-month-grid__day-header"
             style={{
-              fontWeight: "bold",
               fontSize: daySize * 0.4,
               height: daySize * 0.5,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: COLORS.muted,
             }}
           >
             {day.charAt(0)}

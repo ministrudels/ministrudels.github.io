@@ -1,0 +1,9 @@
+.calendar-overview__container {
+  position: relative;
+}
+
+.calendar-overview__expand-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}

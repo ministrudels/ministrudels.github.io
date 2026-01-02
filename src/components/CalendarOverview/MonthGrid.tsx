@@ -1,10 +1,12 @@
-import { Grid, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 import DayCell from "./DayCell";
 import { DAYS, MONTHS } from "./constants";
 import { DateSelectHandler, SelectedDate } from "./types";
 import { useMonthDays, useToday } from "./useMonthDays";
 import { isSameDay } from "./utils";
+
+import "./MonthGrid.css";
 
 type MonthGridProps = {
   /** The current month being displayed (0-11) */
@@ -59,48 +61,27 @@ export default function MonthGrid({
   const gridWidth = daySize * 7 + 6 * 4; // 7 columns + gaps
 
   return (
-    <div style={{ width: gridWidth, margin: "auto" }}>
-      <Grid
-        container
-        justifyContent="space-between"
-        alignItems="center"
-        style={{ marginBottom: 16 }}
-      >
-        <Grid item>
-          <button onClick={onPrevMonth} style={{ cursor: "pointer" }}>
-            {"<"}
-          </button>
-        </Grid>
-        <Grid item>
-          <Typography variant="h6">
-            {MONTHS[currentMonth]} {currentYear}
-          </Typography>
-        </Grid>
-        <Grid item>
-          <button onClick={onNextMonth} style={{ cursor: "pointer" }}>
-            {">"}
-          </button>
-        </Grid>
-      </Grid>
+    <div className="month-grid" style={{ width: gridWidth }}>
+      <div className="month-grid__header">
+        <button className="month-grid__nav-button" onClick={onPrevMonth}>
+          {"<"}
+        </button>
+        <Typography variant="h6">
+          {MONTHS[currentMonth]} {currentYear}
+        </Typography>
+        <button className="month-grid__nav-button" onClick={onNextMonth}>
+          {">"}
+        </button>
+      </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(7, 1fr)",
-          gap: 4,
-          textAlign: "center",
-        }}
-      >
+      <div className="month-grid__days">
         {DAYS.map((day) => (
           <div
             key={day}
+            className="month-grid__day-header"
             style={{
-              fontWeight: "bold",
               fontSize: daySize * 0.35,
               height: daySize * 0.6,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
             }}
           >
             {day}

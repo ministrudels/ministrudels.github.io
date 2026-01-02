@@ -1,0 +1,28 @@
+.month-grid {
+  margin: auto;
+}
+
+.month-grid__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.month-grid__nav-button {
+  cursor: pointer;
+}
+
+.month-grid__days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+}
+
+.month-grid__day-header {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

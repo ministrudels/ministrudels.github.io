@@ -1,4 +1,4 @@
-import { COLORS } from "./constants";
+import "./DayCell.css";
 
 type DayCellProps = {
   /** The day number (1-31), or null for empty cells */
@@ -20,8 +20,8 @@ type DayCellProps = {
  * a day number with visual indicators for selection and today's date.
  *
  * Visual states:
- * - Selected: Blue background (#1976d2) with white text
- * - Today: Light blue background (#e3f2fd) with bold text
+ * - Selected: Blue background with white text
+ * - Today: Light blue background with bold text
  * - Default: Transparent background
  *
  * Empty cells (day = null) render as blank spacers to maintain grid alignment
@@ -44,27 +44,29 @@ export default function DayCell({
   onClick,
 }: DayCellProps) {
   if (day === null) {
-    return <div style={{ width: size, height: size }} />;
+    return (
+      <div
+        className="day-cell day-cell--empty"
+        style={{ width: size, height: size }}
+      />
+    );
   }
+
+  const classNames = [
+    "day-cell",
+    isSelected && "day-cell--selected",
+    isToday && !isSelected && "day-cell--today",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div
+      className={classNames}
       onClick={onClick}
       style={{
         width: size,
         height: size,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        cursor: "pointer",
-        borderRadius: 4,
-        backgroundColor: isSelected
-          ? COLORS.selected
-          : isToday
-            ? COLORS.today
-            : COLORS.default,
-        color: isSelected ? COLORS.selectedText : "inherit",
-        fontWeight: isToday ? "bold" : "normal",
         fontSize: size * 0.4,
       }}
     >

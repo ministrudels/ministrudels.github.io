@@ -1,0 +1,20 @@
+.mini-month-grid__title {
+  text-align: center;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.mini-month-grid__days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  text-align: center;
+}
+
+.mini-month-grid__day-header {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-muted);
+}

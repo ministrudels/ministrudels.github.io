@@ -1,7 +1,9 @@
-import { Grid, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 import MiniMonthGrid from "./MiniMonthGrid";
 import { DateSelectHandler, SelectedDate } from "./types";
+
+import "./FullYearGrid.css";
 
 type FullYearGridProps = {
   /** The year to display */
@@ -14,7 +16,7 @@ type FullYearGridProps = {
   onNextYear: () => void;
   /** Callback when a day is selected (year, month, day) */
   onSelectDate: DateSelectHandler;
-  /** Size of each day cell in pixels (default: 24) */
+  /** Size of each day cell in pixels (default: 32) */
   daySize?: number;
 };
 
@@ -34,42 +36,23 @@ export default function FullYearGrid({
   onPrevYear,
   onNextYear,
   onSelectDate,
-  daySize = 36,
+  daySize = 32,
 }: FullYearGridProps) {
   const months = Array.from({ length: 12 }, (_, i) => i);
 
   return (
     <div>
-      <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        spacing={2}
-        style={{ marginBottom: 24 }}
-      >
-        <Grid item>
-          <button onClick={onPrevYear} style={{ cursor: "pointer" }}>
-            {"<"}
-          </button>
-        </Grid>
-        <Grid item>
-          <Typography variant="h5">{currentYear}</Typography>
-        </Grid>
-        <Grid item>
-          <button onClick={onNextYear} style={{ cursor: "pointer" }}>
-            {">"}
-          </button>
-        </Grid>
-      </Grid>
+      <div className="full-year-grid__header">
+        <button className="full-year-grid__nav-button" onClick={onPrevYear}>
+          {"<"}
+        </button>
+        <Typography variant="h5">{currentYear}</Typography>
+        <button className="full-year-grid__nav-button" onClick={onNextYear}>
+          {">"}
+        </button>
+      </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          gap: 24,
-          justifyItems: "center",
-        }}
-      >
+      <div className="full-year-grid__months">
         {months.map((month) => (
           <MiniMonthGrid
             key={month}

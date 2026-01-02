@@ -32,17 +32,3 @@ export const MONTHS_SHORT = [
   "Nov",
   "Dec",
 ];
-
-/** Calendar color theme */
-export const COLORS = {
-  /** Background color for selected dates */
-  selected: "#1976d2",
-  /** Text color for selected dates */
-  selectedText: "white",
-  /** Background color for today's date */
-  today: "#e3f2fd",
-  /** Default background color */
-  default: "transparent",
-  /** Muted text color for day headers */
-  muted: "#666",
-};
