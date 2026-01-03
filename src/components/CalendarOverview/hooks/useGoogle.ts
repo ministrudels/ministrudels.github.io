@@ -38,7 +38,9 @@ export function getEventsForDay(
   day: number
 ): CalendarEvent[] {
   if (!eventsByDate) return [];
-  const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+  const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(
+    day
+  ).padStart(2, "0")}`;
   return eventsByDate[dateStr] || [];
 }
 
@@ -64,6 +66,7 @@ const GAPI_SCRIPT_URL = "https://apis.google.com/js/api.js";
 const SCOPES = [
   "https://www.googleapis.com/auth/calendar.readonly",
   "https://www.googleapis.com/auth/userinfo.profile",
+  "https://www.googleapis.com/auth/calendar.events.readonly",
 ].join(" ");
 
 const INITIAL_STATE: GoogleState = {
@@ -95,7 +98,9 @@ function loadFromCookie(): StoredAuth | null {
 }
 
 function saveToCookie(auth: StoredAuth): void {
-  Cookies.set(COOKIE_NAME, JSON.stringify(auth), { expires: COOKIE_EXPIRY_DAYS });
+  Cookies.set(COOKIE_NAME, JSON.stringify(auth), {
+    expires: COOKIE_EXPIRY_DAYS,
+  });
 }
 
 function clearCookie(): void {
@@ -148,9 +153,19 @@ async function fetchUserInfo(): Promise<User> {
   };
 }
 
-async function fetchCalendarEvents(year: number, month: number): Promise<CalendarEvent[]> {
-  const timeMin = new Date(year, month, 1).toISOString();
-  const timeMax = new Date(year, month + 1, 0, 23, 59, 59).toISOString();
+async function fetchCalendarEvents(
+  year: number,
+  month?: number
+): Promise<CalendarEvent[]> {
+  // If month is undefined, fetch the entire year
+  const timeMin =
+    month !== undefined
+      ? new Date(year, month, 1).toISOString()
+      : new Date(year, 0, 1).toISOString();
+  const timeMax =
+    month !== undefined
+      ? new Date(year, month + 1, 0, 23, 59, 59).toISOString()
+      : new Date(year, 11, 31, 23, 59, 59).toISOString();
 
   const response = await gapi.client.request({
     path: "https://www.googleapis.com/calendar/v3/calendars/primary/events",
@@ -159,7 +174,7 @@ async function fetchCalendarEvents(year: number, month: number): Promise<Calenda
       timeMax,
       singleEvents: true,
       orderBy: "startTime",
-      maxResults: 250,
+      maxResults: 2500,
     },
   });
 
@@ -172,7 +187,9 @@ async function fetchCalendarEvents(year: number, month: number): Promise<Calenda
 
 export function useGoogle(year?: number, month?: number) {
   const stored = loadFromCookie();
-  const [accessToken, setAccessToken] = useState<string | null>(stored?.accessToken || null);
+  const [accessToken, setAccessToken] = useState<string | null>(
+    stored?.accessToken || null
+  );
   const [state, setState] = useState<GoogleState>(
     stored
       ? { ...INITIAL_STATE, isSignedIn: true, user: stored.user }
@@ -190,7 +207,7 @@ export function useGoogle(year?: number, month?: number) {
 
   // Fetch calendar events when year/month changes
   useEffect(() => {
-    if (!accessToken || year === undefined || month === undefined) return;
+    if (!accessToken || year === undefined) return;
 
     const loadEvents = async () => {
       setState((prev) => ({ ...prev, isLoadingEvents: true }));
@@ -240,13 +257,16 @@ export function useGoogle(year?: number, month?: number) {
   }, []);
 
   // Handle login error
-  const handleLoginError = useCallback((error: { error_description?: string }) => {
-    setState((prev) => ({
-      ...prev,
-      isLoading: false,
-      error: error.error_description || "Authentication failed",
-    }));
-  }, []);
+  const handleLoginError = useCallback(
+    (error: { error_description?: string }) => {
+      setState((prev) => ({
+        ...prev,
+        isLoading: false,
+        error: error.error_description || "Authentication failed",
+      }));
+    },
+    []
+  );
 
   // Google login hook
   const login = useGoogleLogin({
@@ -270,14 +290,17 @@ export function useGoogle(year?: number, month?: number) {
   }, []);
 
   // Group events by date
-  const eventsByDate = state.events.reduce<Record<string, CalendarEvent[]>>((acc, event) => {
-    const dateStr = event.start.date || event.start.dateTime?.split("T")[0];
-    if (dateStr) {
-      acc[dateStr] = acc[dateStr] || [];
-      acc[dateStr].push(event);
-    }
-    return acc;
-  }, {});
+  const eventsByDate = state.events.reduce<Record<string, CalendarEvent[]>>(
+    (acc, event) => {
+      const dateStr = event.start.date || event.start.dateTime?.split("T")[0];
+      if (dateStr) {
+        acc[dateStr] = acc[dateStr] || [];
+        acc[dateStr].push(event);
+      }
+      return acc;
+    },
+    {}
+  );
 
   return {
     // Auth

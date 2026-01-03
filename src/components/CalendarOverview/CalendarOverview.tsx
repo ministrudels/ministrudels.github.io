@@ -55,6 +55,7 @@ export default function CalendarOverview() {
   const [viewMode, setViewMode] = useState<ViewMode>("month");
 
   // Google Calendar integration
+  // In year view, pass undefined for month to fetch all events for the year
   const {
     isSignedIn,
     isLoading,
@@ -64,7 +65,7 @@ export default function CalendarOverview() {
     signOut,
     events,
     eventsByDate,
-  } = useGoogle(currentYear, currentMonth);
+  } = useGoogle(currentYear, viewMode === "month" ? currentMonth : undefined);
 
   // Log user and calendar events to console
   useEffect(() => {
