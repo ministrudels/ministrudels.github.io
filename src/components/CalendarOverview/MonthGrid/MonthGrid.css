@@ -3,14 +3,7 @@
 }
 
 .month-grid__header {
-  display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.month-grid__nav-button {
-  cursor: pointer;
 }
 
 .month-grid__days {

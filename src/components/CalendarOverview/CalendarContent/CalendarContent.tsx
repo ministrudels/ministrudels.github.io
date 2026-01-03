@@ -18,14 +18,10 @@ type CalendarContentProps = {
   currentYear: number;
   /** The currently selected date */
   selectedDate: SelectedDate;
-  /** Callback to navigate to the previous month */
-  onPrevMonth: () => void;
-  /** Callback to navigate to the next month */
-  onNextMonth: () => void;
-  /** Callback to navigate to the previous year */
-  onPrevYear: () => void;
-  /** Callback to navigate to the next year */
-  onNextYear: () => void;
+  /** Callback to navigate to the previous period (month or year depending on viewMode) */
+  onPrev: () => void;
+  /** Callback to navigate to the next period (month or year depending on viewMode) */
+  onNext: () => void;
   /** Callback when a day is selected (year, month, day) */
   onSelectDate: DateSelectHandler;
   /** Size of each day cell in pixels for month view (default: 36) */
@@ -54,10 +50,8 @@ type CalendarContentProps = {
  *   currentMonth={0}
  *   currentYear={2026}
  *   selectedDate={{ year: 2026, month: 0, day: null }}
- *   onPrevMonth={handlePrevMonth}
- *   onNextMonth={handleNextMonth}
- *   onPrevYear={handlePrevYear}
- *   onNextYear={handleNextYear}
+ *   onPrev={handlePrevMonth}
+ *   onNext={handleNextMonth}
  *   onSelectDate={(year, month, day) => setSelectedDate({ year, month, day })}
  *   daySize={48}
  *   yearDaySize={32}
@@ -69,10 +63,8 @@ export default function CalendarContent({
   currentMonth,
   currentYear,
   selectedDate,
-  onPrevMonth,
-  onNextMonth,
-  onPrevYear,
-  onNextYear,
+  onPrev,
+  onNext,
   onSelectDate,
   daySize = 36,
   yearDaySize = 32,
@@ -97,8 +89,8 @@ export default function CalendarContent({
           currentMonth={currentMonth}
           currentYear={currentYear}
           selectedDate={selectedDate}
-          onPrevMonth={onPrevMonth}
-          onNextMonth={onNextMonth}
+          onPrev={onPrev}
+          onNext={onNext}
           onSelectDate={onSelectDate}
           daySize={daySize}
           eventsByDate={eventsByDate}
@@ -107,8 +99,8 @@ export default function CalendarContent({
         <FullYearGrid
           currentYear={currentYear}
           selectedDate={selectedDate}
-          onPrevYear={onPrevYear}
-          onNextYear={onNextYear}
+          onPrev={onPrev}
+          onNext={onNext}
           onSelectDate={onSelectDate}
           daySize={yearDaySize}
           eventsByDate={eventsByDate}

@@ -1,0 +1,9 @@
+.calendar-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.calendar-header__nav-button {
+  cursor: pointer;
+}

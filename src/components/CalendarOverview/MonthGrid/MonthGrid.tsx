@@ -1,5 +1,4 @@
-import { Typography } from "@mui/material";
-
+import CalendarHeader from "../CalendarHeader";
 import DayCell from "../DayCell";
 import { DAYS, MONTHS } from "../constants";
 import { DateSelectHandler, SelectedDate } from "../types";
@@ -15,10 +14,10 @@ type MonthGridProps = {
   currentYear: number;
   /** The currently selected date */
   selectedDate: SelectedDate;
-  /** Callback to navigate to the previous month */
-  onPrevMonth: () => void;
-  /** Callback to navigate to the next month */
-  onNextMonth: () => void;
+  /** Callback to navigate to the previous period */
+  onPrev: () => void;
+  /** Callback to navigate to the next period */
+  onNext: () => void;
   /** Callback when a day is selected (year, month, day) */
   onSelectDate: DateSelectHandler;
   /** Size of each day cell in pixels (default: 36) */
@@ -43,8 +42,8 @@ type MonthGridProps = {
  *   currentMonth={0}
  *   currentYear={2026}
  *   selectedDate={{ year: 2026, month: 0, day: 15 }}
- *   onPrevMonth={() => {}}
- *   onNextMonth={() => {}}
+ *   onPrev={() => {}}
+ *   onNext={() => {}}
  *   onSelectDate={(year, month, day) => console.log(year, month, day)}
  *   daySize={40}
  * />
@@ -53,8 +52,8 @@ export default function MonthGrid({
   currentMonth,
   currentYear,
   selectedDate,
-  onPrevMonth,
-  onNextMonth,
+  onPrev,
+  onNext,
   onSelectDate,
   daySize = 36,
   eventsByDate = {},
@@ -65,17 +64,12 @@ export default function MonthGrid({
 
   return (
     <div className="month-grid" style={{ width: gridWidth }}>
-      <div className="month-grid__header">
-        <button className="month-grid__nav-button" onClick={onPrevMonth}>
-          {"<"}
-        </button>
-        <Typography variant="h6">
-          {MONTHS[currentMonth]} {currentYear}
-        </Typography>
-        <button className="month-grid__nav-button" onClick={onNextMonth}>
-          {">"}
-        </button>
-      </div>
+      <CalendarHeader
+        title={`${MONTHS[currentMonth]} ${currentYear}`}
+        onPrev={onPrev}
+        onNext={onNext}
+        className="month-grid__header"
+      />
 
       <div className="month-grid__days">
         {DAYS.map((day) => (

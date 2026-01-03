@@ -1,5 +1,4 @@
-import { Typography } from "@mui/material";
-
+import CalendarHeader from "../CalendarHeader";
 import MiniMonthGrid from "../MiniMonthGrid";
 import { DateSelectHandler, SelectedDate } from "../types";
 import { EventsByDate } from "../hooks";
@@ -11,10 +10,10 @@ type FullYearGridProps = {
   currentYear: number;
   /** The currently selected date */
   selectedDate: SelectedDate;
-  /** Callback to navigate to the previous year */
-  onPrevYear: () => void;
-  /** Callback to navigate to the next year */
-  onNextYear: () => void;
+  /** Callback to navigate to the previous period */
+  onPrev: () => void;
+  /** Callback to navigate to the next period */
+  onNext: () => void;
   /** Callback when a day is selected (year, month, day) */
   onSelectDate: DateSelectHandler;
   /** Size of each day cell in pixels (default: 32) */
@@ -36,8 +35,8 @@ type FullYearGridProps = {
 export default function FullYearGrid({
   currentYear,
   selectedDate,
-  onPrevYear,
-  onNextYear,
+  onPrev,
+  onNext,
   onSelectDate,
   daySize = 32,
   eventsByDate = {},
@@ -46,15 +45,13 @@ export default function FullYearGrid({
 
   return (
     <div>
-      <div className="full-year-grid__header">
-        <button className="full-year-grid__nav-button" onClick={onPrevYear}>
-          {"<"}
-        </button>
-        <Typography variant="h5">{currentYear}</Typography>
-        <button className="full-year-grid__nav-button" onClick={onNextYear}>
-          {">"}
-        </button>
-      </div>
+      <CalendarHeader
+        title={String(currentYear)}
+        onPrev={onPrev}
+        onNext={onNext}
+        variant="h5"
+        className="full-year-grid__header"
+      />
 
       <div className="full-year-grid__months">
         {months.map((month) => (

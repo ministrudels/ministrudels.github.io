@@ -146,10 +146,8 @@ export default function CalendarOverview() {
           currentMonth={currentMonth}
           currentYear={currentYear}
           selectedDate={selectedDate}
-          onPrevMonth={handlePrevMonth}
-          onNextMonth={handleNextMonth}
-          onPrevYear={handlePrevYear}
-          onNextYear={handleNextYear}
+          onPrev={viewMode === "month" ? handlePrevMonth : handlePrevYear}
+          onNext={viewMode === "month" ? handleNextMonth : handleNextYear}
           onSelectDate={handleSelectDate}
           eventsByDate={eventsByDate}
         />
@@ -178,10 +176,8 @@ export default function CalendarOverview() {
             currentMonth={currentMonth}
             currentYear={currentYear}
             selectedDate={selectedDate}
-            onPrevMonth={handlePrevMonth}
-            onNextMonth={handleNextMonth}
-            onPrevYear={handlePrevYear}
-            onNextYear={handleNextYear}
+            onPrev={viewMode === "month" ? handlePrevMonth : handlePrevYear}
+            onNext={viewMode === "month" ? handleNextMonth : handleNextYear}
             onSelectDate={handleSelectDate}
             daySize={48}
             yearDaySize={32}
