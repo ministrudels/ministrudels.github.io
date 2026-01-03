@@ -10,10 +10,11 @@ import { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import CalendarContent from "./CalendarContent";
+import DayDetail from "./DayDetail";
 import ExampleContainer from "../ExampleContainer";
 import GoogleAuthButton from "./GoogleAuthButton";
 import { SelectedDate, ViewMode } from "./types";
-import { useGoogle } from "./hooks";
+import { useGoogle, getEventsForDay } from "./hooks";
 
 import "./variables.css";
 import "./CalendarOverview.css";
@@ -116,6 +117,21 @@ export default function CalendarOverview() {
     setSelectedDate({ year, month, day });
   };
 
+  const handleCloseDayDetail = () => {
+    setSelectedDate((prev) => ({ ...prev, day: null }));
+  };
+
+  // Get events for the selected day
+  const selectedDayEvents =
+    selectedDate.day !== null
+      ? getEventsForDay(
+          eventsByDate,
+          selectedDate.year,
+          selectedDate.month,
+          selectedDate.day
+        )
+      : [];
+
   return (
     <ExampleContainer
       title="Calendar Overview"
@@ -186,6 +202,12 @@ export default function CalendarOverview() {
           />
         </DialogContent>
       </Dialog>
+
+      <DayDetail
+        selectedDate={selectedDate}
+        events={selectedDayEvents}
+        onClose={handleCloseDayDetail}
+      />
     </ExampleContainer>
   );
 }
