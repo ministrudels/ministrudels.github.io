@@ -1,3 +1,5 @@
+import { Typography } from "@mui/material";
+
 import CalendarHeader from "../CalendarHeader";
 import DayCell from "../DayCell";
 import { DAYS, MONTHS } from "../constants";
@@ -8,80 +10,56 @@ import { isSameDay } from "../utils";
 import "./MonthGrid.css";
 
 type MonthGridProps = {
-  /** The current month being displayed (0-11) */
-  currentMonth: number;
-  /** The current year being displayed */
-  currentYear: number;
-  /** The currently selected date */
+  month: number;
+  year: number;
   selectedDate: SelectedDate;
-  /** Callback to navigate to the previous period */
-  onPrev: () => void;
-  /** Callback to navigate to the next period */
-  onNext: () => void;
-  /** Callback when a day is selected (year, month, day) */
   onSelectDate: DateSelectHandler;
-  /** Size of each day cell in pixels (default: 36) */
+  onPrev?: () => void;
+  onNext?: () => void;
+  compact?: boolean;
   daySize?: number;
-  /** Events grouped by date from Google Calendar */
   eventsByDate?: EventsByDate;
 };
 
-/**
- * MonthGrid - Displays a single month with navigation and day selection.
- *
- * Renders a traditional calendar month view with:
- * - Header showing month name, year, and prev/next navigation buttons
- * - Day-of-week labels (Sun-Sat)
- * - Grid of DayCell components for each day of the month
- *
- * The grid automatically handles month boundaries, adding empty cells
- * before the first day to align with the correct day of the week.
- *
- * @example
- * <MonthGrid
- *   currentMonth={0}
- *   currentYear={2026}
- *   selectedDate={{ year: 2026, month: 0, day: 15 }}
- *   onPrev={() => {}}
- *   onNext={() => {}}
- *   onSelectDate={(year, month, day) => console.log(year, month, day)}
- *   daySize={40}
- * />
- */
 export default function MonthGrid({
-  currentMonth,
-  currentYear,
+  month,
+  year,
   selectedDate,
+  onSelectDate,
   onPrev,
   onNext,
-  onSelectDate,
-  daySize = 36,
+  compact = false,
+  daySize = compact ? 32 : 48,
   eventsByDate = {},
 }: MonthGridProps) {
   const todayDate = useToday();
-  const days = useMonthDays(currentYear, currentMonth);
-  const gridWidth = daySize * 7 + 6 * 4; // 7 columns + gaps
+  const days = useMonthDays(year, month);
+  const gap = compact ? 2 : 4;
+  const gridWidth = daySize * 7 + 6 * gap;
 
   return (
     <div className="month-grid" style={{ width: gridWidth }}>
-      <CalendarHeader
-        title={`${MONTHS[currentMonth]} ${currentYear}`}
-        onPrev={onPrev}
-        onNext={onNext}
-        className="month-grid__header"
-      />
+      {compact ? (
+        <Typography variant="subtitle2" className="month-grid__title">
+          {MONTHS[month]}
+        </Typography>
+      ) : (
+        <CalendarHeader
+          title={`${MONTHS[month]} ${year}`}
+          onPrev={onPrev!}
+          onNext={onNext!}
+          className="month-grid__header"
+        />
+      )}
 
-      <div className="month-grid__days">
+      <div className="month-grid__days" style={{ gap }}>
         {DAYS.map((day) => (
           <div
             key={day}
             className="month-grid__day-header"
-            style={{
-              fontSize: daySize * 0.35,
-              height: daySize * 0.6,
-            }}
+            style={{ fontSize: daySize * (compact ? 0.4 : 0.35), height: daySize * (compact ? 0.5 : 0.6) }}
           >
-            {day}
+            {compact ? day.charAt(0) : day}
           </div>
         ))}
 
@@ -92,19 +70,13 @@ export default function MonthGrid({
             size={daySize}
             isSelected={
               selectedDate.day === day &&
-              selectedDate.month === currentMonth &&
-              selectedDate.year === currentYear
+              selectedDate.month === month &&
+              selectedDate.year === year
             }
-            isToday={
-              day !== null &&
-              isSameDay(todayDate, { year: currentYear, month: currentMonth, day })
-            }
-            eventCount={
-              day !== null
-                ? getEventsForDay(eventsByDate, currentYear, currentMonth, day).length
-                : 0
-            }
-            onClick={() => day && onSelectDate(currentYear, currentMonth, day)}
+            isToday={day !== null && isSameDay(todayDate, { year, month, day })}
+            events={day !== null ? getEventsForDay(eventsByDate, year, month, day) : []}
+            compact={compact}
+            onClick={() => day && onSelectDate(year, month, day)}
           />
         ))}
       </div>

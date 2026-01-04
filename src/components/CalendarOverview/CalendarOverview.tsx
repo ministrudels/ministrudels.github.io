@@ -5,10 +5,10 @@ import {
   Grid,
   IconButton,
 } from "@mui/material";
-import { useState, useEffect } from "react";
-
+import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
+
 import CalendarContent from "./CalendarContent";
 import DayDetail from "./DayDetail";
 import ExampleContainer from "../ExampleContainer";
@@ -19,34 +19,10 @@ import { useGoogle, getEventsForDay } from "./hooks";
 import "./variables.css";
 import "./CalendarOverview.css";
 
-/**
- * CalendarOverview - Main calendar sandbox component.
- *
- * A fully interactive calendar component that demonstrates:
- * - Month and Year view modes with toggle switching
- * - Date selection and navigation
- * - Expandable dialog for a larger view
- *
- * Features:
- * - **Month View**: Traditional calendar grid showing days of the month
- * - **Year View**: 4x3 grid of all months with all days visible
- * - **Expand Button**: Opens a larger dialog version of the calendar
- * - **State Sync**: Selection and view mode are synced between card and dialog
- *
- * State Management:
- * - `currentMonth` / `currentYear`: Controls which month/year is displayed
- * - `selectedDate`: Tracks the user's selected date (year, month, day)
- * - `viewMode`: "month" or "year" view toggle
- * - `expanded`: Whether the dialog is open
- *
- * @example
- * // Used in Studio.tsx
- * <CalendarOverview />
- */
 export default function CalendarOverview() {
   const today = new Date();
-  const [currentMonth, setCurrentMonth] = useState(today.getMonth());
-  const [currentYear, setCurrentYear] = useState(today.getFullYear());
+  const [month, setMonth] = useState(today.getMonth());
+  const [year, setYear] = useState(today.getFullYear());
   const [selectedDate, setSelectedDate] = useState<SelectedDate>({
     year: today.getFullYear(),
     month: today.getMonth(),
@@ -55,81 +31,38 @@ export default function CalendarOverview() {
   const [expanded, setExpanded] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>("month");
 
-  // Google Calendar integration
-  // In year view, pass undefined for month to fetch all events for the year
-  const {
-    isSignedIn,
-    isLoading,
-    error,
-    user,
-    signIn,
-    signOut,
-    events,
-    eventsByDate,
-  } = useGoogle(currentYear, viewMode === "month" ? currentMonth : undefined);
+  const { isSignedIn, isLoading, error, user, signIn, signOut, eventsByDate } =
+    useGoogle(year, viewMode === "month" ? month : undefined);
 
-  // Log user and calendar events to console
-  useEffect(() => {
-    if (user) {
-      console.log("=== Google User ===");
-      console.log("Name:", user.name);
-      console.log("Picture:", user.picture);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (events.length > 0) {
-      console.log("=== Google Calendar Events ===");
-      events.forEach((event) => {
-        const date = event.start.dateTime || event.start.date;
-        console.log(`- ${event.summary} (${date})`);
-      });
-    }
-  }, [events]);
-
-  const handlePrevMonth = () => {
-    if (currentMonth === 0) {
-      setCurrentMonth(11);
-      setCurrentYear(currentYear - 1);
+  const handlePrev = () => {
+    if (viewMode === "month") {
+      if (month === 0) {
+        setMonth(11);
+        setYear(year - 1);
+      } else {
+        setMonth(month - 1);
+      }
     } else {
-      setCurrentMonth(currentMonth - 1);
+      setYear(year - 1);
     }
   };
 
-  const handleNextMonth = () => {
-    if (currentMonth === 11) {
-      setCurrentMonth(0);
-      setCurrentYear(currentYear + 1);
+  const handleNext = () => {
+    if (viewMode === "month") {
+      if (month === 11) {
+        setMonth(0);
+        setYear(year + 1);
+      } else {
+        setMonth(month + 1);
+      }
     } else {
-      setCurrentMonth(currentMonth + 1);
+      setYear(year + 1);
     }
   };
 
-  const handlePrevYear = () => {
-    setCurrentYear(currentYear - 1);
-  };
-
-  const handleNextYear = () => {
-    setCurrentYear(currentYear + 1);
-  };
-
-  const handleSelectDate = (year: number, month: number, day: number) => {
-    setSelectedDate({ year, month, day });
-  };
-
-  const handleCloseDayDetail = () => {
-    setSelectedDate((prev) => ({ ...prev, day: null }));
-  };
-
-  // Get events for the selected day
   const selectedDayEvents =
     selectedDate.day !== null
-      ? getEventsForDay(
-          eventsByDate,
-          selectedDate.year,
-          selectedDate.month,
-          selectedDate.day
-        )
+      ? getEventsForDay(eventsByDate, selectedDate.year, selectedDate.month, selectedDate.day)
       : [];
 
   return (
@@ -148,11 +81,7 @@ export default function CalendarOverview() {
             onSignIn={signIn}
             onSignOut={signOut}
           />
-          <IconButton
-            className="calendar-overview__expand-button"
-            onClick={() => setExpanded(true)}
-            size="small"
-          >
+          <IconButton onClick={() => setExpanded(true)} size="small">
             <OpenInFullIcon />
           </IconButton>
         </div>
@@ -160,12 +89,12 @@ export default function CalendarOverview() {
         <CalendarContent
           viewMode={viewMode}
           onViewModeChange={setViewMode}
-          currentMonth={currentMonth}
-          currentYear={currentYear}
+          month={month}
+          year={year}
           selectedDate={selectedDate}
-          onPrev={viewMode === "month" ? handlePrevMonth : handlePrevYear}
-          onNext={viewMode === "month" ? handleNextMonth : handleNextYear}
-          onSelectDate={handleSelectDate}
+          onPrev={handlePrev}
+          onNext={handleNext}
+          onSelectDate={(y, m, d) => setSelectedDate({ year: y, month: m, day: d })}
           eventsByDate={eventsByDate}
         />
       </div>
@@ -190,12 +119,12 @@ export default function CalendarOverview() {
           <CalendarContent
             viewMode={viewMode}
             onViewModeChange={setViewMode}
-            currentMonth={currentMonth}
-            currentYear={currentYear}
+            month={month}
+            year={year}
             selectedDate={selectedDate}
-            onPrev={viewMode === "month" ? handlePrevMonth : handlePrevYear}
-            onNext={viewMode === "month" ? handleNextMonth : handleNextYear}
-            onSelectDate={handleSelectDate}
+            onPrev={handlePrev}
+            onNext={handleNext}
+            onSelectDate={(y, m, d) => setSelectedDate({ year: y, month: m, day: d })}
             daySize={48}
             yearDaySize={32}
             eventsByDate={eventsByDate}
@@ -206,7 +135,7 @@ export default function CalendarOverview() {
       <DayDetail
         selectedDate={selectedDate}
         events={selectedDayEvents}
-        onClose={handleCloseDayDetail}
+        onClose={() => setSelectedDate((prev) => ({ ...prev, day: null }))}
       />
     </ExampleContainer>
   );

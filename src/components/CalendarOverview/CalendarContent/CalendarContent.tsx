@@ -8,65 +8,29 @@ import { EventsByDate } from "../hooks";
 import "./CalendarContent.css";
 
 type CalendarContentProps = {
-  /** Current view mode ("month" or "year") */
   viewMode: ViewMode;
-  /** Callback when view mode is changed via toggle buttons */
   onViewModeChange: (mode: ViewMode) => void;
-  /** The current month being displayed (0-11) */
-  currentMonth: number;
-  /** The current year being displayed */
-  currentYear: number;
-  /** The currently selected date */
+  month: number;
+  year: number;
   selectedDate: SelectedDate;
-  /** Callback to navigate to the previous period (month or year depending on viewMode) */
   onPrev: () => void;
-  /** Callback to navigate to the next period (month or year depending on viewMode) */
   onNext: () => void;
-  /** Callback when a day is selected (year, month, day) */
   onSelectDate: DateSelectHandler;
-  /** Size of each day cell in pixels for month view (default: 36) */
   daySize?: number;
-  /** Size of each day cell in pixels for year view mini months (default: 32) */
   yearDaySize?: number;
-  /** Events grouped by date from Google Calendar */
   eventsByDate?: EventsByDate;
 };
 
-/**
- * CalendarContent - Container that switches between MonthGrid and YearGrid views.
- *
- * Provides:
- * - Toggle button group to switch between "Month" and "Year" views
- * - Renders the appropriate grid component based on viewMode
- * - Passes through all navigation and selection callbacks
- *
- * This component is used by CalendarOverview for both the inline card view
- * and the expanded dialog view, with different size props for each.
- *
- * @example
- * <CalendarContent
- *   viewMode="month"
- *   onViewModeChange={setViewMode}
- *   currentMonth={0}
- *   currentYear={2026}
- *   selectedDate={{ year: 2026, month: 0, day: null }}
- *   onPrev={handlePrevMonth}
- *   onNext={handleNextMonth}
- *   onSelectDate={(year, month, day) => setSelectedDate({ year, month, day })}
- *   daySize={48}
- *   yearDaySize={32}
- * />
- */
 export default function CalendarContent({
   viewMode,
   onViewModeChange,
-  currentMonth,
-  currentYear,
+  month,
+  year,
   selectedDate,
   onPrev,
   onNext,
   onSelectDate,
-  daySize = 36,
+  daySize = 48,
   yearDaySize = 32,
   eventsByDate = {},
 }: CalendarContentProps) {
@@ -86,8 +50,8 @@ export default function CalendarContent({
 
       {viewMode === "month" ? (
         <MonthGrid
-          currentMonth={currentMonth}
-          currentYear={currentYear}
+          month={month}
+          year={year}
           selectedDate={selectedDate}
           onPrev={onPrev}
           onNext={onNext}
@@ -97,7 +61,7 @@ export default function CalendarContent({
         />
       ) : (
         <FullYearGrid
-          currentYear={currentYear}
+          year={year}
           selectedDate={selectedDate}
           onPrev={onPrev}
           onNext={onNext}

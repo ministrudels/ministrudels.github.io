@@ -1,90 +1,70 @@
+import { CalendarEvent } from "../hooks";
+
 import "./DayCell.css";
 
 type DayCellProps = {
-  /** The day number (1-31), or null for empty cells */
   day: number | null;
-  /** Whether this day is currently selected */
   isSelected: boolean;
-  /** Whether this day is today's date */
   isToday: boolean;
-  /** The size of the cell in pixels (width and height) */
   size: number;
-  /** Number of events on this day (optional) */
-  eventCount?: number;
-  /** Callback when the day is clicked */
+  events?: CalendarEvent[];
+  compact?: boolean;
   onClick: () => void;
 };
 
-/**
- * DayCell - Renders a single day in the calendar month grid.
- *
- * This is the core building block for the calendar. Each cell can display
- * a day number with visual indicators for selection and today's date.
- *
- * Visual states:
- * - Selected: Blue background with white text
- * - Today: Light blue background with bold text
- * - Default: Transparent background
- * - Has events: Shows colored dot below the day number
- *
- * Empty cells (day = null) render as blank spacers to maintain grid alignment
- * for days before the first of the month.
- *
- * @example
- * <DayCell
- *   day={15}
- *   isSelected={false}
- *   isToday={true}
- *   size={36}
- *   eventCount={3}
- *   onClick={() => handleSelectDay(15)}
- * />
- */
+const MAX_VISIBLE_EVENTS = 2;
+
 export default function DayCell({
   day,
   isSelected,
   isToday,
   size,
-  eventCount = 0,
+  events = [],
+  compact = false,
   onClick,
 }: DayCellProps) {
+  const height = compact ? size : size * 2.5;
+
   if (day === null) {
-    return (
-      <div
-        className="day-cell day-cell--empty"
-        style={{ width: size, height: size }}
-      />
-    );
+    return <div className="day-cell day-cell--empty" style={{ width: size, height }} />;
   }
 
   const classNames = [
     "day-cell",
     isSelected && "day-cell--selected",
     isToday && !isSelected && "day-cell--today",
-    eventCount > 0 && "day-cell--has-events",
+    events.length > 0 && "day-cell--has-events",
+    compact && "day-cell--compact",
   ]
     .filter(Boolean)
     .join(" ");
 
+  const visibleEvents = events.slice(0, MAX_VISIBLE_EVENTS);
+  const remainingCount = events.length - MAX_VISIBLE_EVENTS;
+
   return (
-    <div
-      className={classNames}
-      onClick={onClick}
-      style={{
-        width: size,
-        height: size,
-        fontSize: size * 0.4,
-      }}
-    >
-      <span className="day-cell__number">{day}</span>
-      {eventCount > 0 && (
-        <span
-          className="day-cell__event-dot"
-          style={{
-            width: Math.max(4, size * 0.15),
-            height: Math.max(4, size * 0.15),
-          }}
-        />
+    <div className={classNames} onClick={onClick} style={{ width: size, height }}>
+      <span className="day-cell__number" style={{ fontSize: size * 0.35 }}>
+        {day}
+      </span>
+      {compact ? (
+        events.length > 0 && (
+          <span
+            className="day-cell__event-dot"
+            style={{ width: Math.max(4, size * 0.15), height: Math.max(4, size * 0.15) }}
+          />
+        )
+      ) : (
+        visibleEvents.length > 0 && (
+          <div className="day-cell__events">
+            {visibleEvents.map((event) => (
+              <div key={event.id} className="day-cell__event">
+                {event.summary}
+              </div>
+            ))}
+            {remainingCount > 0 && <div className="day-cell__more">+{remainingCount} more</div>}
+          </div>
+        )
       )}
     </div>
   );

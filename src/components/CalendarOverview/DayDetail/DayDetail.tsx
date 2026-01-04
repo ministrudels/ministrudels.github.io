@@ -3,9 +3,6 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-  List,
-  ListItem,
-  ListItemText,
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -18,59 +15,36 @@ import { SelectedDate } from "../types";
 import "./DayDetail.css";
 
 type DayDetailProps = {
-  /** The selected date to display details for */
   selectedDate: SelectedDate;
-  /** Events for the selected day */
   events: CalendarEvent[];
-  /** Callback to close the detail view */
   onClose: () => void;
 };
 
 function formatTime(event: CalendarEvent): string {
-  if (event.start.date) {
-    return "All day";
-  }
+  if (event.start.date) return "All day";
   if (event.start.dateTime) {
     const start = new Date(event.start.dateTime);
     const end = event.end.dateTime ? new Date(event.end.dateTime) : null;
-
-    const startTime = start.toLocaleTimeString([], {
-      hour: "numeric",
-      minute: "2-digit",
-    });
-
-    if (end) {
-      const endTime = end.toLocaleTimeString([], {
-        hour: "numeric",
-        minute: "2-digit",
-      });
-      return `${startTime} - ${endTime}`;
-    }
+    const fmt = { hour: "numeric" as const, minute: "2-digit" as const };
+    const startTime = start.toLocaleTimeString([], fmt);
+    if (end) return `${startTime} - ${end.toLocaleTimeString([], fmt)}`;
     return startTime;
   }
   return "";
 }
 
 function getDayOfWeek(year: number, month: number, day: number): string {
-  const date = new Date(year, month, day);
-  return date.toLocaleDateString([], { weekday: "long" });
+  return new Date(year, month, day).toLocaleDateString([], { weekday: "long" });
 }
 
-export default function DayDetail({
-  selectedDate,
-  events,
-  onClose,
-}: DayDetailProps) {
+export default function DayDetail({ selectedDate, events, onClose }: DayDetailProps) {
   const { year, month, day } = selectedDate;
-  const isOpen = day !== null;
+  if (day === null) return null;
 
-  if (!isOpen) return null;
-
-  const dayOfWeek = getDayOfWeek(year, month, day);
-  const title = `${dayOfWeek}, ${MONTHS[month]} ${day}, ${year}`;
+  const title = `${getDayOfWeek(year, month, day)}, ${MONTHS[month]} ${day}, ${year}`;
 
   return (
-    <Dialog open={isOpen} onClose={onClose} maxWidth="sm" fullWidth>
+    <Dialog open={day !== null} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle className="day-detail__title">
         <div>
           <Typography variant="h6">{title}</Typography>
@@ -88,14 +62,13 @@ export default function DayDetail({
             No events scheduled for this day.
           </Typography>
         ) : (
-          <List disablePadding>
+          <div>
             {events.map((event) => (
-              <ListItem
-                key={event.id}
-                className="day-detail__event"
-                secondaryAction={
+              <div key={event.id} className="day-detail__event">
+                <div className="day-detail__event-title">
+                  {event.summary}
                   <IconButton
-                    edge="end"
+                    className="day-detail__event-link"
                     href={event.htmlLink}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -103,15 +76,11 @@ export default function DayDetail({
                   >
                     <OpenInNewIcon fontSize="small" />
                   </IconButton>
-                }
-              >
-                <ListItemText
-                  primary={event.summary}
-                  secondary={formatTime(event)}
-                />
-              </ListItem>
+                </div>
+                <div className="day-detail__event-time">{formatTime(event)}</div>
+              </div>
             ))}
-          </List>
+          </div>
         )}
       </DialogContent>
     </Dialog>

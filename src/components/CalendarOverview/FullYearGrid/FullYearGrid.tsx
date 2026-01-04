@@ -1,39 +1,22 @@
 import CalendarHeader from "../CalendarHeader";
-import MiniMonthGrid from "../MiniMonthGrid";
+import MonthGrid from "../MonthGrid";
 import { DateSelectHandler, SelectedDate } from "../types";
 import { EventsByDate } from "../hooks";
 
 import "./FullYearGrid.css";
 
 type FullYearGridProps = {
-  /** The year to display */
-  currentYear: number;
-  /** The currently selected date */
+  year: number;
   selectedDate: SelectedDate;
-  /** Callback to navigate to the previous period */
   onPrev: () => void;
-  /** Callback to navigate to the next period */
   onNext: () => void;
-  /** Callback when a day is selected (year, month, day) */
   onSelectDate: DateSelectHandler;
-  /** Size of each day cell in pixels (default: 32) */
   daySize?: number;
-  /** Events grouped by date from Google Calendar */
   eventsByDate?: EventsByDate;
 };
 
-/**
- * FullYearGrid - Displays all 12 months of a year with all days visible.
- *
- * Shows a complete year overview with:
- * - Header showing year and prev/next navigation buttons
- * - 4x3 grid of MiniMonthGrid components (one for each month)
- * - Each month shows all its days in a mini calendar format
- *
- * This provides a comprehensive view of the entire year at a glance.
- */
 export default function FullYearGrid({
-  currentYear,
+  year,
   selectedDate,
   onPrev,
   onNext,
@@ -41,12 +24,10 @@ export default function FullYearGrid({
   daySize = 32,
   eventsByDate = {},
 }: FullYearGridProps) {
-  const months = Array.from({ length: 12 }, (_, i) => i);
-
   return (
     <div>
       <CalendarHeader
-        title={String(currentYear)}
+        title={String(year)}
         onPrev={onPrev}
         onNext={onNext}
         variant="h5"
@@ -54,15 +35,16 @@ export default function FullYearGrid({
       />
 
       <div className="full-year-grid__months">
-        {months.map((month) => (
-          <MiniMonthGrid
+        {Array.from({ length: 12 }, (_, month) => (
+          <MonthGrid
             key={month}
             month={month}
-            year={currentYear}
+            year={year}
             selectedDate={selectedDate}
             onSelectDate={onSelectDate}
             daySize={daySize}
             eventsByDate={eventsByDate}
+            compact
           />
         ))}
       </div>
