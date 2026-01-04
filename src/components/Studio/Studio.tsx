@@ -12,7 +12,7 @@ export default function Studio() {
     <Grid container spacing={4} direction="column">
       <Grid item />
 
-      <Grid item>
+      <Grid item style={{ overflow: "hidden", width: "100%" }}>
         <CalendarOverview />
       </Grid>
 

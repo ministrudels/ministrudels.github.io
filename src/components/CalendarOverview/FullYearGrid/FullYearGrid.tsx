@@ -1,8 +1,9 @@
 import CalendarHeader from "../CalendarHeader";
-import { MONTHS } from "../constants";
 import { DateSelectHandler, SelectedDate } from "../types";
 import { EventsByDate, getEventsForDay, useToday } from "../hooks";
 import { isSameDay, getFirstDayOfMonth, getDaysInMonth } from "../utils";
+
+const MONTHS_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 import "./FullYearGrid.css";
 
@@ -19,6 +20,7 @@ type FullYearGridProps = {
 // (A month can span up to 6 weeks if it starts on Sunday and has 30-31 days)
 const TOTAL_COLUMNS = 37; // 6 leading days max + 31 days
 const DAYS_SHORT = ["M", "T", "W", "T", "F", "S", "S"];
+const MAX_VISIBLE_EVENTS = 2;
 
 // Convert Sunday-based (0=Sun) to Monday-based (0=Mon)
 function getMondayBasedFirstDay(year: number, month: number): number {
@@ -65,7 +67,7 @@ export default function FullYearGrid({
             </tr>
           </thead>
           <tbody>
-            {MONTHS.map((monthName, month) => {
+            {MONTHS_SHORT.map((monthName, month) => {
               const firstDay = getMondayBasedFirstDay(year, month);
               const daysInMonth = getDaysInMonth(year, month);
 
@@ -94,6 +96,8 @@ export default function FullYearGrid({
                     const isToday = isSameDay(todayDate, { year, month, day: dayNumber });
                     const events = getEventsForDay(eventsByDate, year, month, dayNumber);
                     const isWeekend = colIndex % 7 === 5 || colIndex % 7 === 6;
+                    const visibleEvents = events.slice(0, MAX_VISIBLE_EVENTS);
+                    const remainingCount = events.length - MAX_VISIBLE_EVENTS;
 
                     const cellClasses = [
                       "full-year-grid__cell",
@@ -110,11 +114,19 @@ export default function FullYearGrid({
                         key={colIndex}
                         className={cellClasses}
                         onClick={() => onSelectDate(year, month, dayNumber)}
-                        title={events.length > 0 ? `${events.length} event(s)` : undefined}
                       >
                         <span className="full-year-grid__day-number">{dayNumber}</span>
-                        {events.length > 0 && (
-                          <span className="full-year-grid__event-indicator" />
+                        {visibleEvents.length > 0 && (
+                          <div className="full-year-grid__events">
+                            {visibleEvents.map((event) => (
+                              <div key={event.id} className="full-year-grid__event">
+                                {event.summary}
+                              </div>
+                            ))}
+                            {remainingCount > 0 && (
+                              <div className="full-year-grid__more">+{remainingCount}</div>
+                            )}
+                          </div>
                         )}
                       </td>
                     );
