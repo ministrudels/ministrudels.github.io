@@ -13,7 +13,7 @@ import CalendarContent from "./CalendarContent";
 import DayDetail from "./DayDetail";
 import ExampleContainer from "../ExampleContainer";
 import GoogleAuthButton from "./GoogleAuthButton";
-import { SelectedDate, ViewMode } from "./types";
+import { SelectedDate } from "./types";
 import { useGoogle, getEventsForDay } from "./hooks";
 
 import "./variables.css";
@@ -21,7 +21,6 @@ import "./CalendarOverview.css";
 
 export default function CalendarOverview() {
   const today = new Date();
-  const [month, setMonth] = useState(today.getMonth());
   const [year, setYear] = useState(today.getFullYear());
   const [selectedDate, setSelectedDate] = useState<SelectedDate>({
     year: today.getFullYear(),
@@ -29,36 +28,12 @@ export default function CalendarOverview() {
     day: null,
   });
   const [expanded, setExpanded] = useState(false);
-  const [viewMode, setViewMode] = useState<ViewMode>("month");
 
   const { isSignedIn, isLoading, error, user, signIn, signOut, eventsByDate } =
-    useGoogle(year, viewMode === "month" ? month : undefined);
+    useGoogle(year);
 
-  const handlePrev = () => {
-    if (viewMode === "month") {
-      if (month === 0) {
-        setMonth(11);
-        setYear(year - 1);
-      } else {
-        setMonth(month - 1);
-      }
-    } else {
-      setYear(year - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (viewMode === "month") {
-      if (month === 11) {
-        setMonth(0);
-        setYear(year + 1);
-      } else {
-        setMonth(month + 1);
-      }
-    } else {
-      setYear(year + 1);
-    }
-  };
+  const handlePrev = () => setYear(year - 1);
+  const handleNext = () => setYear(year + 1);
 
   const selectedDayEvents =
     selectedDate.day !== null
@@ -92,9 +67,6 @@ export default function CalendarOverview() {
         </div>
 
         <CalendarContent
-          viewMode={viewMode}
-          onViewModeChange={setViewMode}
-          month={month}
           year={year}
           selectedDate={selectedDate}
           onPrev={handlePrev}
@@ -109,7 +81,7 @@ export default function CalendarOverview() {
       <Dialog
         open={expanded}
         onClose={() => setExpanded(false)}
-        maxWidth={viewMode === "year" ? "xl" : "sm"}
+        maxWidth="xl"
         fullWidth
       >
         <DialogTitle>
@@ -124,9 +96,6 @@ export default function CalendarOverview() {
         </DialogTitle>
         <DialogContent>
           <CalendarContent
-            viewMode={viewMode}
-            onViewModeChange={setViewMode}
-            month={month}
             year={year}
             selectedDate={selectedDate}
             onPrev={handlePrev}
@@ -134,7 +103,6 @@ export default function CalendarOverview() {
             onSelectDate={(y, m, d) =>
               setSelectedDate({ year: y, month: m, day: d })
             }
-            daySize={48}
             eventsByDate={eventsByDate}
           />
         </DialogContent>
