@@ -17,7 +17,7 @@ function App() {
   return (
     <>
       <CssBaseline />
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <Header sections={sections} />
         <main style={{ textAlign: "center" }}>
           <Routes>
