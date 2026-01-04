@@ -12,6 +12,20 @@
 .full-year-grid__table-wrapper {
   overflow-x: auto;
   padding-bottom: 8px;
+  scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}
+
+.full-year-grid__table-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.full-year-grid__table-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.full-year-grid__table-wrapper::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
 }
 
 .full-year-grid__table {
@@ -23,6 +37,10 @@
 .full-year-grid__corner {
   width: 50px;
   min-width: 50px;
+  position: sticky;
+  left: 0;
+  background: white;
+  z-index: 2;
 }
 
 .full-year-grid__day-header {
@@ -46,6 +64,10 @@
   white-space: nowrap;
   font-size: 10px;
   vertical-align: top;
+  position: sticky;
+  left: 0;
+  background: white;
+  z-index: 1;
 }
 
 .full-year-grid__cell {
