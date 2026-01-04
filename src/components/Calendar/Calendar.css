@@ -1,14 +1,10 @@
-.calendar-overview__container {
+.calendar__container {
   position: relative;
 }
 
-.calendar-overview__toolbar {
+.calendar__toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
-}
-
-.calendar-overview__expand-button {
-  margin-left: auto;
 }

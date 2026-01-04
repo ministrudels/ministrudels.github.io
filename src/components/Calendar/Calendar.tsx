@@ -17,9 +17,9 @@ import { SelectedDate } from "./types";
 import { useGoogle, getEventsForDay } from "./hooks";
 
 import "./variables.css";
-import "./CalendarOverview.css";
+import "./Calendar.css";
 
-export default function CalendarOverview() {
+export default function Calendar() {
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
   const [selectedDate, setSelectedDate] = useState<SelectedDate>({
@@ -47,12 +47,12 @@ export default function CalendarOverview() {
 
   return (
     <ExampleContainer
-      title="Calendar Overview"
+      title="Calendar"
       date={new Date("1 2 2026")}
       tags={["google api"]}
     >
-      <div className="calendar-overview__container">
-        <div className="calendar-overview__toolbar">
+      <div className="calendar__container">
+        <div className="calendar__toolbar">
           <GoogleAuthButton
             isSignedIn={isSignedIn}
             isLoading={isLoading}
@@ -86,7 +86,7 @@ export default function CalendarOverview() {
       >
         <DialogTitle>
           <Grid container justifyContent="space-between" alignItems="center">
-            <Grid item>Calendar Overview</Grid>
+            <Grid item>Calendar</Grid>
             <Grid item>
               <IconButton onClick={() => setExpanded(false)} size="small">
                 <CloseIcon />
