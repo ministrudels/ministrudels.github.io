@@ -1,12 +1,125 @@
 .full-year-grid__header {
   justify-content: center;
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
-.full-year-grid__months {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  justify-items: center;
+.full-year-grid__table-wrapper {
+  overflow-x: auto;
+}
+
+.full-year-grid__table {
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.full-year-grid__corner {
+  width: 70px;
+  min-width: 70px;
+}
+
+.full-year-grid__day-header {
+  padding: 2px 0;
+  text-align: center;
+  font-weight: 500;
+  font-size: 10px;
+  color: var(--color-text-secondary, #666);
+  width: 22px;
+  min-width: 22px;
+}
+
+.full-year-grid__day-header--weekend {
+  color: var(--color-text-secondary, #999);
+}
+
+.full-year-grid__month-header {
+  text-align: left;
+  padding: 4px 8px 4px 0;
+  font-weight: 500;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.full-year-grid__cell {
+  text-align: center;
+  padding: 2px;
+  cursor: pointer;
+  position: relative;
+  vertical-align: middle;
+  height: 24px;
+}
+
+.full-year-grid__cell:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.full-year-grid__cell--empty {
+  background-color: var(--color-empty-cell, rgba(0, 0, 0, 0.02));
+  cursor: default;
+}
+
+.full-year-grid__cell--empty:hover {
+  background-color: var(--color-empty-cell, rgba(0, 0, 0, 0.02));
+}
+
+.full-year-grid__cell--outside {
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(0, 0, 0, 0.08),
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.04) 2px,
+    rgba(0, 0, 0, 0.04) 4px
+  );
+}
+
+.full-year-grid__cell--outside:hover {
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(0, 0, 0, 0.08),
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.04) 2px,
+    rgba(0, 0, 0, 0.04) 4px
+  );
+}
+
+.full-year-grid__cell--weekend {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.full-year-grid__cell--today {
+  outline: 2px solid var(--color-selected);
+  outline-offset: -2px;
+}
+
+.full-year-grid__cell--today .full-year-grid__day-number {
+  font-weight: bold;
+}
+
+.full-year-grid__cell--selected {
+  background-color: var(--color-selected);
+  color: var(--color-selected-text);
+}
+
+.full-year-grid__cell--selected:hover {
+  background-color: var(--color-selected);
+}
+
+.full-year-grid__day-number {
+  font-size: 10px;
+  line-height: 1;
+}
+
+.full-year-grid__event-indicator {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background-color: var(--color-event-border, #4285f4);
+  border-radius: 50%;
+}
+
+.full-year-grid__cell--selected .full-year-grid__event-indicator {
+  background-color: var(--color-selected-text);
 }

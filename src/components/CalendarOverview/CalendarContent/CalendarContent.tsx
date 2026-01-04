@@ -17,7 +17,6 @@ type CalendarContentProps = {
   onNext: () => void;
   onSelectDate: DateSelectHandler;
   daySize?: number;
-  yearDaySize?: number;
   eventsByDate?: EventsByDate;
 };
 
@@ -31,7 +30,6 @@ export default function CalendarContent({
   onNext,
   onSelectDate,
   daySize = 48,
-  yearDaySize = 32,
   eventsByDate = {},
 }: CalendarContentProps) {
   return (
@@ -66,7 +64,6 @@ export default function CalendarContent({
           onPrev={onPrev}
           onNext={onNext}
           onSelectDate={onSelectDate}
-          daySize={yearDaySize}
           eventsByDate={eventsByDate}
         />
       )}

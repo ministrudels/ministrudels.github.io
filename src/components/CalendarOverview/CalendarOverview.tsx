@@ -62,14 +62,19 @@ export default function CalendarOverview() {
 
   const selectedDayEvents =
     selectedDate.day !== null
-      ? getEventsForDay(eventsByDate, selectedDate.year, selectedDate.month, selectedDate.day)
+      ? getEventsForDay(
+          eventsByDate,
+          selectedDate.year,
+          selectedDate.month,
+          selectedDate.day
+        )
       : [];
 
   return (
     <ExampleContainer
       title="Calendar Overview"
       date={new Date("1 2 2026")}
-      tags={["calendar", "date", "grid", "dialog", "google"]}
+      tags={["google api"]}
     >
       <div className="calendar-overview__container">
         <div className="calendar-overview__toolbar">
@@ -94,7 +99,9 @@ export default function CalendarOverview() {
           selectedDate={selectedDate}
           onPrev={handlePrev}
           onNext={handleNext}
-          onSelectDate={(y, m, d) => setSelectedDate({ year: y, month: m, day: d })}
+          onSelectDate={(y, m, d) =>
+            setSelectedDate({ year: y, month: m, day: d })
+          }
           eventsByDate={eventsByDate}
         />
       </div>
@@ -124,9 +131,10 @@ export default function CalendarOverview() {
             selectedDate={selectedDate}
             onPrev={handlePrev}
             onNext={handleNext}
-            onSelectDate={(y, m, d) => setSelectedDate({ year: y, month: m, day: d })}
+            onSelectDate={(y, m, d) =>
+              setSelectedDate({ year: y, month: m, day: d })
+            }
             daySize={48}
-            yearDaySize={32}
             eventsByDate={eventsByDate}
           />
         </DialogContent>

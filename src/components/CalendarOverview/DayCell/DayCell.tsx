@@ -23,7 +23,7 @@ export default function DayCell({
   compact = false,
   onClick,
 }: DayCellProps) {
-  const height = compact ? size : size * 2.5;
+  const height = compact ? size * 2 : size * 2.5;
 
   if (day === null) {
     return <div className="day-cell day-cell--empty" style={{ width: size, height }} />;
@@ -47,24 +47,15 @@ export default function DayCell({
       <span className="day-cell__number" style={{ fontSize: size * 0.35 }}>
         {day}
       </span>
-      {compact ? (
-        events.length > 0 && (
-          <span
-            className="day-cell__event-dot"
-            style={{ width: Math.max(4, size * 0.15), height: Math.max(4, size * 0.15) }}
-          />
-        )
-      ) : (
-        visibleEvents.length > 0 && (
-          <div className="day-cell__events">
-            {visibleEvents.map((event) => (
-              <div key={event.id} className="day-cell__event">
-                {event.summary}
-              </div>
-            ))}
-            {remainingCount > 0 && <div className="day-cell__more">+{remainingCount} more</div>}
-          </div>
-        )
+      {visibleEvents.length > 0 && (
+        <div className="day-cell__events">
+          {visibleEvents.map((event) => (
+            <div key={event.id} className="day-cell__event">
+              {event.summary}
+            </div>
+          ))}
+          {remainingCount > 0 && <div className="day-cell__more">+{remainingCount} more</div>}
+        </div>
       )}
     </div>
   );
