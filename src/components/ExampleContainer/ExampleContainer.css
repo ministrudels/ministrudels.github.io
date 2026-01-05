@@ -1,0 +1,13 @@
+.example-container__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.example-container__tag {
+  display: inline-block;
+  margin: 2px 2px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #666;
+}

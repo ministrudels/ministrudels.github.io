@@ -16,6 +16,7 @@
     "@emotion/styled": "11.9.3",
     "@mui/icons-material": "5.8.4",
     "@mui/material": "5.9.2",
+    "@react-oauth/google": "^0.13.4",
     "@tanstack/react-query": "^5.77.2",
     "crates.io": "2.2.8",
     "d3": "7.4.4",
@@ -29,6 +30,9 @@
   },
   "devDependencies": {
     "@types/d3": "7.0.0",
+    "@types/gapi": "^0.0.47",
+    "@types/gapi.client.calendar-v3": "^0.0.4",
+    "@types/gapi.client.oauth2-v2": "^0.0.4",
     "@types/js-cookie": "^3.0.6",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",

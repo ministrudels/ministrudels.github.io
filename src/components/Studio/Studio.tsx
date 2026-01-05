@@ -1,5 +1,6 @@
 import { Grid } from "@mui/material";
 
+import Calendar from "../Calendar";
 import D3andCanvas from "../D3andCanvas";
 import DeltaIndicatorStorybook from "../DeltaIndicator/DeltaIndicatorStorybook";
 import MalaysiasCovidVaccination from "../MalaysiasCovidVaccination";
@@ -10,6 +11,10 @@ export default function Studio() {
   return (
     <Grid container spacing={4} direction="column">
       <Grid item />
+
+      <Grid item style={{ overflow: "hidden", width: "100%" }}>
+        <Calendar />
+      </Grid>
 
       <Grid item>
         <RustCrates />
